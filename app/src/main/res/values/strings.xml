@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">NanoPost</string>
+    <string name="images">images</string>
+    <string name="subscribers">subscribers</string>
+    <string name="posts">posts</string>
+    <string name="edit">Edit</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="images_big">Images</string>
+    <string name="username">Username</string>
+    <string name="continue_auth">Continue</string>
+    <string name="username_length_error">Username must be longer than 3 characters</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="password_not_match_error">Passwords do not match</string>
+    <string name="network_connection_error">There’s something wrong with your network connection</string>
+    <string name="retry">Retry</string>
+    <string name="search_profiles">Search profiles…</string>
+    <string name="profile">Profile</string>
+    <string name="posts_big">Posts</string>
+    <string name="post">Post</string>
+    <string name="subscribers_big">Subscribers</string>
+    <string name="new_post">New post…</string>
+    <string name="add_image">Add image…</string>
+    <string name="delete">Delete</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="are_you_sure_you_want_to_confirm">Are you sure you want to log out?</string>
+</resources>
