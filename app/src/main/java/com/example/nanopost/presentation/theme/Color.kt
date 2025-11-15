@@ -1,4 +1,4 @@
-package com.example.nanopost.ui.theme
+package com.example.nanopost.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -21,3 +21,5 @@ val InverseSurface = Color(0xFFE6E0E9)
 val InverseOnSurface = Color(0xFF322F35)
 val InversePrimary = Color(0xFF6750A4)
 val Outline = Color(0xFF938F99)
+val OutlineVariant = Color(0xFFD9D9D9)
+val Surface3 = Color(0x1CCFBCFF)
