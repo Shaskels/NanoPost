@@ -1,4 +1,4 @@
-package com.example.nanopost.ui.theme
+package com.example.nanopost.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -31,6 +31,7 @@ private val DarkColorScheme = darkColorScheme(
     inversePrimary = InversePrimary,
     inverseOnSurface = InverseOnSurface,
     outline = Outline,
+    outlineVariant = OutlineVariant,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -50,13 +51,14 @@ private val LightColorScheme = lightColorScheme(
     inversePrimary = InversePrimary,
     inverseOnSurface = InverseOnSurface,
     outline = Outline,
+    outlineVariant = OutlineVariant,
 )
 
 @Composable
 fun NanoPostTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -72,6 +74,7 @@ fun NanoPostTheme(
     val extendedColors = ExtendedColors(
         surface1 = Surface1,
         surface2 = Surface2,
+        surface3 = Surface3,
         surface5 = Surface5,
     )
 
@@ -88,6 +91,7 @@ fun NanoPostTheme(
 data class ExtendedColors(
     val surface1: Color,
     val surface2: Color,
+    val surface3: Color,
     val surface5: Color,
 )
 
@@ -95,6 +99,7 @@ val LocalExtendedColors = staticCompositionLocalOf {
     ExtendedColors(
         surface1 = Color.Unspecified,
         surface2 = Color.Unspecified,
+        surface3 = Color.Unspecified,
         surface5 = Color.Unspecified,
     )
 }
