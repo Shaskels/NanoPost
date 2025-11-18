@@ -1,6 +1,6 @@
 package com.example.nanopost.domain.entity
 
-enum class UsernameCheckResult() {
+enum class UsernameCheckResult {
     TooShort,
     TooLong,
     InvalidCharacter,

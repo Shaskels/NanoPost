@@ -8,7 +8,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import javax.inject.Inject
 
 class AuthService @Inject constructor(
@@ -28,7 +31,8 @@ class AuthService @Inject constructor(
         }.body()
 
     suspend fun registerUser(registerRequest: RegisterRequest): TokenResponse =
-        httpClient.get("$baseUrl/auth/register") {
+        httpClient.post("$baseUrl/auth/register") {
+            contentType(ContentType.Application.Json)
             setBody(registerRequest)
         }.body()
 }

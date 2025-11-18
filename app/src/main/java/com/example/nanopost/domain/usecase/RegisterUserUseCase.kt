@@ -9,7 +9,7 @@ class RegisterUserUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
     suspend operator fun invoke(username: String, password: String) {
-        val result = authRepository.loginUser(username, password)
+        val result = authRepository.registerUser(username, password)
         settingsRepository.setUserId(result.userId)
         settingsRepository.setAccessToken(result.token)
         settingsRepository.setUsername(username)

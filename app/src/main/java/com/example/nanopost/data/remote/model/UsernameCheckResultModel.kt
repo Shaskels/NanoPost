@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UsernameCheckResponse(val usernameCheckResultModel: UsernameCheckResultModel)
+data class UsernameCheckResponse(val result: UsernameCheckResultModel)
 
 @Serializable
 enum class UsernameCheckResultModel {

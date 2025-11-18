@@ -13,7 +13,7 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override suspend fun checkUsername(username: String): UsernameCheckResult {
-        return authService.checkUsername(username).usernameCheckResultModel.toDomainEntity()
+        return authService.checkUsername(username).result.toDomainEntity()
     }
 
     override suspend fun loginUser(username: String, password: String): AuthResult {

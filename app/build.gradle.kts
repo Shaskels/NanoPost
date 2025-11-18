@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.hilt) apply false
-    alias(libs.plugins.jetbrains.kotlin.serialization) apply false
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -56,9 +56,9 @@ dependencies {
     implementation(libs.ktor.serialization)
 
     //hilt
-    implementation(libs.androidx.hilt.compose)
-    implementation(libs.hilt.android.compiler)
     implementation(libs.hilt.android.runtime)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.compose)
 
     //serialization
     implementation(libs.kotlinx.serialization.json)
