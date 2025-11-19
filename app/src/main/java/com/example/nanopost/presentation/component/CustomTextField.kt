@@ -7,16 +7,19 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.VisualTransformation
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun CustomTextField(
     value: String,
-    enabled: Boolean,
-    isError: Boolean,
     onValueChange: (String) -> Unit,
-    placeholder: String,
+    enabled: Boolean,
+    label: String,
     modifier: Modifier = Modifier,
+    errorText: String? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    errorTrailingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     TextField(
@@ -24,24 +27,31 @@ fun CustomTextField(
         onValueChange = onValueChange,
         label = {
             Text(
-                placeholder,
+                label,
                 color = MaterialTheme.colorScheme.primary
             )
         },
         textStyle = MaterialTheme.typography.bodyLarge,
         enabled = enabled,
-        isError = isError,
+        isError = errorText != null,
+        supportingText = {
+            if (errorText != null)
+                Text(errorText, style = MaterialTheme.typography.bodySmall)
+        },
         singleLine = true,
-        trailingIcon = trailingIcon,
+        trailingIcon = if (errorText == null) trailingIcon else errorTrailingIcon,
+        visualTransformation = visualTransformation,
         colors = TextFieldDefaults.colors(
             cursorColor = MaterialTheme.colorScheme.primary,
             errorCursorColor = MaterialTheme.colorScheme.error,
             focusedTextColor = MaterialTheme.colorScheme.onSurface,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            disabledTextColor = LocalExtendedColors.current.surface3,
             errorTextColor = MaterialTheme.colorScheme.error,
             focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
             errorContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContainerColor = LocalExtendedColors.current.surface1,
             focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
             errorTrailingIconColor = MaterialTheme.colorScheme.error,
@@ -51,7 +61,11 @@ fun CustomTextField(
             ),
             focusedLabelColor = MaterialTheme.colorScheme.primary,
             unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+            disabledLabelColor = LocalExtendedColors.current.surface3,
             errorLabelColor = MaterialTheme.colorScheme.error,
+            focusedSupportingTextColor = MaterialTheme.colorScheme.error,
+            unfocusedSupportingTextColor = MaterialTheme.colorScheme.error,
+            errorSupportingTextColor = MaterialTheme.colorScheme.error,
         ),
         modifier = modifier
     )
