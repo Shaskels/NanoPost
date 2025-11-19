@@ -3,12 +3,15 @@ package com.example.nanopost.di
 import com.example.nanopost.data.local.SettingsDataStore
 import com.example.nanopost.data.remote.AuthService
 import com.example.nanopost.domain.exceptions.AuthenticationException
+import com.example.nanopost.domain.exceptions.InternetProblemException
+import com.example.nanopost.domain.exceptions.WrongPasswordException
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import io.ktor.client.plugins.auth.providers.BearerTokens
@@ -16,6 +19,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.ANDROID
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import jakarta.inject.Qualifier
 import jakarta.inject.Singleton
@@ -63,8 +67,7 @@ class NetworkModule {
             if (username != null && password != null) {
                 val token = authService.loginUser(username, password)
                 BearerTokens(token.token, "")
-            }
-            else {
+            } else {
                 throw AuthenticationException()
             }
         },
@@ -82,6 +85,18 @@ class NetworkModule {
 
         install(ContentNegotiation) {
             json(json)
+        }
+
+        HttpResponseValidator {
+            validateResponse { response ->
+                val statusCode = response.status.value
+
+                when (statusCode){
+                    HttpStatusCode.BadRequest.value -> throw WrongPasswordException("Wrong password")
+                    HttpStatusCode.InternalServerError.value -> throw InternetProblemException("Internet problem")
+                    HttpStatusCode.GatewayTimeout.value -> throw InternetProblemException("Internet problem")
+                }
+            }
         }
     }
 

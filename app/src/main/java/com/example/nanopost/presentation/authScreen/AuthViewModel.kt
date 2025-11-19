@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.entity.PasswordCheckResult
 import com.example.nanopost.domain.entity.UsernameCheckResult
+import com.example.nanopost.domain.exceptions.AppException
+import com.example.nanopost.domain.exceptions.InternetProblemException
+import com.example.nanopost.domain.exceptions.UnknownException
+import com.example.nanopost.domain.exceptions.WrongPasswordException
 import com.example.nanopost.domain.usecase.CheckUsernameUseCase
 import com.example.nanopost.domain.usecase.LoginUserUseCase
 import com.example.nanopost.domain.usecase.RegisterUserUseCase
@@ -13,11 +17,14 @@ import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
 import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.handleCoroutineException
 import kotlinx.coroutines.launch
+import kotlinx.io.IOException
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -35,8 +42,16 @@ class AuthViewModel @Inject constructor(
     )
     val screenState: StateFlow<AuthScreenState> = _screenState.asStateFlow()
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { context, throwable ->
+        val appException = throwable.toAppException()
+        _screenState.updateState<AuthScreenState.Content> { currentState ->
+            currentState.copy(
+                errorState = appException.toUiError()
+            )
+        }
+    }
     fun checkUsername(username: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val res = checkUsernameUseCase(username)
             _screenState.updateState<AuthScreenState.Content> { currentState ->
                 currentState.copy(
@@ -51,7 +66,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun loginUser(username: String, password: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             loginUserUseCase(username, password)
             _screenState.updateState<AuthScreenState.Content> { currentState ->
                 currentState.copy(
@@ -62,7 +77,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun registerUser(username: String, password: String, confirmPassword: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val res = passwordValidator.validatePassword(password, confirmPassword)
             _screenState.updateState<AuthScreenState.Content> { currentState ->
                 currentState.copy(
@@ -90,4 +105,20 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+}
+
+fun AppException.toUiError(): ErrorState {
+    return when (this) {
+        is InternetProblemException -> ErrorState.InternetError
+        is WrongPasswordException -> ErrorState.WrongPasswordError
+        is UnknownException -> ErrorState.UnknownError
+    }
+}
+
+fun Throwable.toAppException(): AppException {
+    return when(this) {
+        is WrongPasswordException -> WrongPasswordException(this.message)
+        is InternetProblemException -> InternetProblemException(this.message)
+        else -> UnknownException(this.message ?: "")
+    }
 }

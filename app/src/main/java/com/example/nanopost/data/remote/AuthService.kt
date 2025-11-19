@@ -15,24 +15,24 @@ import io.ktor.http.contentType
 import javax.inject.Inject
 
 class AuthService @Inject constructor(
-    private val baseUrl: String,
-    @AuthClient private val httpClient: HttpClient
-) {
+    baseUrl: String,
+    @AuthClient httpClient: HttpClient
+): BaseService(httpClient, baseUrl) {
 
     suspend fun checkUsername(username: String): UsernameCheckResponse =
-        httpClient.get("$baseUrl/auth/checkUsername") {
+        get("/auth/checkUsername") {
             parameter("username", username)
-        }.body()
+        }
 
     suspend fun loginUser(username: String, password: String): TokenResponse =
-        httpClient.get("$baseUrl/auth/login") {
+        get("/auth/login") {
             parameter("username", username)
             parameter("password", password)
-        }.body()
+        }
 
     suspend fun registerUser(registerRequest: RegisterRequest): TokenResponse =
-        httpClient.post("$baseUrl/auth/register") {
+        post("/auth/register") {
             contentType(ContentType.Application.Json)
             setBody(registerRequest)
-        }.body()
+        }
 }

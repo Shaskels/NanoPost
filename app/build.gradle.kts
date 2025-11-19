@@ -38,6 +38,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs = listOf("-XXLanguage:+WhenGuards")
     }
     buildFeatures {
         compose = true
