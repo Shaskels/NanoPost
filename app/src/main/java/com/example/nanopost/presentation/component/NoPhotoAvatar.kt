@@ -23,7 +23,7 @@ fun NoPhotoAvatar(name: String, modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
         Text(
-            name.first().toString(),
+            name.firstOrNull().toString(),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(5.dp)
         )
