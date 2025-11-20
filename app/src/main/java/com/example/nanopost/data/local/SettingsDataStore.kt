@@ -36,6 +36,10 @@ class SettingsDataStore @Inject constructor(private val dataStore: DataStore<Pre
         return dataStore.data.map { preferences -> preferences[passwordKey] }.first()
     }
 
+    suspend fun isUserLogin(): Boolean {
+        return dataStore.data.map { preferences -> preferences[username] }.first() != null
+    }
+
     suspend fun setRefreshToken(token: String) {
         dataStore.edit { preferences ->
             preferences[refreshToken] = token

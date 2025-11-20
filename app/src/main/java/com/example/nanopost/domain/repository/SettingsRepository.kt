@@ -10,4 +10,6 @@ interface SettingsRepository {
     suspend fun setUsername(name: String)
 
     suspend fun setPassword(password: String)
+
+    suspend fun isUserLogin(): Boolean
 }

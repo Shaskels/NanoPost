@@ -15,13 +15,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,22 +40,21 @@ import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.component.CustomTextField
 import com.example.nanopost.presentation.component.LightButton
-import com.example.nanopost.presentation.theme.Error
-import kotlinx.coroutines.launch
 
 @Composable
-fun AuthScreen(authViewModel: AuthViewModel = hiltViewModel()) {
+fun AuthScreen(onLogged: () -> Unit, authViewModel: AuthViewModel = hiltViewModel()) {
 
     val screenState = authViewModel.screenState.collectAsState()
 
     when (val currentState = screenState.value) {
-        is AuthScreenState.Content -> Screen(currentState, authViewModel)
+        is AuthScreenState.Content -> Screen(onLogged, currentState, authViewModel)
     }
 
 }
 
 @Composable
 fun Screen(
+    onLogged: () -> Unit,
     screenState: AuthScreenState.Content,
     authViewModel: AuthViewModel
 ) {
@@ -69,7 +66,7 @@ fun Screen(
     val resources = LocalResources.current
 
     LaunchedEffect(screenState.errorState) {
-        if (screenState.errorState != ErrorState.NoError){
+        if (screenState.errorState != ErrorState.NoError) {
             val res = snackbarHostState.showSnackbar(
                 message = when (screenState.errorState) {
                     ErrorState.InternetError -> resources.getString(R.string.network_connection_error)
@@ -85,17 +82,26 @@ fun Screen(
                     when (screenState.authState) {
                         is AuthState.CheckName -> authViewModel.checkUsername(username)
                         AuthState.Login -> authViewModel.loginUser(username, password)
-                        is AuthState.Register -> authViewModel.registerUser(username, password, confirmPassword)
+                        is AuthState.Register -> authViewModel.registerUser(
+                            username,
+                            password,
+                            confirmPassword
+                        )
+
                         AuthState.Logged -> {}
                     }
                 }
+
                 SnackbarResult.Dismissed -> {}
             }
         }
     }
 
+    if(screenState.authState == AuthState.Logged){
+        onLogged()
+    }
+
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) {
                 CustomSnackbar(
@@ -111,10 +117,6 @@ fun Screen(
                 .padding(horizontal = 24.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
-
-            if (screenState.authState == AuthState.Logged) {
-                Toast.makeText(LocalContext.current, "Logged!", Toast.LENGTH_SHORT).show()
-            }
 
             Text(
                 stringResource(R.string.app_name),
@@ -229,8 +231,6 @@ fun Screen(
                     AuthState.Logged -> ""
                 },
             )
-
-
 
             Spacer(modifier = Modifier.weight(1f))
         }

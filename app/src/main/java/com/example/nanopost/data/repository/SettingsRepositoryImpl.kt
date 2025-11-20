@@ -27,4 +27,8 @@ class SettingsRepositoryImpl @Inject constructor(private val settingsDataStore: 
         return settingsDataStore.setPassword(password)
     }
 
+    override suspend fun isUserLogin(): Boolean {
+        return settingsDataStore.isUserLogin()
+    }
+
 }

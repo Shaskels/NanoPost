@@ -23,6 +23,7 @@
     <string name="retry">Retry</string>
     <string name="search_profiles">Search profiles…</string>
     <string name="profile">Profile</string>
+    <string name="feed">Feed</string>
     <string name="posts_big">Posts</string>
     <string name="post">Post</string>
     <string name="subscribers_big">Subscribers</string>
