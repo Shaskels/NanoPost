@@ -17,4 +17,7 @@ sealed interface Route: NavKey {
 
     @Serializable
     data object SplashScreen: Route
+
+    @Serializable
+    data object NewPost: Route
 }

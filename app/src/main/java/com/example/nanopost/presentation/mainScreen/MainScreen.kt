@@ -16,6 +16,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.feedScreen.FeedScreen
+import com.example.nanopost.presentation.newPostScreen.NewPostScreen
 
 @Composable
 fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
@@ -23,7 +24,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
     val selectedTab = getSelectedTab(backStack.lastOrNull())
 
     LaunchedEffect(Unit) {
-        if (mainViewModel.checkIfUserLogged()){
+        if (mainViewModel.checkIfUserLogged()) {
             backStack.clearAndAdd(Route.Feed)
         } else {
             backStack.clearAndAdd(Route.Auth)
@@ -62,7 +63,16 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                     })
                 }
                 entry<Route.Feed> {
-                    FeedScreen()
+                    FeedScreen(onNewPostAdd = {
+                        backStack.add(Route.NewPost)
+                    })
+                }
+                entry<Route.NewPost> {
+                    NewPostScreen(
+                        onClose = {
+                            backStack.removeAt(backStack.lastIndex)
+                        }
+                    )
                 }
                 entry<Route.Profile> {
 
