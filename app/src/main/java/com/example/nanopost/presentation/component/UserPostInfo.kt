@@ -8,26 +8,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.nanopost.domain.entity.Post
 
 @Composable
-fun UserPostInfo(modifier: Modifier = Modifier) {
+fun UserPostInfo(post: Post, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
-        NoPhotoAvatar("")
+        NoPhotoAvatar(post.owner.username)
 
         Column(
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
-                "",
+                post.owner.username,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
             Text(
-                "",
+                post.dataCreated.toString(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )

@@ -1,0 +1,11 @@
+package com.example.nanopost.data.remote.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class FeedResponse(
+    val count: Int,
+    val total: Int,
+    val offset: String?,
+    val items: List<PostModel>,
+)

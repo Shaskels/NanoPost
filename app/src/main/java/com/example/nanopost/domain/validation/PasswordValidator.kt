@@ -5,7 +5,9 @@ import javax.inject.Inject
 
 class PasswordValidator @Inject constructor() {
 
-    private val passwordMinLen = 8
+    companion object {
+        private const val passwordMinLen = 8
+    }
 
     fun validatePassword(password: String, confirmPassword: String): PasswordCheckResult {
         return if (password.length < passwordMinLen) {
