@@ -1,0 +1,13 @@
+package com.example.nanopost.data.remote.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class PostModel(
+    val id: String,
+    val owner: ProfileCompactModel,
+    val dataCreated: Long,
+    val text: String?,
+    val images: ImageModel,
+    val likes: LikesModel,
+)

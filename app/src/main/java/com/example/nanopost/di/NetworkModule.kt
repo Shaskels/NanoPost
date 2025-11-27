@@ -58,14 +58,15 @@ class NetworkModule {
         realm = null,
         loadTokens = {
             val accessToken = settingsDataStore.getAccessToken()
-            val refreshToken = settingsDataStore.getRefreshToken()
-            accessToken?.let { BearerTokens(accessToken, refreshToken) }
+            accessToken?.let { BearerTokens(accessToken, "") }
         },
         refreshTokens = {
             val username = settingsDataStore.getUsername()
             val password = settingsDataStore.getPassword()
             if (username != null && password != null) {
                 val token = authService.loginUser(username, password)
+                settingsDataStore.setAccessToken(token.token)
+                settingsDataStore.setUserId(token.userId)
                 BearerTokens(token.token, "")
             } else {
                 throw AuthenticationException()
