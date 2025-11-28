@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.nanopost.R
@@ -77,6 +78,7 @@ fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hilt
                 actions = {
                     IconButton(onClick = {
                         newPostViewModel.onUploadPost()
+                        onClose()
                     }) {
                         Icon(
                             painter = painterResource(R.drawable.check),
@@ -135,15 +137,15 @@ private fun PostTextField(
     onValueChanged: (String) -> Unit,
     hint: String,
     modifier: Modifier = Modifier,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     textStyle: TextStyle = LocalTextStyle.current,
 ) {
     TextField(
         value = value,
         onValueChanged,
         placeholder = { Text(text = hint, style = textStyle) },
-        keyboardOptions = keyboardOptions,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+        ),
         textStyle = textStyle,
         colors = TextFieldDefaults.colors(
             cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -160,7 +162,6 @@ private fun PostTextField(
                 backgroundColor = LocalExtendedColors.current.surface1,
             ),
         ),
-        keyboardActions = keyboardActions,
         modifier = modifier
     )
 }

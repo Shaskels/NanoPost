@@ -44,24 +44,8 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 @Composable
 fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltViewModel()) {
     val screenState = feedViewModel.screenState.collectAsState()
-
-    when (val currentState = screenState.value) {
-        FeedScreenState.Initial -> {}
-        FeedScreenState.Loading -> Loading()
-        is FeedScreenState.Content -> Screen(onNewPostAdd, currentState, feedViewModel)
-        FeedScreenState.Error -> {}
-    }
-}
-
-    val screenState = feedViewModel.screenState.collectAsState()
     val snackbarHost = LocalSnackbarHost.current
 
-@Composable
-fun Screen(
-    onNewPostAdd: () -> Unit,
-    screenState: FeedScreenState.Content,
-    feedViewModel: FeedViewModel
-) {
     Scaffold(
         floatingActionButton = {
             FloatingButton(
@@ -88,17 +72,28 @@ fun Screen(
                     .padding(vertical = 16.dp)
             )
 
-            when (val currentState = screenState.value) {
-                FeedScreenState.Initial -> {}
-                FeedScreenState.Loading -> Loading()
-                is FeedScreenState.Content -> Screen(currentState, feedViewModel)
-                FeedScreenState.Error -> {
-                    snackbarHost.showSnackbar(
-                        message = stringResource(R.string.failed_to_load),
-                        actionLabel = stringResource(R.string.retry),
-                        onActionPerformed = { feedViewModel.getPosts() },
-                        onDismiss = { }
-                    )
+            PullToRefreshBox(
+                isRefreshing = false,
+                onRefresh = { feedViewModel.getPosts() },
+                modifier = Modifier.fillMaxSize()
+            ) {
+                when (val currentState = screenState.value) {
+                    FeedScreenState.Initial -> {}
+                    FeedScreenState.Loading -> Loading()
+                    is FeedScreenState.Content -> Screen(currentState)
+                    FeedScreenState.Error -> {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                        ) { }
+                        snackbarHost.showSnackbar(
+                            message = stringResource(R.string.failed_to_load),
+                            actionLabel = stringResource(R.string.retry),
+                            onActionPerformed = { feedViewModel.getPosts() },
+                            onDismiss = { }
+                        )
+                    }
                 }
             }
         }
@@ -123,25 +118,19 @@ fun Loading() {
 }
 
 @Composable
-fun Screen(screenState: FeedScreenState.Content, feedViewModel: FeedViewModel) {
-    PullToRefreshBox(
-        isRefreshing = false,
-        onRefresh = { feedViewModel.getPosts() },
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (screenState.posts.isEmpty()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) { }
-        } else {
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                items(items = screenState.posts, key = { it.id }) { item ->
-                    PostListItem(item)
-                }
+fun Screen(screenState: FeedScreenState.Content) {
+    if (screenState.posts.isEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) { }
+    } else {
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 8.dp)
+        ) {
+            items(items = screenState.posts, key = { it.id }) { item ->
+                PostListItem(item)
             }
         }
     }

@@ -73,19 +73,31 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                         }
                     )
                 }
-                entry<Route.Feed> {
-                    FeedScreen(onNewPostAdd = {
-                        backStack.add(Route.NewPost)
-                    })
-                }
-                entry<Route.NewPost> {
-                    NewPostScreen(
-                        onClose = {
-                            backStack.removeAt(backStack.lastIndex)
-                        }
-                    )
-                }
-                entry<Route.Profile> {
+            },
+            containerColor = MaterialTheme.colorScheme.background,
+            contentWindowInsets = WindowInsets(left = 0, right = 0, top = 0, bottom = 0)
+        ) { paddingValues ->
+            NavDisplay(
+                backStack = backStack,
+                entryProvider = entryProvider {
+                    entry<Route.Auth> {
+                        AuthScreen(onLogged = {
+                            backStack.clearAndAdd(Route.Feed)
+                        })
+                    }
+                    entry<Route.Feed> {
+                        FeedScreen(onNewPostAdd = {
+                            backStack.add(Route.NewPost)
+                        })
+                    }
+                    entry<Route.NewPost> {
+                        NewPostScreen(
+                            onClose = {
+                                backStack.removeAt(backStack.lastIndex)
+                            }
+                        )
+                    }
+                    entry<Route.Profile> {
 
                     }
                     entry<Route.SplashScreen> {
