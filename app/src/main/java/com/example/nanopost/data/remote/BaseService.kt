@@ -10,6 +10,7 @@ import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import io.ktor.http.appendPathSegments
 import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
 
 abstract class BaseService(
     protected val client: HttpClient,
@@ -55,6 +56,8 @@ abstract class BaseService(
             val response = request(url) { block() }
             response.body()
         } catch (e: UnknownHostException) {
+            throw InternetProblemException("Internet problem")
+        } catch (e: SSLHandshakeException) {
             throw InternetProblemException("Internet problem")
         }
 }

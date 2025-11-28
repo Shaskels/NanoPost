@@ -4,8 +4,14 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavBackStack
@@ -15,13 +21,22 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
+import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
+
+val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
+    error("No Snackbar Host State")
+}
 
 @Composable
 fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
     val backStack = rememberNavBackStack(Route.SplashScreen)
     val selectedTab = getSelectedTab(backStack.lastOrNull())
+
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHost = remember { CustomSnackbarHost(scope, snackbarHostState) }
 
     LaunchedEffect(Unit) {
         if (mainViewModel.checkIfUserLogged()) {
@@ -31,36 +46,32 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
         }
     }
 
-    Scaffold(
-        bottomBar = {
-            if (selectedTab != null) {
-                BottomNavigation(
-                    navigationOptions = NavigationOptions.entries,
-                    selectedNavigationOption = selectedTab,
-                    onItemClicked = {
-                        when (it) {
-                            NavigationOptions.FEED -> {
-                                backStack.clearAndAdd(Route.Feed)
-                            }
+    CompositionLocalProvider(LocalSnackbarHost provides snackbarHost) {
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState) {
+                    CustomSnackbar(
+                        snackbarData = it,
+                    )
+                }
+            },
+            bottomBar = {
+                if (selectedTab != null) {
+                    BottomNavigation(
+                        navigationOptions = NavigationOptions.entries,
+                        selectedNavigationOption = selectedTab,
+                        onItemClicked = {
+                            when (it) {
+                                NavigationOptions.FEED -> {
+                                    backStack.clearAndAdd(Route.Feed)
+                                }
 
-                            NavigationOptions.PROFILE -> {
-                                backStack.clearAndAdd(Route.Profile)
+                                NavigationOptions.PROFILE -> {
+                                    backStack.clearAndAdd(Route.Profile)
+                                }
                             }
                         }
-                    }
-                )
-            }
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-        contentWindowInsets = WindowInsets(left = 0, right = 0, top = 0, bottom = 0)
-    ) { paddingValues ->
-        NavDisplay(
-            backStack = backStack,
-            entryProvider = entryProvider {
-                entry<Route.Auth> {
-                    AuthScreen(onLogged = {
-                        backStack.clearAndAdd(Route.Feed)
-                    })
+                    )
                 }
                 entry<Route.Feed> {
                     FeedScreen(onNewPostAdd = {
@@ -76,13 +87,14 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                 }
                 entry<Route.Profile> {
 
-                }
-                entry<Route.SplashScreen> {
+                    }
+                    entry<Route.SplashScreen> {
 
-                }
-            },
-            modifier = Modifier.padding(paddingValues)
-        )
+                    }
+                },
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
     }
 }
 
