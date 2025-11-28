@@ -23,6 +23,7 @@ import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
+import com.example.nanopost.presentation.newPostScreen.NewPostScreen
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -38,7 +39,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
     val snackbarHost = remember { CustomSnackbarHost(scope, snackbarHostState) }
 
     LaunchedEffect(Unit) {
-        if (mainViewModel.checkIfUserLogged()){
+        if (mainViewModel.checkIfUserLogged()) {
             backStack.clearAndAdd(Route.Feed)
         } else {
             backStack.clearAndAdd(Route.Auth)
@@ -72,22 +73,19 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                         }
                     )
                 }
-            },
-            containerColor = MaterialTheme.colorScheme.background,
-            contentWindowInsets = WindowInsets(left = 0, right = 0, top = 0, bottom = 0)
-        ) { paddingValues ->
-            NavDisplay(
-                backStack = backStack,
-                entryProvider = entryProvider {
-                    entry<Route.Auth> {
-                        AuthScreen(onLogged = {
-                            backStack.clearAndAdd(Route.Feed)
-                        })
-                    }
-                    entry<Route.Feed> {
-                        FeedScreen()
-                    }
-                    entry<Route.Profile> {
+                entry<Route.Feed> {
+                    FeedScreen(onNewPostAdd = {
+                        backStack.add(Route.NewPost)
+                    })
+                }
+                entry<Route.NewPost> {
+                    NewPostScreen(
+                        onClose = {
+                            backStack.removeAt(backStack.lastIndex)
+                        }
+                    )
+                }
+                entry<Route.Profile> {
 
                     }
                     entry<Route.SplashScreen> {

@@ -36,6 +36,7 @@ fun CustomTopBar(
             navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
             titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+            subtitleContentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
     )
 }

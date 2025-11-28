@@ -29,6 +29,7 @@
     <string name="subscribers_big">Subscribers</string>
     <string name="new_post">New post…</string>
     <string name="add_image">Add image…</string>
+    <string name="enter_post_text">Enter post text</string>
     <string name="delete">Delete</string>
     <string name="logout">Logout</string>
     <string name="cancel">Cancel</string>

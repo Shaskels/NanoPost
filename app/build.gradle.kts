@@ -73,6 +73,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation3)
 
+    //timber
+    implementation(libs.jakewharton.timber)
+
+    //coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.http)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

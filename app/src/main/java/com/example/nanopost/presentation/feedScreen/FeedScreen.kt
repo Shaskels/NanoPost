@@ -42,15 +42,30 @@ import com.example.nanopost.presentation.mainScreen.showSnackbar
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
-fun FeedScreen(feedViewModel: FeedViewModel = hiltViewModel()) {
+fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltViewModel()) {
+    val screenState = feedViewModel.screenState.collectAsState()
+
+    when (val currentState = screenState.value) {
+        FeedScreenState.Initial -> {}
+        FeedScreenState.Loading -> Loading()
+        is FeedScreenState.Content -> Screen(onNewPostAdd, currentState, feedViewModel)
+        FeedScreenState.Error -> {}
+    }
+}
 
     val screenState = feedViewModel.screenState.collectAsState()
     val snackbarHost = LocalSnackbarHost.current
 
+@Composable
+fun Screen(
+    onNewPostAdd: () -> Unit,
+    screenState: FeedScreenState.Content,
+    feedViewModel: FeedViewModel
+) {
     Scaffold(
         floatingActionButton = {
             FloatingButton(
-                onClick = {},
+                onClick = onNewPostAdd,
                 icon = painterResource(R.drawable.add),
             )
         },
