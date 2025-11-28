@@ -33,6 +33,7 @@
     <string name="logout">Logout</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="failed_to_load">Failed to load</string>
     <string name="are_you_sure_you_want_to_confirm">Are you sure you want to log out?</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="wrong_password">Wrong password</string>

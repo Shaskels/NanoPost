@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -34,17 +37,56 @@ import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LikeButton
 import com.example.nanopost.presentation.component.UserPostInfo
+import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
+import com.example.nanopost.presentation.mainScreen.showSnackbar
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun FeedScreen(feedViewModel: FeedViewModel = hiltViewModel()) {
-    val screenState = feedViewModel.screenState.collectAsState()
 
-    when (val currentState = screenState.value) {
-        FeedScreenState.Initial -> {}
-        FeedScreenState.Loading -> Loading()
-        is FeedScreenState.Content -> Screen(currentState, feedViewModel)
-        FeedScreenState.Error -> {}
+    val screenState = feedViewModel.screenState.collectAsState()
+    val snackbarHost = LocalSnackbarHost.current
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingButton(
+                onClick = {},
+                icon = painterResource(R.drawable.add),
+            )
+        },
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp)
+        ) {
+            Text(
+                stringResource(R.string.feed),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .align(
+                        Alignment.CenterHorizontally
+                    )
+                    .padding(vertical = 16.dp)
+            )
+
+            when (val currentState = screenState.value) {
+                FeedScreenState.Initial -> {}
+                FeedScreenState.Loading -> Loading()
+                is FeedScreenState.Content -> Screen(currentState, feedViewModel)
+                FeedScreenState.Error -> {
+                    snackbarHost.showSnackbar(
+                        message = stringResource(R.string.failed_to_load),
+                        actionLabel = stringResource(R.string.retry),
+                        onActionPerformed = { feedViewModel.getPosts() },
+                        onDismiss = { }
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -67,31 +109,18 @@ fun Loading() {
 
 @Composable
 fun Screen(screenState: FeedScreenState.Content, feedViewModel: FeedViewModel) {
-    Scaffold(
-        floatingActionButton = {
-            FloatingButton(
-                onClick = {},
-                icon = painterResource(R.drawable.add),
-            )
-        },
-        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp)
-        ) {
-            Text(
-                stringResource(R.string.feed),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+    PullToRefreshBox(
+        isRefreshing = false,
+        onRefresh = { feedViewModel.getPosts() },
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (screenState.posts.isEmpty()) {
+            Column(
                 modifier = Modifier
-                    .align(
-                        Alignment.CenterHorizontally
-                    )
-                    .padding(vertical = 16.dp)
-            )
-
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) { }
+        } else {
             LazyColumn(
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {
