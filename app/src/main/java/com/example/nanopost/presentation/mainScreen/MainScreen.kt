@@ -9,11 +9,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -30,18 +31,20 @@ val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
 }
 
 @Composable
-fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
-    val backStack = rememberNavBackStack(Route.SplashScreen)
+fun MainScreen(mainViewModel: MainViewModel) {
+    val isUserAuth by mainViewModel.isUserAuth.collectAsState()
+
+    val backStack = rememberNavBackStack(Route.Empty)
     val selectedTab = getSelectedTab(backStack.lastOrNull())
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val snackbarHost = remember { CustomSnackbarHost(scope, snackbarHostState) }
 
-    LaunchedEffect(Unit) {
-        if (mainViewModel.checkIfUserLogged()) {
+    LaunchedEffect(isUserAuth) {
+        if (isUserAuth == true) {
             backStack.clearAndAdd(Route.Feed)
-        } else {
+        } else if(isUserAuth == false) {
             backStack.clearAndAdd(Route.Auth)
         }
     }
@@ -100,7 +103,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                     entry<Route.Profile> {
 
                     }
-                    entry<Route.SplashScreen> {
+                    entry<Route.Empty> {
 
                     }
                 },
