@@ -14,9 +14,9 @@ import com.example.nanopost.domain.entity.ProfileCompact
 fun PostModel.toDomainPost(): Post = Post(
     id = this.id,
     owner = this.owner.toDomainProfileCompact(),
-    dataCreated = this.dataCreated,
+    dataCreated = this.dateCreated ,
     text = this.text,
-    images = this.images.toDomainImage(),
+    images = this.images.map { it.toDomainImage() },
     likes = this.likes.toDomainLikes()
 )
 
@@ -25,7 +25,7 @@ fun ProfileCompactModel.toDomainProfileCompact(): ProfileCompact = ProfileCompac
     username = this.username,
     displayName = this.displayName,
     avatarUrl = this.avatarUrl,
-    subscribed = this.subscribed
+    subscribed = this.subscribed ?: false
 )
 
 fun ImageModel.toDomainImage(): Image = Image(

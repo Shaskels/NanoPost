@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.nanopost.domain.entity.Post
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 @Composable
 fun UserPostInfo(post: Post, modifier: Modifier = Modifier) {
@@ -16,6 +18,7 @@ fun UserPostInfo(post: Post, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
+        val date = LocalDateTime.ofEpochSecond(post.dataCreated, 0, ZoneOffset.UTC)
         NoPhotoAvatar(post.owner.username)
 
         Column(
@@ -28,7 +31,7 @@ fun UserPostInfo(post: Post, modifier: Modifier = Modifier) {
             )
 
             Text(
-                post.dataCreated.toString(),
+                date.toString(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )

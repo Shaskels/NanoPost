@@ -9,6 +9,6 @@ data class Post(
     val owner: ProfileCompact,
     val dataCreated: Long,
     val text: String?,
-    val images: Image,
+    val images: List<Image>,
     val likes: Likes,
 )

@@ -1,5 +1,6 @@
 package com.example.nanopost.presentation.feedScreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LikeButton
 import com.example.nanopost.presentation.component.UserPostInfo
+import com.example.nanopost.presentation.mainScreen.CustomSnackbarHost
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
 import com.example.nanopost.presentation.theme.LocalExtendedColors
@@ -81,22 +83,26 @@ fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltView
                     FeedScreenState.Initial -> {}
                     FeedScreenState.Loading -> Loading()
                     is FeedScreenState.Content -> Screen(currentState)
-                    FeedScreenState.Error -> {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
-                        ) { }
-                        snackbarHost.showSnackbar(
-                            message = stringResource(R.string.failed_to_load),
-                            actionLabel = stringResource(R.string.retry),
-                            onActionPerformed = { feedViewModel.getPosts() },
-                            onDismiss = { }
-                        )
-                    }
+                    FeedScreenState.Error -> Error(snackbarHost, feedViewModel)
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Error(snackbarHost: CustomSnackbarHost, feedViewModel: FeedViewModel) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        snackbarHost.showSnackbar(
+            message = stringResource(R.string.failed_to_load),
+            actionLabel = stringResource(R.string.retry),
+            onActionPerformed = { feedViewModel.getPosts() },
+            onDismiss = { }
+        )
     }
 }
 
@@ -127,6 +133,7 @@ fun Screen(screenState: FeedScreenState.Content) {
         ) { }
     } else {
         LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(items = screenState.posts, key = { it.id }) { item ->
@@ -160,7 +167,8 @@ fun PostListItem(post: Post) {
             Text(
                 post.text,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
             )
         }
 

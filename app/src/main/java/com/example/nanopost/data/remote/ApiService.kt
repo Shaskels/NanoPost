@@ -15,5 +15,6 @@ class ApiService @Inject constructor(
     suspend fun getFeed(): FeedResponse = get("/v1/feed") {
         parameter("count", 30)
         parameter("offset", 0)
+        parameter("mode", "full")
     }
 }

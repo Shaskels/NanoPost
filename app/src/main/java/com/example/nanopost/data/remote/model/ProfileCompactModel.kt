@@ -8,5 +8,5 @@ data class ProfileCompactModel(
     val username: String,
     val displayName: String?,
     val avatarUrl: String?,
-    val subscribed: Boolean,
+    val subscribed: Boolean?,
 )
