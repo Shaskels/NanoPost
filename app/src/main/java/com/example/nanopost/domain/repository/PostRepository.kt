@@ -9,4 +9,7 @@ interface PostRepository {
 
     suspend fun putPost(text: String?, images: List<Uri>): Post
 
+    suspend fun likePost(postId: String)
+
+    suspend fun unlikePost(postId: String)
 }

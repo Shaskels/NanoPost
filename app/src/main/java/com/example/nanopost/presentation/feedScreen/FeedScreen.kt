@@ -36,7 +36,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.presentation.component.FloatingButton
+import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.component.LikeButton
+import com.example.nanopost.presentation.component.PhotoPager
 import com.example.nanopost.presentation.component.UserPostInfo
 import com.example.nanopost.presentation.mainScreen.CustomSnackbarHost
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
@@ -82,7 +84,7 @@ fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltView
                 when (val currentState = screenState.value) {
                     FeedScreenState.Initial -> {}
                     FeedScreenState.Loading -> Loading()
-                    is FeedScreenState.Content -> Screen(currentState)
+                    is FeedScreenState.Content -> Screen(currentState, feedViewModel)
                     FeedScreenState.Error -> Error(snackbarHost, feedViewModel)
                 }
             }
@@ -124,27 +126,46 @@ fun Loading() {
 }
 
 @Composable
-fun Screen(screenState: FeedScreenState.Content) {
+fun Screen(
+    screenState: FeedScreenState.Content,
+    feedViewModel: FeedViewModel
+) {
     if (screenState.posts.isEmpty()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) { }
+        ) {
+            Text(
+                stringResource(R.string.empty_feed),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            LightButton(
+                onClick = {
+                    feedViewModel.getPosts()
+                },
+                text = stringResource(R.string.update)
+            )
+        }
     } else {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(items = screenState.posts, key = { it.id }) { item ->
-                PostListItem(item)
+                PostListItem(
+                    item,
+                    feedViewModel::likePost,
+                    feedViewModel::unlikePost
+                )
             }
         }
     }
 }
 
 @Composable
-fun PostListItem(post: Post) {
+fun PostListItem(post: Post, onLikeClick: (String) -> Unit, onUnlikeClick: (String) -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -163,7 +184,7 @@ fun PostListItem(post: Post) {
             color = MaterialTheme.colorScheme.surfaceVariant
         )
 
-        if (post.text != null) {
+        if (!post.text.isNullOrEmpty()) {
             Text(
                 post.text,
                 style = MaterialTheme.typography.bodyMedium,
@@ -172,8 +193,20 @@ fun PostListItem(post: Post) {
             )
         }
 
+        if (post.images.isNotEmpty()) {
+            PhotoPager(
+                post.images,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
+
         LikeButton(
-            onClick = {},
+            onClick = {
+                if (post.likes.liked)
+                    onUnlikeClick(post.id)
+                else
+                    onLikeClick(post.id)
+            },
             likesCount = post.likes.likesCount,
             liked = post.likes.liked,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)

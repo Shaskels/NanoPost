@@ -3,6 +3,8 @@ package com.example.nanopost.presentation.feedScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.GetPostsUseCase
+import com.example.nanopost.domain.usecase.LikePostUseCase
+import com.example.nanopost.domain.usecase.UnlikePostUseCase
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
 import com.example.nanopost.presentation.authScreen.toAppException
 import com.example.nanopost.presentation.authScreen.toUiError
@@ -16,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val getPostsUseCase: GetPostsUseCase
+    private val getPostsUseCase: GetPostsUseCase,
+    private val likePostUseCase: LikePostUseCase,
+    private val unlikePostUseCase: UnlikePostUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<FeedScreenState>(FeedScreenState.Initial)
@@ -35,6 +39,18 @@ class FeedViewModel @Inject constructor(
         viewModelScope.launch(coroutineExceptionHandler) {
             val res = getPostsUseCase()
             _screenState.value = FeedScreenState.Content(res)
+        }
+    }
+
+    fun likePost(postId: String){
+        viewModelScope.launch {
+            likePostUseCase(postId)
+        }
+    }
+
+    fun unlikePost(postId: String){
+        viewModelScope.launch {
+            unlikePostUseCase(postId)
         }
     }
 }

@@ -33,6 +33,15 @@ class PostRepositoryImpl @Inject constructor(
         return apiService.putPost(text, images.map { imageToImageInfo(it) }).toDomainPost()
     }
 
+    override suspend fun likePost(postId: String) {
+        apiService.likePost(postId)
+    }
+
+    override suspend fun unlikePost(postId: String) {
+        apiService.unlikePost(postId)
+    }
+
+
     private fun imageToImageInfo(uri: Uri) = ImageInfo(
         name = getFileName(uri) ?: "default",
         mimeType = contentResolver.getType(uri),

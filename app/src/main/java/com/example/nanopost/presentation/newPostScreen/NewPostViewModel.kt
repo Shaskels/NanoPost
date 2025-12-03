@@ -19,7 +19,7 @@ class NewPostViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        const val MAX_IMAGES_COUNT = 5
+        const val MAX_IMAGES_COUNT = 4
     }
 
     private val _screenState = MutableStateFlow(
