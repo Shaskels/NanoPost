@@ -45,4 +45,8 @@ class ApiService @Inject constructor(
             )
         )
     }
+
+    suspend fun likePost(postId: String) = put<PostModel>("/v1/post/$postId/like")
+
+    suspend fun unlikePost(postId: String) = delete<PostModel>("/v1/post/$postId/like")
 }
