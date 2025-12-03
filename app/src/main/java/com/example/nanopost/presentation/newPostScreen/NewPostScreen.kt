@@ -43,20 +43,13 @@ import timber.log.Timber
 @Composable
 fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hiltViewModel()) {
     val screenState by newPostViewModel.screenState.collectAsState()
-    val context = LocalContext.current
     val ableToAddNewImages = NewPostViewModel.MAX_IMAGES_COUNT - screenState.postImages.size != 0
 
     val pickMultipleMedia = rememberLauncherForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(NewPostViewModel.MAX_IMAGES_COUNT - screenState.postImages.size + 1)
     ) { uris ->
         if (uris.isNotEmpty()) {
-            newPostViewModel.onAddPostImages(uris.map { it.toString() })
-            uris.forEach { uri ->
-                context.contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-            }
+            newPostViewModel.onAddPostImages(uris)
             Timber.tag("PhotoPicker").d("Number of items selected: ${uris.size}")
         } else {
             Timber.tag("PhotoPicker").d("No media selected")
