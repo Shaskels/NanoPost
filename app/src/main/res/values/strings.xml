@@ -38,4 +38,5 @@
     <string name="are_you_sure_you_want_to_confirm">Are you sure you want to log out?</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="wrong_password">Wrong password</string>
+    <string name="post_is_uploading">Post is uploading…</string>
 </resources>

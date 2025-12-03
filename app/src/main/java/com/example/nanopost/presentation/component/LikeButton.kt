@@ -2,6 +2,7 @@ package com.example.nanopost.presentation.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -34,9 +35,9 @@ fun LikeButton(
         modifier = modifier,
     ) {
         if (liked)
-            Icon(painterResource(R.drawable.favorite_filled_yes), contentDescription = null)
+            Icon(painterResource(R.drawable.favorite_filled_yes), contentDescription = null, modifier = Modifier.size(18.dp))
         else
-            Icon(painterResource(R.drawable.favorite_filled_no), contentDescription = null)
+            Icon(painterResource(R.drawable.favorite_filled_no), contentDescription = null, modifier = Modifier.size(18.dp))
         Text(
             likesCount.toString(),
             style = MaterialTheme.typography.labelLarge,

@@ -32,17 +32,14 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs = listOf("-XXLanguage:+WhenGuards")
-    }
+
     buildFeatures {
         compose = true
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
@@ -82,6 +79,11 @@ dependencies {
 
     //splashScreen
     implementation(libs.androidx.core.splashscreen)
+
+    //workManager
+    implementation(libs.hilt.android.work)
+    implementation(libs.androidx.work.runtime)
+    ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

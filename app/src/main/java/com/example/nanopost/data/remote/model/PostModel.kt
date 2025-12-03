@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class PostModel(
     val id: String,
     val owner: ProfileCompactModel,
-    val dataCreated: Long,
+    val dateCreated: Long,
     val text: String?,
-    val images: ImageModel,
+    val images: List<ImageModel>,
     val likes: LikesModel,
 )
