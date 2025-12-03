@@ -85,6 +85,9 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     ksp(libs.androidx.hilt.compiler)
 
+    //datetime
+    implementation(libs.kotlinx.datetime)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
