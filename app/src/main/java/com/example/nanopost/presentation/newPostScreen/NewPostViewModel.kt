@@ -1,12 +1,15 @@
 package com.example.nanopost.presentation.newPostScreen
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkManager
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.NewPostScreenState
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
 import com.example.nanopost.presentation.worker.PostSendWorker
+import com.example.nanopost.util.isNetworkAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewPostViewModel @Inject constructor(
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
     companion object {
@@ -57,7 +61,23 @@ class NewPostViewModel @Inject constructor(
     }
 
     fun onUploadPost() {
-        workManager.enqueue(PostSendWorker.newRequest(_screenState.value.postText, _screenState.value.postImages))
+        if (isNetworkAvailable(context)) {
+            _screenState.update { currentState ->
+                currentState.copy(
+                    uploadState = UploadState.Success
+                )
+            }
+            workManager.enqueue(
+                PostSendWorker.newRequest(
+                    _screenState.value.postText,
+                    _screenState.value.postImages
+                )
+            )
+        } else {
+            _screenState.update { currentState ->
+                currentState.copy(uploadState = UploadState.Failure)
+            }
+        }
     }
 
 }
