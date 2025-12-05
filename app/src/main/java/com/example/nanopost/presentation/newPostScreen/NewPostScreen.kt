@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,12 +35,16 @@ import com.example.nanopost.R
 import com.example.nanopost.presentation.component.AddImageButton
 import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.ImageWithDelete
+import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
+import com.example.nanopost.presentation.mainScreen.showSnackbar
+import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 import timber.log.Timber
 
 @Composable
 fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hiltViewModel()) {
     val screenState by newPostViewModel.screenState.collectAsState()
+    val snackbarHost = LocalSnackbarHost.current
     val ableToAddNewImages = NewPostViewModel.MAX_IMAGES_COUNT - screenState.postImages.size != 0
 
     val pickMultipleMedia = rememberLauncherForActivityResult(
@@ -50,6 +55,24 @@ fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hilt
             Timber.tag("PhotoPicker").d("Number of items selected: ${uris.size}")
         } else {
             Timber.tag("PhotoPicker").d("No media selected")
+        }
+    }
+
+    LaunchedEffect(screenState.uploadState) {
+        when (screenState.uploadState) {
+            UploadState.None -> {}
+            UploadState.Failure -> {
+                snackbarHost.showSnackbar(
+                    message = "There’s something wrong with your network connection",
+                    actionLabel = "Retry",
+                    onActionPerformed = { newPostViewModel.onUploadPost() },
+                    onDismiss = {},
+                )
+            }
+
+            UploadState.Success -> {
+                onClose()
+            }
         }
     }
 
@@ -68,7 +91,6 @@ fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hilt
                 actions = {
                     IconButton(onClick = {
                         newPostViewModel.onUploadPost()
-                        onClose()
                     }) {
                         Icon(
                             painter = painterResource(R.drawable.check),
