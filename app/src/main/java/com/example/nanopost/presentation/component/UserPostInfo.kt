@@ -3,6 +3,7 @@ package com.example.nanopost.presentation.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,9 +22,9 @@ fun UserPostInfo(post: Post, modifier: Modifier = Modifier) {
     ) {
 
         if (post.owner.avatarUrl == null) {
-            NoPhotoAvatar(post.owner.username)
+            NoPhotoAvatar(post.owner.username, modifier = Modifier.size(40.dp))
         } else {
-            PhotoAvatar(post.owner.avatarUrl)
+            PhotoAvatar(post.owner.avatarUrl, modifier = Modifier.size(40.dp))
         }
 
         Column(

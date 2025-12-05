@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Post
+import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.component.LikeButton
@@ -178,11 +179,7 @@ fun PostListItem(post: Post, onLikeClick: (String) -> Unit, onUnlikeClick: (Stri
     {
         UserPostInfo(post = post, modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp))
 
-        HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.surfaceVariant
-        )
+        CustomDivider()
 
         if (!post.text.isNullOrEmpty()) {
             Text(

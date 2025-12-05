@@ -25,6 +25,7 @@ import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
+import com.example.nanopost.presentation.profileScreen.ProfileScreen
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -101,7 +102,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                     }
                     entry<Route.Profile> {
-
+                        ProfileScreen()
                     }
                     entry<Route.Empty> {
 
