@@ -1,6 +1,5 @@
 package com.example.nanopost.presentation.profileScreen
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,17 +26,41 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.nanopost.R
+import com.example.nanopost.domain.entity.Image
+import com.example.nanopost.domain.entity.Post
+import com.example.nanopost.domain.entity.Profile
 import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.DarkButton
+import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.NoPhotoAvatar
+import com.example.nanopost.presentation.component.PhotoAvatar
+import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(profileViewModel: ProfileViewModel = hiltViewModel()) {
 
+    val screenState = profileViewModel.screenState.collectAsState()
+
+    when (val currentState = screenState.value) {
+        is ProfileScreenState.Content -> Screen(
+            currentState.profile,
+            currentState.images,
+            currentState.posts
+        )
+
+        ProfileScreenState.Error -> {}
+        ProfileScreenState.Loading -> Loading()
+    }
+
+}
+
+@Composable
+fun Screen(profile: Profile, images: List<Image>, posts: List<Post>) {
     Scaffold(
         topBar = {
             CustomTopBar(
@@ -52,29 +76,30 @@ fun ProfileScreen() {
             )
         }
     ) { paddingValues ->
-
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = paddingValues,
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             item() {
-                UserInfoCard()
+                UserInfoCard(profile)
             }
             item() {
-                ImagesCard()
+                ImagesCard(images)
             }
-            items(items = emptyList<String>()) {
-
+            items(items = posts, key = { it.id }) { item ->
+                PostListItem(
+                    post = item,
+                    onLikeClick = {},
+                    onUnlikeClick = {},
+                )
             }
         }
-
     }
-
 }
 
 @Composable
-fun UserInfoCard() {
+fun UserInfoCard(profile: Profile) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -85,35 +110,59 @@ fun UserInfoCard() {
         )
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
-            NoPhotoAvatar(
-                "E", modifier = Modifier
-                    .padding(end = 16.dp)
-                    .size(64.dp)
-            )
+            if (profile.avatarSmall == null) {
+                NoPhotoAvatar(
+                    profile.username,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(64.dp)
+                )
+            } else {
+                PhotoAvatar(
+                    profile.avatarSmall,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(64.dp)
+                )
+            }
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Text",
+                    profile.username,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Text(
-                    "just do it",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
+                if (profile.bio != null) {
+                    Text(
+                        profile.bio,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         }
 
         CustomDivider()
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            InfoCard(value = "12", name = stringResource(R.string.images))
+            InfoCard(
+                value = profile.imagesCount.toString(),
+                name = stringResource(R.string.images),
+                modifier = Modifier.weight(1f)
+            )
 
-            InfoCard(value = "5", name = stringResource(R.string.subscribers))
+            InfoCard(
+                value = profile.subscribersCount.toString(),
+                name = stringResource(R.string.subscribers),
+                modifier = Modifier.weight(1f)
+            )
 
-            InfoCard(value = "16", name = stringResource(R.string.posts))
+            InfoCard(
+                value = profile.postsCount.toString(),
+                name = stringResource(R.string.posts),
+                modifier = Modifier.weight(1f)
+            )
         }
 
         CustomDivider()
@@ -121,14 +170,16 @@ fun UserInfoCard() {
         DarkButton(
             onClick = {},
             text = stringResource(R.string.edit),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
         )
     }
 }
 
 @Composable
-fun InfoCard(value: String, name: String) {
-    Column(modifier = Modifier.padding(16.dp)) {
+fun InfoCard(value: String, name: String, modifier: Modifier = Modifier) {
+    Column(modifier = modifier.padding(16.dp)) {
         Text(
             value,
             style = MaterialTheme.typography.headlineMedium,
@@ -140,7 +191,7 @@ fun InfoCard(value: String, name: String) {
 
         Text(
             name,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.align(
                 Alignment.CenterHorizontally
@@ -150,7 +201,7 @@ fun InfoCard(value: String, name: String) {
 }
 
 @Composable
-fun ImagesCard() {
+fun ImagesCard(images: List<Image>) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -161,15 +212,24 @@ fun ImagesCard() {
         )
     ) {
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Text(stringResource(R.string.images))
+            Text(
+                stringResource(R.string.images_big),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.labelLarge
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Icon(painter = painterResource(R.drawable.chevron_right), contentDescription = null)
+            Icon(
+                painter = painterResource(R.drawable.chevron_right),
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = null
+            )
         }
 
         Row(
@@ -178,15 +238,17 @@ fun ImagesCard() {
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
-
+            images.take(4).forEach {
+                Image(it.sizes.first().url)
+            }
         }
     }
 }
 
 @Composable
-fun Image(uri: Uri) {
+fun Image(url: String) {
     AsyncImage(
-        model = uri,
+        model = url,
         contentDescription = null,
         contentScale = ContentScale.FillBounds,
         modifier = Modifier

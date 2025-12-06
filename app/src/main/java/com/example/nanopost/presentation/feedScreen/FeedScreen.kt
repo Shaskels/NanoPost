@@ -39,7 +39,9 @@ import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.component.LikeButton
+import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.PhotoPager
+import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.component.UserPostInfo
 import com.example.nanopost.presentation.mainScreen.CustomSnackbarHost
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
@@ -110,23 +112,6 @@ fun Error(snackbarHost: CustomSnackbarHost, feedViewModel: FeedViewModel) {
 }
 
 @Composable
-fun Loading() {
-    Column(Modifier.fillMaxSize()) {
-        Spacer(Modifier.weight(1f))
-
-        CircularProgressIndicator(
-            modifier = Modifier
-                .width(64.dp)
-                .align(Alignment.CenterHorizontally),
-            color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
-
-        Spacer(Modifier.weight(1f))
-    }
-}
-
-@Composable
 fun Screen(
     screenState: FeedScreenState.Content,
     feedViewModel: FeedViewModel
@@ -165,50 +150,5 @@ fun Screen(
     }
 }
 
-@Composable
-fun PostListItem(post: Post, onLikeClick: (String) -> Unit, onUnlikeClick: (String) -> Unit) {
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        colors = CardColors(
-            containerColor = LocalExtendedColors.current.surface1,
-            contentColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledContainerColor = LocalExtendedColors.current.surface1,
-            disabledContentColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    )
-    {
-        UserPostInfo(post = post, modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp))
 
-        CustomDivider()
-
-        if (!post.text.isNullOrEmpty()) {
-            Text(
-                post.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
-            )
-        }
-
-        if (post.images.isNotEmpty()) {
-            PhotoPager(
-                post.images,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-        }
-
-        LikeButton(
-            onClick = {
-                if (post.likes.liked)
-                    onUnlikeClick(post.id)
-                else
-                    onLikeClick(post.id)
-            },
-            likesCount = post.likes.likesCount,
-            liked = post.likes.liked,
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
-        )
-
-    }
-}
 

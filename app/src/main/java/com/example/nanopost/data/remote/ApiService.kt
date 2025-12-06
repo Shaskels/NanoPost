@@ -3,6 +3,9 @@ package com.example.nanopost.data.remote
 import com.example.nanopost.data.remote.model.FeedResponse
 import com.example.nanopost.data.remote.model.ImageInfo
 import com.example.nanopost.data.remote.model.PostModel
+import com.example.nanopost.data.remote.model.ProfileImagesResponse
+import com.example.nanopost.data.remote.model.ProfileModel
+import com.example.nanopost.data.remote.model.ProfilePostsResponse
 import com.example.nanopost.di.ApiClient
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -46,7 +49,13 @@ class ApiService @Inject constructor(
         )
     }
 
-    suspend fun likePost(postId: String) = put<PostModel>("/v1/post/$postId/like")
+    suspend fun likePost(postId: String): PostModel = put("/v1/post/$postId/like")
 
-    suspend fun unlikePost(postId: String) = delete<PostModel>("/v1/post/$postId/like")
+    suspend fun unlikePost(postId: String): PostModel = delete("/v1/post/$postId/like")
+
+    suspend fun getProfile(profileId: String): ProfileModel = get("/v1/profile/$profileId")
+
+    suspend fun getProfileImages(profileId: String): ProfileImagesResponse = get("/v1/images/$profileId")
+
+    suspend fun getProfilePosts(profileId: String): ProfilePostsResponse = get("/v1/posts/$profileId")
 }

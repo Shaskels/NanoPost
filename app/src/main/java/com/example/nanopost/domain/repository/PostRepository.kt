@@ -12,4 +12,6 @@ interface PostRepository {
     suspend fun likePost(postId: String)
 
     suspend fun unlikePost(postId: String)
+
+    suspend fun getProfilePosts(profileId: String): List<Post>
 }

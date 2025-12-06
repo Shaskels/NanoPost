@@ -1,10 +1,14 @@
 package com.example.nanopost.di
 
 import com.example.nanopost.data.repository.AuthRepositoryImpl
+import com.example.nanopost.data.repository.ImagesRepositoryImpl
 import com.example.nanopost.data.repository.PostRepositoryImpl
+import com.example.nanopost.data.repository.ProfileRepositoryImpl
 import com.example.nanopost.data.repository.SettingsRepositoryImpl
 import com.example.nanopost.domain.repository.AuthRepository
+import com.example.nanopost.domain.repository.ImagesRepository
 import com.example.nanopost.domain.repository.PostRepository
+import com.example.nanopost.domain.repository.ProfileRepository
 import com.example.nanopost.domain.repository.SettingsRepository
 import dagger.Binds
 import dagger.Module
@@ -23,4 +27,10 @@ interface DomainModule {
 
     @Binds
     fun bindPostRepository(postRepositoryImpl: PostRepositoryImpl): PostRepository
+
+    @Binds
+    fun bindProfileRepository(profileRepositoryImpl: ProfileRepositoryImpl): ProfileRepository
+
+    @Binds
+    fun bindImagesRepository(imagesRepositoryImpl: ImagesRepositoryImpl): ImagesRepository
 }
