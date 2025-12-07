@@ -10,11 +10,13 @@ import javax.inject.Inject
 
 class SettingsDataStore @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
-    private val refreshToken = stringPreferencesKey("refreshToken")
-    private val accessToken = stringPreferencesKey("accessToken")
-    private val userId = stringPreferencesKey("userId")
-    private val username = stringPreferencesKey("username")
-    private val passwordKey = stringPreferencesKey("password")
+    companion object {
+        private val refreshToken = stringPreferencesKey("refreshToken")
+        private val accessToken = stringPreferencesKey("accessToken")
+        private val userId = stringPreferencesKey("userId")
+        private val username = stringPreferencesKey("username")
+        private val passwordKey = stringPreferencesKey("password")
+    }
 
     suspend fun getRefreshToken(): String? {
         return dataStore.data.map { preferences -> preferences[refreshToken] }.first()
@@ -59,14 +61,24 @@ class SettingsDataStore @Inject constructor(private val dataStore: DataStore<Pre
     }
 
     suspend fun setUsername(name: String) {
-        dataStore.edit {preferences ->
+        dataStore.edit { preferences ->
             preferences[username] = name
         }
     }
 
     suspend fun setPassword(password: String) {
-        dataStore.edit {preferences ->
+        dataStore.edit { preferences ->
             preferences[passwordKey] = password
+        }
+    }
+
+    suspend fun clearData() {
+        dataStore.edit { preferences ->
+            preferences.remove(refreshToken)
+            preferences.remove(accessToken)
+            preferences.remove(userId)
+            preferences.remove(username)
+            preferences.remove(passwordKey)
         }
     }
 }

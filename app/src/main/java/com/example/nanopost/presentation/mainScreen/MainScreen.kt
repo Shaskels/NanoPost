@@ -25,6 +25,7 @@ import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
+import com.example.nanopost.presentation.profileScreen.ProfileScreen
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -44,7 +45,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
     LaunchedEffect(isUserAuth) {
         if (isUserAuth == true) {
             backStack.clearAndAdd(Route.Feed)
-        } else if(isUserAuth == false) {
+        } else if (isUserAuth == false) {
             backStack.clearAndAdd(Route.Auth)
         }
     }
@@ -84,14 +85,18 @@ fun MainScreen(mainViewModel: MainViewModel) {
                 backStack = backStack,
                 entryProvider = entryProvider {
                     entry<Route.Auth> {
-                        AuthScreen(onLogged = {
-                            backStack.clearAndAdd(Route.Feed)
-                        })
+                        AuthScreen(
+                            onLogged = {
+                                backStack.clearAndAdd(Route.Feed)
+                            }
+                        )
                     }
                     entry<Route.Feed> {
-                        FeedScreen(onNewPostAdd = {
-                            backStack.add(Route.NewPost)
-                        })
+                        FeedScreen(
+                            onNewPostAdd = {
+                                backStack.add(Route.NewPost)
+                            }
+                        )
                     }
                     entry<Route.NewPost> {
                         NewPostScreen(
@@ -101,7 +106,14 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                     }
                     entry<Route.Profile> {
-
+                        ProfileScreen(
+                            onNewPostAdd = {
+                                backStack.add(Route.NewPost)
+                            },
+                            onLogout = {
+                                mainViewModel.logout()
+                            }
+                        )
                     }
                     entry<Route.Empty> {
 

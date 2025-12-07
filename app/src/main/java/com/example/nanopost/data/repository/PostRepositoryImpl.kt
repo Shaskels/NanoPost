@@ -41,6 +41,9 @@ class PostRepositoryImpl @Inject constructor(
         apiService.unlikePost(postId)
     }
 
+    override suspend fun getProfilePosts(profileId: String): List<Post> {
+        return apiService.getProfilePosts(profileId).items.map { it.toDomainPost() }
+    }
 
     private fun imageToImageInfo(uri: Uri) = ImageInfo(
         name = getFileName(uri) ?: "default",

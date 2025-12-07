@@ -19,6 +19,10 @@ class SettingsRepositoryImpl @Inject constructor(private val settingsDataStore: 
         return settingsDataStore.setUserId(id)
     }
 
+    override suspend fun getUserId(): String {
+        return settingsDataStore.getUserId() ?: ""
+    }
+
     override suspend fun setUsername(name: String) {
         return settingsDataStore.setUsername(name)
     }
@@ -29,6 +33,10 @@ class SettingsRepositoryImpl @Inject constructor(private val settingsDataStore: 
 
     override suspend fun isUserLogin(): Boolean {
         return settingsDataStore.isUserLogin()
+    }
+
+    override suspend fun clearData() {
+        settingsDataStore.clearData()
     }
 
 }

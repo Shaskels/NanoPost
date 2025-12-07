@@ -23,7 +23,7 @@ fun NoPhotoAvatar(name: String, modifier: Modifier = Modifier) {
             disabledContentColor = MaterialTheme.colorScheme.onPrimary,
             disabledContainerColor = MaterialTheme.colorScheme.primary
         ),
-        modifier = modifier.size(40.dp)
+        modifier = modifier
     ) {
         Spacer(modifier = Modifier.weight(1f))
 

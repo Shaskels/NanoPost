@@ -3,23 +3,16 @@ package com.example.nanopost.presentation.feedScreen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
@@ -34,16 +27,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.nanopost.R
-import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LightButton
-import com.example.nanopost.presentation.component.LikeButton
-import com.example.nanopost.presentation.component.PhotoPager
-import com.example.nanopost.presentation.component.UserPostInfo
+import com.example.nanopost.presentation.component.Loading
+import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.mainScreen.CustomSnackbarHost
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
-import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltViewModel()) {
@@ -109,23 +99,6 @@ fun Error(snackbarHost: CustomSnackbarHost, feedViewModel: FeedViewModel) {
 }
 
 @Composable
-fun Loading() {
-    Column(Modifier.fillMaxSize()) {
-        Spacer(Modifier.weight(1f))
-
-        CircularProgressIndicator(
-            modifier = Modifier
-                .width(64.dp)
-                .align(Alignment.CenterHorizontally),
-            color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
-
-        Spacer(Modifier.weight(1f))
-    }
-}
-
-@Composable
 fun Screen(
     screenState: FeedScreenState.Content,
     feedViewModel: FeedViewModel
@@ -164,54 +137,5 @@ fun Screen(
     }
 }
 
-@Composable
-fun PostListItem(post: Post, onLikeClick: (String) -> Unit, onUnlikeClick: (String) -> Unit) {
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        colors = CardColors(
-            containerColor = LocalExtendedColors.current.surface1,
-            contentColor = MaterialTheme.colorScheme.surfaceVariant,
-            disabledContainerColor = LocalExtendedColors.current.surface1,
-            disabledContentColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    )
-    {
-        UserPostInfo(post = post, modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp))
 
-        HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.surfaceVariant
-        )
-
-        if (!post.text.isNullOrEmpty()) {
-            Text(
-                post.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
-            )
-        }
-
-        if (post.images.isNotEmpty()) {
-            PhotoPager(
-                post.images,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-        }
-
-        LikeButton(
-            onClick = {
-                if (post.likes.liked)
-                    onUnlikeClick(post.id)
-                else
-                    onLikeClick(post.id)
-            },
-            likesCount = post.likes.likesCount,
-            liked = post.likes.liked,
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
-        )
-
-    }
-}
 

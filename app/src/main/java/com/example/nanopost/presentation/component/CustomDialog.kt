@@ -38,7 +38,7 @@ fun CustomDialog(onDismissRequest: ()-> Unit, onConfirmButton: () -> Unit, title
                 text = stringResource(R.string.cancel)
             )
         },
-        containerColor = LocalExtendedColors.current.surface3,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         titleContentColor = MaterialTheme.colorScheme.onSurface,
         textContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
     )
