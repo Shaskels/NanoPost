@@ -45,7 +45,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
     LaunchedEffect(isUserAuth) {
         if (isUserAuth == true) {
             backStack.clearAndAdd(Route.Feed)
-        } else if(isUserAuth == false) {
+        } else if (isUserAuth == false) {
             backStack.clearAndAdd(Route.Auth)
         }
     }
@@ -85,14 +85,18 @@ fun MainScreen(mainViewModel: MainViewModel) {
                 backStack = backStack,
                 entryProvider = entryProvider {
                     entry<Route.Auth> {
-                        AuthScreen(onLogged = {
-                            backStack.clearAndAdd(Route.Feed)
-                        })
+                        AuthScreen(
+                            onLogged = {
+                                backStack.clearAndAdd(Route.Feed)
+                            }
+                        )
                     }
                     entry<Route.Feed> {
-                        FeedScreen(onNewPostAdd = {
-                            backStack.add(Route.NewPost)
-                        })
+                        FeedScreen(
+                            onNewPostAdd = {
+                                backStack.add(Route.NewPost)
+                            }
+                        )
                     }
                     entry<Route.NewPost> {
                         NewPostScreen(
@@ -102,7 +106,14 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                     }
                     entry<Route.Profile> {
-                        ProfileScreen()
+                        ProfileScreen(
+                            onNewPostAdd = {
+                                backStack.add(Route.NewPost)
+                            },
+                            onLogout = {
+                                mainViewModel.logout()
+                            }
+                        )
                     }
                     entry<Route.Empty> {
 

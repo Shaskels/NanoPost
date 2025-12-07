@@ -19,6 +19,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,9 +36,11 @@ import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.entity.Profile
+import com.example.nanopost.presentation.component.CustomDialog
 import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.DarkButton
+import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.NoPhotoAvatar
 import com.example.nanopost.presentation.component.PhotoAvatar
@@ -42,7 +48,11 @@ import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
-fun ProfileScreen(profileViewModel: ProfileViewModel = hiltViewModel()) {
+fun ProfileScreen(
+    profileViewModel: ProfileViewModel = hiltViewModel(),
+    onNewPostAdd: () -> Unit,
+    onLogout: () -> Unit
+) {
 
     val screenState = profileViewModel.screenState.collectAsState()
 
@@ -50,7 +60,9 @@ fun ProfileScreen(profileViewModel: ProfileViewModel = hiltViewModel()) {
         is ProfileScreenState.Content -> Screen(
             currentState.profile,
             currentState.images,
-            currentState.posts
+            currentState.posts,
+            onNewPostAdd,
+            onLogout
         )
 
         ProfileScreenState.Error -> {}
@@ -60,13 +72,29 @@ fun ProfileScreen(profileViewModel: ProfileViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun Screen(profile: Profile, images: List<Image>, posts: List<Post>) {
+fun Screen(
+    profile: Profile,
+    images: List<Image>,
+    posts: List<Post>,
+    onNewPostAdd: () -> Unit,
+    onLogout: () -> Unit
+) {
+    var isAlertDialogShow by remember { mutableStateOf(false) }
+
     Scaffold(
+        floatingActionButton = {
+            FloatingButton(
+                onClick = onNewPostAdd,
+                icon = painterResource(R.drawable.add),
+            )
+        },
         topBar = {
             CustomTopBar(
                 title = stringResource(R.string.profile),
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        isAlertDialogShow = true
+                    }) {
                         Icon(
                             painter = painterResource(R.drawable.logout),
                             contentDescription = null
@@ -76,15 +104,28 @@ fun Screen(profile: Profile, images: List<Image>, posts: List<Post>) {
             )
         }
     ) { paddingValues ->
+
+        if (isAlertDialogShow) {
+            CustomDialog(
+                onDismissRequest = { isAlertDialogShow = false },
+                onConfirmButton = {
+                    isAlertDialogShow = false
+                    onLogout()
+                },
+                title = stringResource(R.string.logout),
+                text = stringResource(R.string.are_you_sure_you_want_to_confirm)
+            )
+        }
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = paddingValues,
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
-            item() {
+            item {
                 UserInfoCard(profile)
             }
-            item() {
+            item {
                 ImagesCard(images)
             }
             items(items = posts, key = { it.id }) { item ->

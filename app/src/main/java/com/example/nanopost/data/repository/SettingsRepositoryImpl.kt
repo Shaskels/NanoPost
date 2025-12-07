@@ -35,4 +35,8 @@ class SettingsRepositoryImpl @Inject constructor(private val settingsDataStore: 
         return settingsDataStore.isUserLogin()
     }
 
+    override suspend fun clearData() {
+        settingsDataStore.clearData()
+    }
+
 }

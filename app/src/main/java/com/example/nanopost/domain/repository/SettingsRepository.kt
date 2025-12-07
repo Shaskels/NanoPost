@@ -14,4 +14,6 @@ interface SettingsRepository {
     suspend fun setPassword(password: String)
 
     suspend fun isUserLogin(): Boolean
+
+    suspend fun clearData()
 }

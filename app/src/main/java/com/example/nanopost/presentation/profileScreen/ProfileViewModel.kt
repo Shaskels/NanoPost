@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.GetUserImagesUseCase
 import com.example.nanopost.domain.usecase.GetUserPostsUseCase
 import com.example.nanopost.domain.usecase.GetUserProfileUseCase
+import com.example.nanopost.domain.usecase.LogoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getUserImagesUseCase: GetUserImagesUseCase,
-    private val getUserPostsUseCase: GetUserPostsUseCase
+    private val getUserPostsUseCase: GetUserPostsUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<ProfileScreenState>(ProfileScreenState.Loading)
