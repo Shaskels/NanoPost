@@ -1,17 +1,20 @@
 package com.example.nanopost.presentation.profileScreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +33,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
@@ -41,26 +47,31 @@ import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.DarkButton
 import com.example.nanopost.presentation.component.FloatingButton
+import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.NoPhotoAvatar
+import com.example.nanopost.presentation.component.OutlinedButton
 import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun ProfileScreen(
-    profileViewModel: ProfileViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel,
+    isUserProfile: Boolean,
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
 ) {
 
     val screenState = profileViewModel.screenState.collectAsState()
+    val posts = profileViewModel.posts.collectAsLazyPagingItems()
 
     when (val currentState = screenState.value) {
         is ProfileScreenState.Content -> Screen(
             currentState.profile,
             currentState.images,
-            currentState.posts,
+            posts,
+            isUserProfile,
             onNewPostAdd,
             onLogout
         )
@@ -75,7 +86,8 @@ fun ProfileScreen(
 fun Screen(
     profile: Profile,
     images: List<Image>,
-    posts: List<Post>,
+    posts: LazyPagingItems<Post>,
+    userProfile: Boolean,
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -92,13 +104,15 @@ fun Screen(
             CustomTopBar(
                 title = stringResource(R.string.profile),
                 actions = {
-                    IconButton(onClick = {
-                        isAlertDialogShow = true
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.logout),
-                            contentDescription = null
-                        )
+                    if (userProfile) {
+                        IconButton(onClick = {
+                            isAlertDialogShow = true
+                        }) {
+                            Icon(
+                                painter = painterResource(R.drawable.logout),
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             )
@@ -123,24 +137,34 @@ fun Screen(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             item {
-                UserInfoCard(profile)
+                UserInfoCard(profile, userProfile)
             }
+
             item {
                 ImagesCard(images)
             }
-            items(items = posts, key = { it.id }) { item ->
-                PostListItem(
-                    post = item,
-                    onLikeClick = {},
-                    onUnlikeClick = {},
-                )
+
+            items(
+                count = posts.itemCount,
+                key = posts.itemKey { it.id }
+            ) { index ->
+                val item = posts[index]
+                if (item != null) {
+                    PostListItem(
+                        post = item,
+                        onLikeClick = {},
+                        onUnlikeClick = {},
+                    )
+                }
             }
+
+            loadState(posts.loadState.append, onRetryClick = posts::retry)
         }
     }
 }
 
 @Composable
-fun UserInfoCard(profile: Profile) {
+fun UserInfoCard(profile: Profile, userProfile: Boolean) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -208,13 +232,35 @@ fun UserInfoCard(profile: Profile) {
 
         CustomDivider()
 
-        DarkButton(
-            onClick = {},
-            text = stringResource(R.string.edit),
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        )
+        if (userProfile){
+            DarkButton(
+                onClick = {},
+                text = stringResource(R.string.edit),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        } else {
+            if (profile.subscribed){
+                OutlinedButton(
+                    onClick = {},
+                    text = stringResource(R.string.unsubscribe),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                )
+            }
+            else {
+                LightButton(
+                    onClick = {},
+                    text = stringResource(R.string.subscribe),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }
+
     }
 }
 
@@ -296,4 +342,56 @@ fun Image(url: String) {
             .size(80.dp)
             .clip(RoundedCornerShape(8.dp))
     )
+}
+
+
+fun LazyListScope.loadState(state: LoadState, onRetryClick: () -> Unit) {
+    when (state) {
+        is LoadState.Error -> item {
+            ErrorState(onRetryClick)
+        }
+
+        LoadState.Loading -> item {
+            LoadingState()
+        }
+
+        is LoadState.NotLoading -> Unit
+    }
+}
+
+@Composable
+fun LoadingState() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .width(64.dp),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+        )
+    }
+}
+
+@Composable
+fun ErrorState(onRetryClick: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            stringResource(R.string.failed_to_load),
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.titleSmall
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        LightButton(
+            onClick = onRetryClick,
+            text = stringResource(R.string.retry),
+        )
+    }
+
 }

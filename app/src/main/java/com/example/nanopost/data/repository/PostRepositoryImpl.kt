@@ -7,24 +7,32 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.graphics.decodeBitmap
 import androidx.core.graphics.scale
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.nanopost.data.remote.ApiService
+import com.example.nanopost.data.remote.PostPagingSource
 import com.example.nanopost.data.remote.mappers.toDomainPost
 import com.example.nanopost.data.remote.model.ImageInfo
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.repository.PostRepository
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.io.ByteArrayOutputStream
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val contentResolver: ContentResolver
+    private val contentResolver: ContentResolver,
 ) : PostRepository {
 
     companion object {
         private const val MAX_IMAGE_SIZE = 2560
+        private const val PAGE_SIZE = 30
     }
 
-    override suspend fun getPosts(): List<Post> {
+    override suspend fun getFeed(): List<Post> {
         val feed = apiService.getFeed()
         return feed.items.map { it.toDomainPost() }
     }
@@ -41,8 +49,11 @@ class PostRepositoryImpl @Inject constructor(
         apiService.unlikePost(postId)
     }
 
-    override suspend fun getProfilePosts(profileId: String): List<Post> {
-        return apiService.getProfilePosts(profileId).items.map { it.toDomainPost() }
+    override suspend fun getProfilePosts(profileId: String): Flow<PagingData<Post>> {
+        return Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = { PostPagingSource(apiService, profileId) }
+        ).flow.map { pagingSource -> pagingSource.map { it.toDomainPost() } }
     }
 
     private fun imageToImageInfo(uri: Uri) = ImageInfo(
@@ -72,11 +83,10 @@ class PostRepositoryImpl @Inject constructor(
         var height = bitmap.height
         if (width > MAX_IMAGE_SIZE || height > MAX_IMAGE_SIZE) {
             if (width > height) {
-                height = ((MAX_IMAGE_SIZE/width.toFloat())*height).toInt()
+                height = ((MAX_IMAGE_SIZE / width.toFloat()) * height).toInt()
                 width = MAX_IMAGE_SIZE
-            }
-            else {
-                width = ((MAX_IMAGE_SIZE/height.toFloat())*width).toInt()
+            } else {
+                width = ((MAX_IMAGE_SIZE / height.toFloat()) * width).toInt()
                 height = MAX_IMAGE_SIZE
             }
             bitmap.scale(width, height)
