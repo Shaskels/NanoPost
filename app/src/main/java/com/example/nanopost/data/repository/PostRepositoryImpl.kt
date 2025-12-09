@@ -41,6 +41,14 @@ class PostRepositoryImpl @Inject constructor(
         return apiService.putPost(text, images.map { imageToImageInfo(it) }).toDomainPost()
     }
 
+    override suspend fun getPost(postId: String): Post {
+        return apiService.getPost(postId).toDomainPost()
+    }
+
+    override suspend fun deletePost(postId: String) {
+        apiService.deletePost(postId)
+    }
+
     override suspend fun likePost(postId: String) {
         apiService.likePost(postId)
     }

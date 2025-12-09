@@ -1,5 +1,6 @@
 package com.example.nanopost.presentation.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -13,7 +14,12 @@ import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
-fun PostListItem(post: Post, onLikeClick: (String) -> Unit, onUnlikeClick: (String) -> Unit) {
+fun PostListItem(
+    post: Post,
+    onClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit,
+    onUnlikeClick: (String) -> Unit
+) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -21,7 +27,10 @@ fun PostListItem(post: Post, onLikeClick: (String) -> Unit, onUnlikeClick: (Stri
             contentColor = MaterialTheme.colorScheme.surfaceVariant,
             disabledContainerColor = LocalExtendedColors.current.surface1,
             disabledContentColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+        ),
+        modifier = Modifier.clickable(onClick = {
+            onClick(post.id)
+        })
     )
     {
         UserPostInfo(post = post, modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp))

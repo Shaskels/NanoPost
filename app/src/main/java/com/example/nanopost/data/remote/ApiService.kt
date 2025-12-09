@@ -7,6 +7,7 @@ import com.example.nanopost.data.remote.model.ProfileImagesResponse
 import com.example.nanopost.data.remote.model.ProfileModel
 import com.example.nanopost.data.remote.model.ProfilePostsResponse
 import com.example.nanopost.di.ApiClient
+import com.example.nanopost.domain.entity.Post
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.append
@@ -15,6 +16,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.utils.io.core.writeFully
+import okhttp3.Response
 import javax.inject.Inject
 
 class ApiService @Inject constructor(
@@ -48,6 +50,10 @@ class ApiService @Inject constructor(
             )
         )
     }
+
+    suspend fun getPost(postId: String): PostModel = get("/v1/post/$postId")
+
+    suspend fun deletePost(postId: String) = delete<Unit>("/v1/post/$postId")
 
     suspend fun likePost(postId: String): PostModel = put("/v1/post/$postId/like")
 
