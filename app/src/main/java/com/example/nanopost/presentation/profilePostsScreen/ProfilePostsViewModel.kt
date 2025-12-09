@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = ProfilePostsViewModel.ProfilePostsViewModelFactory::class)
 class ProfilePostsViewModel @AssistedInject constructor(
     private val getUserPostsUseCase: GetUserPostsUseCase,
     private val getUserIdUseCase: GetUserIdUseCase,
@@ -26,6 +26,6 @@ class ProfilePostsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface ProfilePostsViewModelFactory {
-        fun create(characterId: String?): ProfilePostsViewModel
+        fun create(profileId: String?): ProfilePostsViewModel
     }
 }

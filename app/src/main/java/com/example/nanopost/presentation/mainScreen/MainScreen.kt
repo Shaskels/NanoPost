@@ -26,10 +26,10 @@ import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
+import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
+import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
-import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
-import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -118,6 +118,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfileScreen(
                             profileViewModel = viewModel,
                             isUserProfile = it.profileId == null,
+                            onPostsClick = {
+                                backStack.add(Route.ProfilePosts(it.profileId))
+                            },
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
                             },
@@ -132,7 +135,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.ProfilePosts> {
                         val viewModel = hiltViewModel(
-                            creationCallback = {factory: ProfilePostsViewModelFactory ->
+                            creationCallback = { factory: ProfilePostsViewModelFactory ->
                                 factory.create(it.profileId)
                             }
                         )

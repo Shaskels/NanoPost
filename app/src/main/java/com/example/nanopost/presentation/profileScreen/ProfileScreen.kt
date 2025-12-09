@@ -1,5 +1,6 @@
 package com.example.nanopost.presentation.profileScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,12 +54,14 @@ import com.example.nanopost.presentation.component.NoPhotoAvatar
 import com.example.nanopost.presentation.component.OutlinedButton
 import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.component.PostListItem
+import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
+    onPostsClick: () -> Unit,
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -72,6 +75,7 @@ fun ProfileScreen(
             currentState.images,
             posts,
             isUserProfile,
+            onPostsClick,
             onNewPostAdd,
             onLogout
         )
@@ -88,6 +92,7 @@ fun Screen(
     images: List<Image>,
     posts: LazyPagingItems<Post>,
     userProfile: Boolean,
+    onPostsClick: () -> Unit,
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -137,7 +142,7 @@ fun Screen(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             item {
-                UserInfoCard(profile, userProfile)
+                UserInfoCard(profile, userProfile, onPostsClick)
             }
 
             item {
@@ -164,7 +169,7 @@ fun Screen(
 }
 
 @Composable
-fun UserInfoCard(profile: Profile, userProfile: Boolean) {
+fun UserInfoCard(profile: Profile, userProfile: Boolean, onPostsClick: () -> Unit,) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -214,25 +219,28 @@ fun UserInfoCard(profile: Profile, userProfile: Boolean) {
             InfoCard(
                 value = profile.imagesCount.toString(),
                 name = stringResource(R.string.images),
+                onClick = {},
                 modifier = Modifier.weight(1f)
             )
 
             InfoCard(
                 value = profile.subscribersCount.toString(),
                 name = stringResource(R.string.subscribers),
+                onClick = {},
                 modifier = Modifier.weight(1f)
             )
 
             InfoCard(
                 value = profile.postsCount.toString(),
                 name = stringResource(R.string.posts),
+                onClick = onPostsClick,
                 modifier = Modifier.weight(1f)
             )
         }
 
         CustomDivider()
 
-        if (userProfile){
+        if (userProfile) {
             DarkButton(
                 onClick = {},
                 text = stringResource(R.string.edit),
@@ -241,7 +249,7 @@ fun UserInfoCard(profile: Profile, userProfile: Boolean) {
                     .fillMaxWidth()
             )
         } else {
-            if (profile.subscribed){
+            if (profile.subscribed) {
                 OutlinedButton(
                     onClick = {},
                     text = stringResource(R.string.unsubscribe),
@@ -249,8 +257,7 @@ fun UserInfoCard(profile: Profile, userProfile: Boolean) {
                         .padding(16.dp)
                         .fillMaxWidth()
                 )
-            }
-            else {
+            } else {
                 LightButton(
                     onClick = {},
                     text = stringResource(R.string.subscribe),
@@ -265,8 +272,10 @@ fun UserInfoCard(profile: Profile, userProfile: Boolean) {
 }
 
 @Composable
-fun InfoCard(value: String, name: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(16.dp)) {
+fun InfoCard(value: String, name: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Column(modifier = modifier
+        .padding(16.dp)
+        .clickable(onClick = onClick)) {
         Text(
             value,
             style = MaterialTheme.typography.headlineMedium,
@@ -342,56 +351,4 @@ fun Image(url: String) {
             .size(80.dp)
             .clip(RoundedCornerShape(8.dp))
     )
-}
-
-
-fun LazyListScope.loadState(state: LoadState, onRetryClick: () -> Unit) {
-    when (state) {
-        is LoadState.Error -> item {
-            ErrorState(onRetryClick)
-        }
-
-        LoadState.Loading -> item {
-            LoadingState()
-        }
-
-        is LoadState.NotLoading -> Unit
-    }
-}
-
-@Composable
-fun LoadingState() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .width(64.dp),
-            color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
-    }
-}
-
-@Composable
-fun ErrorState(onRetryClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            stringResource(R.string.failed_to_load),
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleSmall
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        LightButton(
-            onClick = onRetryClick,
-            text = stringResource(R.string.retry),
-        )
-    }
-
 }

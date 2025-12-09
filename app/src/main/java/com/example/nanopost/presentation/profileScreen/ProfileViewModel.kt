@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = ProfileViewModel.ProfileViewModelFactory::class)
 class ProfileViewModel @AssistedInject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getUserImagesUseCase: GetUserImagesUseCase,
@@ -54,6 +54,6 @@ class ProfileViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface ProfileViewModelFactory {
-        fun create(characterId: String?): ProfileViewModel
+        fun create(profileId: String?): ProfileViewModel
     }
 }
