@@ -27,11 +27,11 @@ import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
 import com.example.nanopost.presentation.postScreen.PostScreen
+import com.example.nanopost.presentation.postScreen.PostViewModel
 import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
 import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
-import com.example.nanopost.presentation.postScreen.PostViewModel.PostViewModelFactory
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -101,6 +101,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         FeedScreen(
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
+                            },
+                            onPostClick = {
+                                backStack.add(Route.Post(it))
                             }
                         )
                     }
@@ -111,17 +114,20 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             }
                         )
                     }
-                    entry<Route.Profile> {
+                    entry<Route.Profile> { profile ->
                         val viewModel = hiltViewModel(
                             creationCallback = { factory: ProfileViewModel.ProfileViewModelFactory ->
-                                factory.create(it.profileId)
+                                factory.create(profile.profileId)
                             }
                         )
                         ProfileScreen(
                             profileViewModel = viewModel,
-                            isUserProfile = it.profileId == null,
+                            isUserProfile = profile.profileId == null,
+                            onPostClick = {
+                                backStack.add(Route.Post(it))
+                            },
                             onPostsClick = {
-                                backStack.add(Route.ProfilePosts(it.profileId))
+                                backStack.add(Route.ProfilePosts(profile.profileId))
                             },
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
@@ -132,15 +138,18 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                     }
                     entry<Route.Empty> {}
-                    entry<Route.ProfilePosts> {
+                    entry<Route.ProfilePosts> { profile ->
                         val viewModel = hiltViewModel(
                             creationCallback = { factory: ProfilePostsViewModelFactory ->
-                                factory.create(it.profileId)
+                                factory.create(profile.profileId)
                             }
                         )
                         ProfilePostsScreen(
                             profilePostsViewModel = viewModel,
-                            isUserProfile = it.profileId == null,
+                            isUserProfile = profile.profileId == null,
+                            onPostClick = {
+                                backStack.add(Route.Post(it))
+                            },
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             }
@@ -148,11 +157,17 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.Post> {
                         val viewModel = hiltViewModel(
-                            creationCallback = {factory: PostViewModelFactory ->
+                            key = it.postId,
+                            creationCallback = { factory: PostViewModel.PostViewModelFactory ->
                                 factory.create(it.postId)
                             }
                         )
-                        PostScreen(viewModel)
+                        PostScreen(
+                            postViewModel = viewModel,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            }
+                        )
                     }
                 },
                 modifier = Modifier.padding(paddingValues)

@@ -22,6 +22,7 @@ import com.example.nanopost.presentation.component.loadState
 fun ProfilePostsScreen(
     profilePostsViewModel: ProfilePostsViewModel,
     isUserProfile: Boolean,
+    onPostClick: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val posts = profilePostsViewModel.posts.collectAsLazyPagingItems()
@@ -55,8 +56,17 @@ fun ProfilePostsScreen(
                 if (item != null) {
                     PostListItem(
                         post = item,
-                        onLikeClick = {},
-                        onUnlikeClick = {},
+                        onClick = onPostClick,
+                        onLikeClick = {
+                            if (!isUserProfile){
+                                profilePostsViewModel.likePost(it)
+                            }
+                        },
+                        onUnlikeClick = {
+                            if (!isUserProfile){
+                                profilePostsViewModel.unlikePost(it)
+                            }
+                        },
                     )
                 }
             }

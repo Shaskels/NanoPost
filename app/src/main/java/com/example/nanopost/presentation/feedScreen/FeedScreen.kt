@@ -36,7 +36,11 @@ import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
 
 @Composable
-fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltViewModel()) {
+fun FeedScreen(
+    onNewPostAdd: () -> Unit,
+    onPostClick: (String) -> Unit,
+    feedViewModel: FeedViewModel = hiltViewModel()
+) {
     val screenState = feedViewModel.screenState.collectAsState()
     val snackbarHost = LocalSnackbarHost.current
 
@@ -74,7 +78,7 @@ fun FeedScreen(onNewPostAdd: () -> Unit, feedViewModel: FeedViewModel = hiltView
                 when (val currentState = screenState.value) {
                     FeedScreenState.Initial -> {}
                     FeedScreenState.Loading -> Loading()
-                    is FeedScreenState.Content -> Screen(currentState, feedViewModel)
+                    is FeedScreenState.Content -> Screen(currentState, feedViewModel, onPostClick)
                     FeedScreenState.Error -> Error(snackbarHost, feedViewModel)
                 }
             }
@@ -101,7 +105,8 @@ fun Error(snackbarHost: CustomSnackbarHost, feedViewModel: FeedViewModel) {
 @Composable
 fun Screen(
     screenState: FeedScreenState.Content,
-    feedViewModel: FeedViewModel
+    feedViewModel: FeedViewModel,
+    onPostClick: (String) -> Unit
 ) {
     if (screenState.posts.isEmpty()) {
         Column(
@@ -129,6 +134,7 @@ fun Screen(
             items(items = screenState.posts, key = { it.id }) { item ->
                 PostListItem(
                     item,
+                    onPostClick,
                     feedViewModel::likePost,
                     feedViewModel::unlikePost
                 )

@@ -61,6 +61,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
+    onPostClick: (String) -> Unit,
     onPostsClick: () -> Unit,
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
@@ -71,13 +72,14 @@ fun ProfileScreen(
 
     when (val currentState = screenState.value) {
         is ProfileScreenState.Content -> Screen(
-            currentState.profile,
-            currentState.images,
-            posts,
-            isUserProfile,
-            onPostsClick,
-            onNewPostAdd,
-            onLogout
+            profile = currentState.profile,
+            images = currentState.images,
+            posts = posts,
+            userProfile = isUserProfile,
+            onPostClick = onPostClick,
+            onPostsClick = onPostsClick,
+            onNewPostAdd = onNewPostAdd,
+            onLogout = onLogout
         )
 
         ProfileScreenState.Error -> {}
@@ -92,6 +94,7 @@ fun Screen(
     images: List<Image>,
     posts: LazyPagingItems<Post>,
     userProfile: Boolean,
+    onPostClick: (String) -> Unit,
     onPostsClick: () -> Unit,
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
@@ -157,6 +160,7 @@ fun Screen(
                 if (item != null) {
                     PostListItem(
                         post = item,
+                        onClick = onPostClick,
                         onLikeClick = {},
                         onUnlikeClick = {},
                     )

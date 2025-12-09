@@ -53,7 +53,7 @@ class ApiService @Inject constructor(
 
     suspend fun getPost(postId: String): PostModel = get("/v1/post/$postId")
 
-    suspend fun deletePost(postId: String) = delete<Response>("/api/v1/post/$postId")
+    suspend fun deletePost(postId: String) = delete<Unit>("/v1/post/$postId")
 
     suspend fun likePost(postId: String): PostModel = put("/v1/post/$postId/like")
 

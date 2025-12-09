@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.DeletePostUseCase
 import com.example.nanopost.domain.usecase.GetPostUseCase
+import com.example.nanopost.domain.usecase.GetUserIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 class PostViewModel @AssistedInject constructor(
     private val getPostUseCase: GetPostUseCase,
     private val deletePostUseCase: DeletePostUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase,
     @Assisted private val postId: String,
 ): ViewModel() {
 
@@ -33,6 +35,10 @@ class PostViewModel @AssistedInject constructor(
             val res = getPostUseCase(postId)
             _screenState.value = PostScreenState.Content(res)
         }
+    }
+
+    suspend fun getUserId(): String {
+        return getUserIdUseCase()
     }
 
     fun deletePost() {
