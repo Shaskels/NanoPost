@@ -11,9 +11,9 @@ class GetUserProfileUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val profileRepository: ProfileRepository
 ) {
-    suspend operator fun invoke(): Profile {
+    suspend operator fun invoke(profileId: String?): Profile {
         return withContext(Dispatchers.IO) {
-            val userId = settingsRepository.getUserId()
+            val userId = profileId ?: settingsRepository.getUserId()
             profileRepository.getProfile(userId)
         }
     }

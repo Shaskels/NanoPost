@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class GetPostsUseCase @Inject constructor(private val postRepository: PostRepository) {
     suspend operator fun invoke(): List<Post> {
-        return postRepository.getPosts()
+        return postRepository.getFeed()
     }
 }

@@ -20,7 +20,7 @@ import javax.inject.Inject
 class ApiService @Inject constructor(
     baseUrl: String,
     @ApiClient httpClient: HttpClient,
-): BaseService(httpClient, baseUrl) {
+) : BaseService(httpClient, baseUrl) {
 
     suspend fun getFeed(): FeedResponse = get("/v1/feed") {
         parameter("count", 30)
@@ -35,7 +35,7 @@ class ApiService @Inject constructor(
         setBody(
             MultiPartFormDataContent(
                 parts = formData {
-                    text?.let {  append("text", text) }
+                    text?.let { append("text", text) }
                     images.forEachIndexed { index, images ->
                         append(
                             key = "image$index",
@@ -55,7 +55,15 @@ class ApiService @Inject constructor(
 
     suspend fun getProfile(profileId: String): ProfileModel = get("/v1/profile/$profileId")
 
-    suspend fun getProfileImages(profileId: String): ProfileImagesResponse = get("/v1/images/$profileId")
+    suspend fun getProfileImages(profileId: String): ProfileImagesResponse =
+        get("/v1/images/$profileId")
 
-    suspend fun getProfilePosts(profileId: String): ProfilePostsResponse = get("/v1/posts/$profileId")
+    suspend fun getProfilePosts(
+        profileId: String,
+        count: Int,
+        offset: String?
+    ): ProfilePostsResponse = get("/v1/posts/$profileId") {
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+    }
 }

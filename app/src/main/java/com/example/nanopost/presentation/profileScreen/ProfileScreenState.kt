@@ -10,5 +10,5 @@ sealed interface ProfileScreenState {
 
     data object Error: ProfileScreenState
 
-    data class Content(val profile: Profile, val images: List<Image>, val posts: List<Post>): ProfileScreenState
+    data class Content(val profile: Profile, val images: List<Image>): ProfileScreenState
 }

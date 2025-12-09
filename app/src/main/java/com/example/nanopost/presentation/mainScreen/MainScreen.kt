@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -25,7 +26,10 @@ import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
+import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
+import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
+import com.example.nanopost.presentation.profileScreen.ProfileViewModel
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -71,7 +75,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                                 }
 
                                 NavigationOptions.PROFILE -> {
-                                    backStack.clearAndAdd(Route.Profile)
+                                    backStack.clearAndAdd(Route.Profile(null))
                                 }
                             }
                         }
@@ -79,7 +83,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                 }
             },
             containerColor = MaterialTheme.colorScheme.background,
-            contentWindowInsets = WindowInsets(left = 0, right = 0, top = 0, bottom = 0)
+            contentWindowInsets = WindowInsets()
         ) { paddingValues ->
             NavDisplay(
                 backStack = backStack,
@@ -106,7 +110,17 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                     }
                     entry<Route.Profile> {
+                        val viewModel = hiltViewModel(
+                            creationCallback = { factory: ProfileViewModel.ProfileViewModelFactory ->
+                                factory.create(it.profileId)
+                            }
+                        )
                         ProfileScreen(
+                            profileViewModel = viewModel,
+                            isUserProfile = it.profileId == null,
+                            onPostsClick = {
+                                backStack.add(Route.ProfilePosts(it.profileId))
+                            },
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
                             },
@@ -117,6 +131,21 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.Empty> {
 
+
+                    }
+                    entry<Route.ProfilePosts> {
+                        val viewModel = hiltViewModel(
+                            creationCallback = { factory: ProfilePostsViewModelFactory ->
+                                factory.create(it.profileId)
+                            }
+                        )
+                        ProfilePostsScreen(
+                            profilePostsViewModel = viewModel,
+                            isUserProfile = it.profileId == null,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            }
+                        )
                     }
                 },
                 modifier = Modifier.padding(paddingValues)

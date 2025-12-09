@@ -1,11 +1,13 @@
 package com.example.nanopost.domain.repository
 
 import android.net.Uri
+import androidx.paging.PagingData
 import com.example.nanopost.domain.entity.Post
+import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
 
-    suspend fun getPosts(): List<Post>
+    suspend fun getFeed(): List<Post>
 
     suspend fun putPost(text: String?, images: List<Uri>): Post
 
@@ -13,5 +15,5 @@ interface PostRepository {
 
     suspend fun unlikePost(postId: String)
 
-    suspend fun getProfilePosts(profileId: String): List<Post>
+    suspend fun getProfilePosts(profileId: String): Flow<PagingData<Post>>
 }

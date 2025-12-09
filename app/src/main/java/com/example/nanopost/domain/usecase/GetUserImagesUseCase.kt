@@ -11,9 +11,9 @@ class GetUserImagesUseCase @Inject constructor(
     private val imagesRepository: ImagesRepository,
     private val settingsRepository: SettingsRepository,
 ) {
-    suspend operator fun invoke(): List<Image>{
+    suspend operator fun invoke(profileId: String?): List<Image>{
         return withContext(Dispatchers.IO) {
-            val userId = settingsRepository.getUserId()
+            val userId = profileId ?: settingsRepository.getUserId()
             imagesRepository.getProfileImages(userId)
         }
     }
