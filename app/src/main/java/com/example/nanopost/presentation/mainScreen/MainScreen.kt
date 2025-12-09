@@ -26,10 +26,12 @@ import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
+import com.example.nanopost.presentation.postScreen.PostScreen
 import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
 import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
+import com.example.nanopost.presentation.postScreen.PostViewModel.PostViewModelFactory
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -129,10 +131,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             }
                         )
                     }
-                    entry<Route.Empty> {
-
-
-                    }
+                    entry<Route.Empty> {}
                     entry<Route.ProfilePosts> {
                         val viewModel = hiltViewModel(
                             creationCallback = { factory: ProfilePostsViewModelFactory ->
@@ -146,6 +145,14 @@ fun MainScreen(mainViewModel: MainViewModel) {
                                 backStack.removeAt(backStack.lastIndex)
                             }
                         )
+                    }
+                    entry<Route.Post> {
+                        val viewModel = hiltViewModel(
+                            creationCallback = {factory: PostViewModelFactory ->
+                                factory.create(it.postId)
+                            }
+                        )
+                        PostScreen(viewModel)
                     }
                 },
                 modifier = Modifier.padding(paddingValues)
