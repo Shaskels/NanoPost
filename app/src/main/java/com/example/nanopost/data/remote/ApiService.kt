@@ -1,11 +1,12 @@
 package com.example.nanopost.data.remote
 
-import com.example.nanopost.data.remote.model.FeedResponse
+import androidx.compose.ui.graphics.vector.addPathNodes
 import com.example.nanopost.data.remote.model.ImageInfo
+import com.example.nanopost.data.remote.model.ImageModel
+import com.example.nanopost.data.remote.model.PagedResponse
 import com.example.nanopost.data.remote.model.PostModel
-import com.example.nanopost.data.remote.model.ProfileImagesResponse
+import com.example.nanopost.data.remote.model.ProfileCompactModel
 import com.example.nanopost.data.remote.model.ProfileModel
-import com.example.nanopost.data.remote.model.ProfilePostsResponse
 import com.example.nanopost.di.ApiClient
 import com.example.nanopost.domain.entity.Post
 import io.ktor.client.HttpClient
@@ -24,7 +25,7 @@ class ApiService @Inject constructor(
     @ApiClient httpClient: HttpClient,
 ) : BaseService(httpClient, baseUrl) {
 
-    suspend fun getFeed(): FeedResponse = get("/v1/feed") {
+    suspend fun getFeed(): PagedResponse<PostModel> = get("/v1/feed") {
         parameter("count", 30)
         parameter("offset", 0)
         parameter("mode", "full")
@@ -61,14 +62,23 @@ class ApiService @Inject constructor(
 
     suspend fun getProfile(profileId: String): ProfileModel = get("/v1/profile/$profileId")
 
-    suspend fun getProfileImages(profileId: String): ProfileImagesResponse =
+    suspend fun getProfileImages(profileId: String): PagedResponse<ImageModel> =
         get("/v1/images/$profileId")
 
     suspend fun getProfilePosts(
         profileId: String,
         count: Int,
         offset: String?
-    ): ProfilePostsResponse = get("/v1/posts/$profileId") {
+    ): PagedResponse<PostModel> = get("/v1/posts/$profileId") {
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+    }
+
+    suspend fun getProfileSubscribers(
+        profileId: String,
+        count: Int,
+        offset: String?,
+    ): PagedResponse<ProfileCompactModel> = get("/v1/subscribers/$profileId") {
         parameter("count", count)
         offset?.let { parameter("offset", offset) }
     }

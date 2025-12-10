@@ -26,4 +26,7 @@ sealed interface Route: NavKey {
 
     @Serializable
     data class Post(val postId: String): Route
+
+    @Serializable
+    data class Subscribers(val profileId: String?): Route
 }
