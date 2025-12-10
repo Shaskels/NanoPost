@@ -39,4 +39,12 @@ class ImagesRepositoryImpl @Inject constructor(
             }
         ).flow.map { pagedData -> pagedData.map { it.toDomainImage() } }
     }
+
+    override suspend fun deleteImage(imageId: String) {
+        apiService.deleteImage(imageId)
+    }
+
+    override suspend fun getImage(imageId: String): Image {
+        return apiService.getImage(imageId).toDomainImage()
+    }
 }

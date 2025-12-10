@@ -1,14 +1,9 @@
-package com.example.nanopost.presentation.postScreen
+package com.example.nanopost.presentation.imageScreen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -28,40 +23,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.nanopost.R
-import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.presentation.component.CustomDivider
+import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.presentation.component.CustomTopBar
+import com.example.nanopost.presentation.component.ErrorState
 import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.UserPostInfo
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 
 @Composable
-fun PostScreen(postViewModel: PostViewModel, onBackClick: () -> Unit) {
-    val screenState = postViewModel.screenState.collectAsState()
+fun ImageScreen(
+    imageViewModel: ImageViewModel,
+    onBackClick: () -> Unit
+) {
+    val screenState = imageViewModel.screenState.collectAsState()
 
     when (val currentState = screenState.value) {
-        is PostScreenState.Content -> Screen(currentState.post, postViewModel, onBackClick)
-        PostScreenState.Error -> {}
-        PostScreenState.Loading -> Loading()
+        is ImageScreenState.Content -> Screen(currentState.image, imageViewModel, onBackClick)
+        ImageScreenState.Error -> ErrorState(onRetryClick = imageViewModel::getImage)
+        ImageScreenState.Loading -> Loading()
     }
+
 }
 
 @Composable
-fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
-    var isPostUser by remember { mutableStateOf(false) }
+fun Screen(image: Image, imageViewModel: ImageViewModel, onBackClick: () -> Unit) {
     var isShowMenu by remember { mutableStateOf(false) }
+    var isUserImage by remember { mutableStateOf(false) }
 
-    LaunchedEffect(post.owner.id) {
-        isPostUser = postViewModel.getUserId() == post.owner.id
+    LaunchedEffect(image.owner.id) {
+        isUserImage = imageViewModel.getUserId() == image.owner.id
     }
 
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = stringResource(R.string.post),
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -71,7 +70,7 @@ fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
                     }
                 },
                 actions = {
-                    if (isPostUser) {
+                    if (isUserImage) {
                         IconButton(onClick = { isShowMenu = !isShowMenu }) {
                             Icon(
                                 painter = painterResource(R.drawable.more_vert),
@@ -93,7 +92,7 @@ fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
                                     )
                                 },
                                 onClick = {
-                                    postViewModel.deletePost()
+                                    imageViewModel.deleteImage()
                                     onBackClick()
                                 }
                             )
@@ -103,48 +102,30 @@ fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(
-                bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                top = paddingValues.calculateTopPadding() + 16.dp,
-                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-            ),
+
+        Column(
             modifier = Modifier
+                .padding(paddingValues)
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
         ) {
-            item {
-                UserPostInfo(
-                    owner = post.owner,
-                    dateCreated = post.dateCreated,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+            AsyncImage(
+                model = image.sizes.first().url,
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                placeholder = painterResource(R.drawable.no_photo),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .zoomable(rememberZoomState())
+                    .weight(1f)
+            )
 
-                CustomDivider()
-            }
-
-            item {
-                if (post.text != null) {
-                    Text(
-                        text = post.text,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = 16.dp)
-                    )
-                }
-            }
-
-            items(items = post.images, key = { it.id }) { item ->
-                AsyncImage(
-                    model = item.sizes.first().url,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
-                    placeholder = painterResource(R.drawable.no_photo),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            UserPostInfo(
+                owner = image.owner,
+                dateCreated = image.dateCreated,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
         }
     }
 }

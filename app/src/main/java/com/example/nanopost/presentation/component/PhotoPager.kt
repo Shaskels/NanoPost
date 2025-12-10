@@ -1,6 +1,7 @@
 package com.example.nanopost.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,18 +24,18 @@ import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
-fun PhotoPager(images: List<Image>, modifier: Modifier = Modifier) {
+fun PhotoPager(images: List<Image>, onClick: (String) -> Unit, modifier: Modifier = Modifier) {
     val maxPage = images.size
     val pagerState = rememberPagerState(pageCount = { maxPage })
     HorizontalPager(state = pagerState, modifier = modifier) { page ->
-        PhotoPaged(images.elementAtOrNull(page), page + 1, maxPage)
+        PhotoPaged(images.elementAtOrNull(page), page + 1, maxPage, onClick)
     }
 }
 
 @Composable
-fun PhotoPaged(image: Image?, page: Int, maxPage: Int) {
+fun PhotoPaged(image: Image?, page: Int, maxPage: Int, onClick: (String) -> Unit) {
     if (image != null) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize().clickable(onClick = { onClick(image.id) })) {
             AsyncImage(
                 model = image.sizes.first().url,
                 contentDescription = null,

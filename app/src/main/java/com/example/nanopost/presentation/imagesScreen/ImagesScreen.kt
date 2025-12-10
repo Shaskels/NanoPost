@@ -1,5 +1,6 @@
 package com.example.nanopost.presentation.imagesScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,11 @@ import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.loadState
 
 @Composable
-fun ImagesScreen(imagesViewModel: ImagesViewModel, onBackClick: () -> Unit) {
+fun ImagesScreen(
+    imagesViewModel: ImagesViewModel,
+    onBackClick: () -> Unit,
+    onImageClick: (String) -> Unit
+) {
     val images = imagesViewModel.images.collectAsLazyPagingItems()
 
     Scaffold(
@@ -60,6 +65,7 @@ fun ImagesScreen(imagesViewModel: ImagesViewModel, onBackClick: () -> Unit) {
                         placeholder = painterResource(R.drawable.no_photo),
                         modifier = Modifier
                             .height(125.dp)
+                            .clickable(onClick = { onImageClick(item.id) })
                     )
                 }
             }

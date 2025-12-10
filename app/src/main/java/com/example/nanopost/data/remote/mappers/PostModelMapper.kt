@@ -14,7 +14,7 @@ import com.example.nanopost.domain.entity.ProfileCompact
 fun PostModel.toDomainPost(): Post = Post(
     id = this.id,
     owner = this.owner.toDomainProfileCompact(),
-    dataCreated = this.dateCreated ,
+    dateCreated = this.dateCreated ,
     text = this.text,
     images = this.images.map { it.toDomainImage() },
     likes = this.likes.toDomainLikes()

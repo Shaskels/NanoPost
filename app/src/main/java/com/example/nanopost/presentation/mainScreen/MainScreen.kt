@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -25,6 +26,8 @@ import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
+import com.example.nanopost.presentation.imageScreen.ImageScreen
+import com.example.nanopost.presentation.imageScreen.ImageViewModel
 import com.example.nanopost.presentation.imagesScreen.ImagesScreen
 import com.example.nanopost.presentation.imagesScreen.ImagesViewModel
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
@@ -109,6 +112,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
                             },
+                            onImageClick = {
+                                backStack.add(Route.Image(it))
+                            },
                             onPostClick = {
                                 backStack.add(Route.Post(it))
                             }
@@ -133,6 +139,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             isUserProfile = profile.profileId == null,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
+                            },
+                            onImageClick = {
+                                backStack.add(Route.Image(it))
                             },
                             onImagesClick = {
                                 backStack.add(Route.Images(profile.profileId))
@@ -165,6 +174,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfilePostsScreen(
                             profilePostsViewModel = viewModel,
                             isUserProfile = profile.profileId == null,
+                            onImageClick = {
+                                backStack.add(Route.Image(it))
+                            },
                             onPostClick = {
                                 backStack.add(Route.Post(it))
                             },
@@ -204,15 +216,32 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             }
                         )
                     }
-                    entry<Route.Images> {
+                    entry<Route.Images> { profile ->
                         val viewModel = hiltViewModel(
-                            key = it.profileId,
+                            key = profile.profileId,
                             creationCallback = { factory: ImagesViewModel.ImagesViewModelFactory ->
-                                factory.create(it.profileId)
+                                factory.create(profile.profileId)
                             }
                         )
                         ImagesScreen(
                             imagesViewModel = viewModel,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            },
+                            onImageClick = {
+                                backStack.add(Route.Image(it))
+                            }
+                        )
+                    }
+                    entry<Route.Image> {
+                        val viewModel = hiltViewModel(
+                             key = it.imageId,
+                            creationCallback = {factory: ImageViewModel.ImageViewModelFactory ->
+                                factory.create(it.imageId)
+                            }
+                        )
+                        ImageScreen(
+                            viewModel,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             }

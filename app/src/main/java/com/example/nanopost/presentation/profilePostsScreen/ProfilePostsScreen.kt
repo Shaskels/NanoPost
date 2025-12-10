@@ -26,6 +26,7 @@ import com.example.nanopost.presentation.component.loadState
 fun ProfilePostsScreen(
     profilePostsViewModel: ProfilePostsViewModel,
     isUserProfile: Boolean,
+    onImageClick: (String) -> Unit,
     onPostClick: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -67,6 +68,7 @@ fun ProfilePostsScreen(
                     PostListItem(
                         post = item,
                         onClick = onPostClick,
+                        onImageClick = onImageClick,
                         onProfileClick = {},
                         onLikeClick = {
                             if (!isUserProfile){
