@@ -131,6 +131,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfileScreen(
                             profileViewModel = viewModel,
                             isUserProfile = profile.profileId == null,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            },
                             onImagesClick = {
                                 backStack.add(Route.Images(profile.profileId))
                             },

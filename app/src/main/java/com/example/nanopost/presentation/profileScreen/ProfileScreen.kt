@@ -64,6 +64,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
+    onBackClick: () -> Unit,
     onImagesClick: () -> Unit,
     onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -80,6 +81,7 @@ fun ProfileScreen(
             profile = currentState.profile,
             images = currentState.images,
             posts = posts,
+            onBackClick = onBackClick,
             userProfile = isUserProfile,
             onImagesClick = onImagesClick,
             onSubscribersClick = onSubscribersClick,
@@ -101,6 +103,7 @@ fun Screen(
     images: List<Image>,
     posts: LazyPagingItems<Post>,
     userProfile: Boolean,
+    onBackClick: () -> Unit,
     onImagesClick: () -> Unit,
     onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -122,6 +125,16 @@ fun Screen(
         topBar = {
             CustomTopBar(
                 title = stringResource(R.string.profile),
+                navigationIcon = {
+                    if (!userProfile) {
+                        IconButton(onClick = onBackClick) {
+                            Icon(
+                                painter = painterResource(R.drawable.arrow_back),
+                                contentDescription = null
+                            )
+                        }
+                    }
+                },
                 actions = {
                     if (userProfile) {
                         IconButton(onClick = {

@@ -1,6 +1,7 @@
 package com.example.nanopost.presentation.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,16 +67,15 @@ fun LoadingState() {
 @Composable
 fun ErrorState(onRetryClick: () -> Unit) {
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        Row(
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 stringResource(R.string.failed_to_load),
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleSmall
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelLarge
             )
-
-            Spacer(modifier = Modifier.weight(1f))
 
             LightButton(
                 onClick = onRetryClick,
