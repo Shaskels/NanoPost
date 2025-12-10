@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,6 +19,20 @@ import androidx.paging.LoadState
 import com.example.nanopost.R
 
 fun LazyListScope.loadState(state: LoadState, onRetryClick: () -> Unit) {
+    when (state) {
+        is LoadState.Error -> item {
+            ErrorState(onRetryClick)
+        }
+
+        LoadState.Loading -> item {
+            LoadingState()
+        }
+
+        is LoadState.NotLoading -> Unit
+    }
+}
+
+fun LazyGridScope.loadState(state: LoadState, onRetryClick: () -> Unit) {
     when (state) {
         is LoadState.Error -> item {
             ErrorState(onRetryClick)

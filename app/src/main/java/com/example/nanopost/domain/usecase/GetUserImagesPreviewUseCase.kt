@@ -7,14 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetUserImagesUseCase @Inject constructor(
+class GetUserImagesPreviewUseCase @Inject constructor(
     private val imagesRepository: ImagesRepository,
     private val settingsRepository: SettingsRepository,
 ) {
     suspend operator fun invoke(profileId: String?): List<Image>{
         return withContext(Dispatchers.IO) {
             val userId = profileId ?: settingsRepository.getUserId()
-            imagesRepository.getProfileImages(userId)
+            imagesRepository.getProfileImagesPreview(userId)
         }
     }
 }

@@ -25,6 +25,8 @@ import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.feedScreen.FeedScreen
+import com.example.nanopost.presentation.imagesScreen.ImagesScreen
+import com.example.nanopost.presentation.imagesScreen.ImagesViewModel
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen
 import com.example.nanopost.presentation.postScreen.PostScreen
 import com.example.nanopost.presentation.postScreen.PostViewModel
@@ -126,6 +128,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfileScreen(
                             profileViewModel = viewModel,
                             isUserProfile = profile.profileId == null,
+                            onImagesClick = {
+                                backStack.add(Route.Images(profile.profileId))
+                            },
                             onSubscribersClick = {
                                 backStack.add(Route.Subscribers(profile.profileId))
                             },
@@ -185,6 +190,20 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                         SubscribersScreen(
                             subscribersViewModel = viewModel,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            }
+                        )
+                    }
+                    entry<Route.Images> {
+                        val viewModel = hiltViewModel(
+                            key = it.profileId,
+                            creationCallback = { factory: ImagesViewModel.ImagesViewModelFactory ->
+                                factory.create(it.profileId)
+                            }
+                        )
+                        ImagesScreen(
+                            imagesViewModel = viewModel,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             }

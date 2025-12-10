@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -56,6 +60,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
+    onImagesClick: () -> Unit,
     onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
     onPostsClick: () -> Unit,
@@ -72,6 +77,7 @@ fun ProfileScreen(
             images = currentState.images,
             posts = posts,
             userProfile = isUserProfile,
+            onImagesClick = onImagesClick,
             onSubscribersClick = onSubscribersClick,
             onPostClick = onPostClick,
             onPostsClick = onPostsClick,
@@ -91,6 +97,7 @@ fun Screen(
     images: List<Image>,
     posts: LazyPagingItems<Post>,
     userProfile: Boolean,
+    onImagesClick: () -> Unit,
     onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
     onPostsClick: () -> Unit,
@@ -122,7 +129,8 @@ fun Screen(
                     }
                 }
             )
-        }
+        },
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
     ) { paddingValues ->
 
         if (isAlertDialogShow) {
@@ -143,7 +151,13 @@ fun Screen(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             item {
-                UserInfoCard(profile, userProfile, onPostsClick, onSubscribersClick)
+                UserInfoCard(
+                    profile = profile,
+                    userProfile = userProfile,
+                    onImagesClick = onImagesClick,
+                    onPostsClick = onPostsClick,
+                    onSubscribersClick = onSubscribersClick
+                )
             }
 
             item {
@@ -174,6 +188,7 @@ fun Screen(
 fun UserInfoCard(
     profile: Profile,
     userProfile: Boolean,
+    onImagesClick: () -> Unit,
     onPostsClick: () -> Unit,
     onSubscribersClick: () -> Unit,
 ) {
@@ -226,7 +241,7 @@ fun UserInfoCard(
             InfoCard(
                 value = profile.imagesCount.toString(),
                 name = stringResource(R.string.images),
-                onClick = {},
+                onClick = onImagesClick,
                 modifier = Modifier.weight(1f)
             )
 
