@@ -2,20 +2,16 @@ package com.example.nanopost.presentation.profileScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +30,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -61,6 +56,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
+    onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
     onPostsClick: () -> Unit,
     onNewPostAdd: () -> Unit,
@@ -76,6 +72,7 @@ fun ProfileScreen(
             images = currentState.images,
             posts = posts,
             userProfile = isUserProfile,
+            onSubscribersClick = onSubscribersClick,
             onPostClick = onPostClick,
             onPostsClick = onPostsClick,
             onNewPostAdd = onNewPostAdd,
@@ -94,6 +91,7 @@ fun Screen(
     images: List<Image>,
     posts: LazyPagingItems<Post>,
     userProfile: Boolean,
+    onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
     onPostsClick: () -> Unit,
     onNewPostAdd: () -> Unit,
@@ -145,7 +143,7 @@ fun Screen(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             item {
-                UserInfoCard(profile, userProfile, onPostsClick)
+                UserInfoCard(profile, userProfile, onPostsClick, onSubscribersClick)
             }
 
             item {
@@ -173,7 +171,12 @@ fun Screen(
 }
 
 @Composable
-fun UserInfoCard(profile: Profile, userProfile: Boolean, onPostsClick: () -> Unit,) {
+fun UserInfoCard(
+    profile: Profile,
+    userProfile: Boolean,
+    onPostsClick: () -> Unit,
+    onSubscribersClick: () -> Unit,
+) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -230,7 +233,7 @@ fun UserInfoCard(profile: Profile, userProfile: Boolean, onPostsClick: () -> Uni
             InfoCard(
                 value = profile.subscribersCount.toString(),
                 name = stringResource(R.string.subscribers),
-                onClick = {},
+                onClick = onSubscribersClick,
                 modifier = Modifier.weight(1f)
             )
 
@@ -277,9 +280,11 @@ fun UserInfoCard(profile: Profile, userProfile: Boolean, onPostsClick: () -> Uni
 
 @Composable
 fun InfoCard(value: String, name: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Column(modifier = modifier
-        .padding(16.dp)
-        .clickable(onClick = onClick)) {
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .clickable(onClick = onClick)
+    ) {
         Text(
             value,
             style = MaterialTheme.typography.headlineMedium,

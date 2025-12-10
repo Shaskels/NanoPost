@@ -32,6 +32,8 @@ import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
 import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
+import com.example.nanopost.presentation.subscribersScreen.SubscribersScreen
+import com.example.nanopost.presentation.subscribersScreen.SubscribersViewModel
 
 val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
     error("No Snackbar Host State")
@@ -116,6 +118,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.Profile> { profile ->
                         val viewModel = hiltViewModel(
+                            key = profile.profileId,
                             creationCallback = { factory: ProfileViewModel.ProfileViewModelFactory ->
                                 factory.create(profile.profileId)
                             }
@@ -123,6 +126,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfileScreen(
                             profileViewModel = viewModel,
                             isUserProfile = profile.profileId == null,
+                            onSubscribersClick = {
+                                backStack.add(Route.Subscribers(profile.profileId))
+                            },
                             onPostClick = {
                                 backStack.add(Route.Post(it))
                             },
@@ -140,6 +146,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     entry<Route.Empty> {}
                     entry<Route.ProfilePosts> { profile ->
                         val viewModel = hiltViewModel(
+                            key = profile.profileId,
                             creationCallback = { factory: ProfilePostsViewModelFactory ->
                                 factory.create(profile.profileId)
                             }
@@ -164,6 +171,20 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                         PostScreen(
                             postViewModel = viewModel,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            }
+                        )
+                    }
+                    entry<Route.Subscribers> {
+                        val viewModel = hiltViewModel(
+                            key = it.profileId,
+                            creationCallback = { factory: SubscribersViewModel.SubscribersViewModelFactory ->
+                                factory.create(it.profileId)
+                            }
+                        )
+                        SubscribersScreen(
+                            subscribersViewModel = viewModel,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             }

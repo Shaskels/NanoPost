@@ -12,9 +12,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.nanopost.data.remote.ApiService
-import com.example.nanopost.data.remote.PostPagingSource
+import com.example.nanopost.data.remote.BasePagingSource
 import com.example.nanopost.data.remote.mappers.toDomainPost
 import com.example.nanopost.data.remote.model.ImageInfo
+import com.example.nanopost.data.remote.model.PostModel
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.repository.PostRepository
 import jakarta.inject.Inject
@@ -60,7 +61,15 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun getProfilePosts(profileId: String): Flow<PagingData<Post>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
-            pagingSourceFactory = { PostPagingSource(apiService, profileId) }
+            pagingSourceFactory = {
+                BasePagingSource(loadData = { loadSize, key ->
+                    apiService.getProfilePosts(
+                        profileId,
+                        loadSize,
+                        key
+                    )
+                })
+            }
         ).flow.map { pagingSource -> pagingSource.map { it.toDomainPost() } }
     }
 
