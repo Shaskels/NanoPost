@@ -1,4 +1,4 @@
-package com.example.nanopost.data.remote
+package com.example.nanopost.data.remote.network
 
 import com.example.nanopost.domain.exceptions.InternetProblemException
 import io.ktor.client.HttpClient
@@ -17,23 +17,23 @@ abstract class BaseService(
     protected val baseUrl: String,
 ) {
     protected suspend inline fun <reified T> get(endpoint: String, block: HttpRequestBuilder.() -> Unit = {}): T {
-        return request(endpoint, HttpMethod.Get, block)
+        return request(endpoint, HttpMethod.Companion.Get, block)
     }
 
     protected suspend inline fun <reified T> post(endpoint: String, block: HttpRequestBuilder.() -> Unit): T {
-        return request(endpoint, HttpMethod.Post, block)
+        return request(endpoint, HttpMethod.Companion.Post, block)
     }
 
     protected suspend inline fun <reified T> put(endpoint: String, block: HttpRequestBuilder.() -> Unit = {}): T {
-        return request(endpoint, HttpMethod.Put, block)
+        return request(endpoint, HttpMethod.Companion.Put, block)
     }
 
     protected suspend inline fun <reified T> patch(endpoint: String, block: HttpRequestBuilder.() -> Unit): T {
-        return request(endpoint, HttpMethod.Patch, block)
+        return request(endpoint, HttpMethod.Companion.Patch, block)
     }
 
     protected suspend inline fun <reified T> delete(endpoint: String, block: HttpRequestBuilder.() -> Unit = {}): T {
-        return request(endpoint, HttpMethod.Delete, block)
+        return request(endpoint, HttpMethod.Companion.Delete, block)
     }
 
     protected suspend inline fun <reified T> request(
@@ -61,4 +61,3 @@ abstract class BaseService(
             throw InternetProblemException("Internet problem")
         }
 }
-

@@ -1,6 +1,9 @@
 package com.example.nanopost.presentation.postScreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.nanopost.R
@@ -101,9 +105,14 @@ fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
     ) { paddingValues ->
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+            ),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .padding(horizontal = 16.dp)
         ) {
             item {

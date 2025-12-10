@@ -1,6 +1,6 @@
 package com.example.nanopost.data.remote.mappers
 
-import com.example.nanopost.data.remote.model.UsernameCheckResultModel
+import com.example.nanopost.data.remote.network.model.UsernameCheckResultModel
 import com.example.nanopost.domain.entity.UsernameCheckResult
 
 fun UsernameCheckResultModel.toDomainEntity() = when(this) {

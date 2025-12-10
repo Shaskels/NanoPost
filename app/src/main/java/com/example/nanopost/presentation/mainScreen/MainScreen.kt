@@ -103,6 +103,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.Feed> {
                         FeedScreen(
+                            onProfileClick = {
+                                backStack.add(Route.Profile(it))
+                            },
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
                             },
@@ -128,6 +131,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfileScreen(
                             profileViewModel = viewModel,
                             isUserProfile = profile.profileId == null,
+                            onBackClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            },
                             onImagesClick = {
                                 backStack.add(Route.Images(profile.profileId))
                             },
@@ -181,15 +187,18 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             }
                         )
                     }
-                    entry<Route.Subscribers> {
+                    entry<Route.Subscribers> { profile ->
                         val viewModel = hiltViewModel(
-                            key = it.profileId,
+                            key = profile.profileId,
                             creationCallback = { factory: SubscribersViewModel.SubscribersViewModelFactory ->
-                                factory.create(it.profileId)
+                                factory.create(profile.profileId)
                             }
                         )
                         SubscribersScreen(
                             subscribersViewModel = viewModel,
+                            onSubscriberClick = {
+                                backStack.add(Route.Profile(it))
+                            },
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             }
@@ -224,7 +233,7 @@ private fun NavBackStack<NavKey>.clearAndAdd(key: NavKey) {
 private fun getSelectedTab(navKey: NavKey?): NavigationOptions? {
     return when (navKey) {
         is Route.Feed -> NavigationOptions.FEED
-        is Route.Profile -> NavigationOptions.PROFILE
+        is Route.Profile if navKey.profileId == null -> NavigationOptions.PROFILE
         else -> null
     }
 }

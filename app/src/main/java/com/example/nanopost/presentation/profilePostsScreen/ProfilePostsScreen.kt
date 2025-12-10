@@ -1,6 +1,9 @@
 package com.example.nanopost.presentation.profilePostsScreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
@@ -10,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -46,7 +50,13 @@ fun ProfilePostsScreen(
     ) { paddingValues ->
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp)
+            contentPadding = PaddingValues(
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+            ),
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             items(
                 count = posts.itemCount,
@@ -57,6 +67,7 @@ fun ProfilePostsScreen(
                     PostListItem(
                         post = item,
                         onClick = onPostClick,
+                        onProfileClick = {},
                         onLikeClick = {
                             if (!isUserProfile){
                                 profilePostsViewModel.likePost(it)

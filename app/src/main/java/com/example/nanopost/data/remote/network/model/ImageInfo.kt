@@ -1,4 +1,4 @@
-package com.example.nanopost.data.remote.model
+package com.example.nanopost.data.remote.network.model
 
 data class ImageInfo (
     val name: String,

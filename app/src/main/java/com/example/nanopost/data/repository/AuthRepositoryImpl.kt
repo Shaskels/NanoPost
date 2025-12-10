@@ -1,8 +1,8 @@
 package com.example.nanopost.data.repository
 
-import com.example.nanopost.data.remote.AuthService
+import com.example.nanopost.data.remote.network.AuthService
 import com.example.nanopost.data.remote.mappers.toDomainEntity
-import com.example.nanopost.data.remote.model.RegisterRequest
+import com.example.nanopost.data.remote.network.model.RegisterRequest
 import com.example.nanopost.domain.entity.AuthResult
 import com.example.nanopost.domain.entity.UsernameCheckResult
 import com.example.nanopost.domain.repository.AuthRepository

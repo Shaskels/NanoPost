@@ -57,6 +57,7 @@ fun ImagesScreen(imagesViewModel: ImagesViewModel, onBackClick: () -> Unit) {
                         model = item.sizes.first().url,
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
+                        placeholder = painterResource(R.drawable.no_photo),
                         modifier = Modifier
                             .height(125.dp)
                     )

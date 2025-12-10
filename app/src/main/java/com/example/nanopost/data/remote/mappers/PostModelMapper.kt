@@ -1,10 +1,10 @@
 package com.example.nanopost.data.remote.mappers
 
-import com.example.nanopost.data.remote.model.ImageModel
-import com.example.nanopost.data.remote.model.ImageSizeModel
-import com.example.nanopost.data.remote.model.LikesModel
-import com.example.nanopost.data.remote.model.PostModel
-import com.example.nanopost.data.remote.model.ProfileCompactModel
+import com.example.nanopost.data.remote.network.model.ImageModel
+import com.example.nanopost.data.remote.network.model.ImageSizeModel
+import com.example.nanopost.data.remote.network.model.LikesModel
+import com.example.nanopost.data.remote.network.model.PostModel
+import com.example.nanopost.data.remote.network.model.ProfileCompactModel
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.ImageSize
 import com.example.nanopost.domain.entity.Likes

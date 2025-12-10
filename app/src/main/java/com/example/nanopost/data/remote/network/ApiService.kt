@@ -1,11 +1,12 @@
-package com.example.nanopost.data.remote
+package com.example.nanopost.data.remote.network
 
-import com.example.nanopost.data.remote.model.ImageInfo
-import com.example.nanopost.data.remote.model.ImageModel
-import com.example.nanopost.data.remote.model.PagedResponse
-import com.example.nanopost.data.remote.model.PostModel
-import com.example.nanopost.data.remote.model.ProfileCompactModel
-import com.example.nanopost.data.remote.model.ProfileModel
+import com.example.nanopost.data.remote.network.BaseService
+import com.example.nanopost.data.remote.network.model.ImageInfo
+import com.example.nanopost.data.remote.network.model.ImageModel
+import com.example.nanopost.data.remote.network.model.PagedResponse
+import com.example.nanopost.data.remote.network.model.PostModel
+import com.example.nanopost.data.remote.network.model.ProfileCompactModel
+import com.example.nanopost.data.remote.network.model.ProfileModel
 import com.example.nanopost.di.ApiClient
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -40,7 +41,7 @@ class ApiService @Inject constructor(
                         append(
                             key = "image$index",
                             filename = images.name,
-                            contentType = images.mimeType?.let { ContentType.parse(it) },
+                            contentType = images.mimeType?.let { ContentType.Companion.parse(it) },
                             bodyBuilder = { writeFully(images.bytes) }
                         )
                     }

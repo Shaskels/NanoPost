@@ -1,9 +1,12 @@
 package com.example.nanopost.presentation.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -63,21 +66,21 @@ fun LoadingState() {
 
 @Composable
 fun ErrorState(onRetryClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            stringResource(R.string.failed_to_load),
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleSmall
-        )
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                stringResource(R.string.failed_to_load),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelLarge
+            )
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        LightButton(
-            onClick = onRetryClick,
-            text = stringResource(R.string.retry),
-        )
+            LightButton(
+                onClick = onRetryClick,
+                text = stringResource(R.string.retry),
+            )
+        }
     }
 }
