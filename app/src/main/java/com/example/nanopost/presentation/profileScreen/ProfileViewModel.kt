@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.nanopost.domain.usecase.GetUserIdUseCase
-import com.example.nanopost.domain.usecase.GetUserImagesUseCase
+import com.example.nanopost.domain.usecase.GetUserImagesPreviewUseCase
 import com.example.nanopost.domain.usecase.GetUserPostsUseCase
 import com.example.nanopost.domain.usecase.GetUserProfileUseCase
 import dagger.assisted.Assisted
@@ -18,12 +18,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = ProfileViewModel.ProfileViewModelFactory::class)
 class ProfileViewModel @AssistedInject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
-    private val getUserImagesUseCase: GetUserImagesUseCase,
+    private val getUserImagesUseCase: GetUserImagesPreviewUseCase,
     private val getUserPostsUseCase: GetUserPostsUseCase,
     private val getUserIdUseCase: GetUserIdUseCase,
     @Assisted val profileId: String?,

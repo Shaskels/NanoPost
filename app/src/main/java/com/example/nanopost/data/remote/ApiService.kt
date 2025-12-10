@@ -1,6 +1,5 @@
 package com.example.nanopost.data.remote
 
-import androidx.compose.ui.graphics.vector.addPathNodes
 import com.example.nanopost.data.remote.model.ImageInfo
 import com.example.nanopost.data.remote.model.ImageModel
 import com.example.nanopost.data.remote.model.PagedResponse
@@ -8,7 +7,6 @@ import com.example.nanopost.data.remote.model.PostModel
 import com.example.nanopost.data.remote.model.ProfileCompactModel
 import com.example.nanopost.data.remote.model.ProfileModel
 import com.example.nanopost.di.ApiClient
-import com.example.nanopost.domain.entity.Post
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.append
@@ -17,7 +15,6 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.utils.io.core.writeFully
-import okhttp3.Response
 import javax.inject.Inject
 
 class ApiService @Inject constructor(
@@ -62,8 +59,15 @@ class ApiService @Inject constructor(
 
     suspend fun getProfile(profileId: String): ProfileModel = get("/v1/profile/$profileId")
 
-    suspend fun getProfileImages(profileId: String): PagedResponse<ImageModel> =
-        get("/v1/images/$profileId")
+    suspend fun getProfileImages(
+        profileId: String,
+        count: Int,
+        offset: String?
+    ): PagedResponse<ImageModel> =
+        get("/v1/images/$profileId") {
+            parameter("count", count)
+            offset?.let { parameter("offset", offset) }
+        }
 
     suspend fun getProfilePosts(
         profileId: String,
