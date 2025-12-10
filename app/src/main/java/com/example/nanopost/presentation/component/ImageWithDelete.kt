@@ -32,6 +32,7 @@ fun ImageWithDelete(uri: Uri, onDeleteClick: () -> Unit, onClick: () -> Unit, mo
             model = uri,
             contentDescription = null,
             contentScale = ContentScale.FillHeight,
+            placeholder = painterResource(R.drawable.no_photo),
             modifier = Modifier
                 .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp))

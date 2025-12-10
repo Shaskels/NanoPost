@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
@@ -37,6 +39,7 @@ fun PhotoPaged(image: Image?, page: Int, maxPage: Int) {
                 model = image.sizes.first().url,
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
+                placeholder = painterResource(R.drawable.no_photo),
                 modifier = Modifier.fillMaxWidth()
             )
 

@@ -42,7 +42,6 @@ fun FeedScreen(
     feedViewModel: FeedViewModel = hiltViewModel()
 ) {
     val screenState = feedViewModel.screenState.collectAsState()
-    val snackbarHost = LocalSnackbarHost.current
 
     Scaffold(
         topBar = {
