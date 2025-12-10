@@ -57,6 +57,7 @@ fun ProfilePostsScreen(
                     PostListItem(
                         post = item,
                         onClick = onPostClick,
+                        onProfileClick = {},
                         onLikeClick = {
                             if (!isUserProfile){
                                 profilePostsViewModel.likePost(it)

@@ -1,7 +1,11 @@
 package com.example.nanopost.presentation.subscribersScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,9 +16,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -26,7 +32,11 @@ import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.component.loadState
 
 @Composable
-fun SubscribersScreen(subscribersViewModel: SubscribersViewModel, onBackClick: () -> Unit) {
+fun SubscribersScreen(
+    subscribersViewModel: SubscribersViewModel,
+    onSubscriberClick: (String) -> Unit,
+    onBackClick: () -> Unit
+) {
     val subscribers = subscribersViewModel.subscribers.collectAsLazyPagingItems()
 
     Scaffold(
@@ -45,8 +55,13 @@ fun SubscribersScreen(subscribersViewModel: SubscribersViewModel, onBackClick: (
         }
     ) { paddingValues ->
         LazyColumn(
+            contentPadding = PaddingValues(
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+            ),
             modifier = Modifier
-                .padding(paddingValues)
                 .padding(horizontal = 16.dp)
         ) {
             items(
@@ -55,7 +70,7 @@ fun SubscribersScreen(subscribersViewModel: SubscribersViewModel, onBackClick: (
             ) { index ->
                 val item = subscribers[index]
                 if (item != null) {
-                    SubscriberItem(item)
+                    SubscriberItem(item, onSubscriberClick)
                 }
             }
 
@@ -65,10 +80,13 @@ fun SubscribersScreen(subscribersViewModel: SubscribersViewModel, onBackClick: (
 }
 
 @Composable
-fun SubscriberItem(profile: ProfileCompact) {
+fun SubscriberItem(profile: ProfileCompact, onSubscriberClick: (String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.padding(vertical = 8.dp)
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(vertical = 8.dp)
+            .clickable(onClick = { onSubscriberClick(profile.id) })
     ) {
         if (profile.avatarUrl != null) {
             PhotoAvatar(profile.avatarUrl, modifier = Modifier.size(40.dp))

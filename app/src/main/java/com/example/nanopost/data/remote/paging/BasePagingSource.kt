@@ -1,8 +1,8 @@
-package com.example.nanopost.data.remote
+package com.example.nanopost.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.nanopost.data.remote.model.PagedResponse
+import com.example.nanopost.data.remote.network.model.PagedResponse
 
 class BasePagingSource<T : Any>(private val loadData: suspend (Int, String?) -> PagedResponse<T>) :
     PagingSource<String, T>() {

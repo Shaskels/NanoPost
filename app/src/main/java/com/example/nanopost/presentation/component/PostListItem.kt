@@ -17,6 +17,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun PostListItem(
     post: Post,
     onClick: (String) -> Unit,
+    onProfileClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onUnlikeClick: (String) -> Unit
 ) {
@@ -33,7 +34,15 @@ fun PostListItem(
         })
     )
     {
-        UserPostInfo(post = post, modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp))
+        UserPostInfo(
+            post = post,
+            modifier = Modifier
+                .padding(vertical = 16.dp, horizontal = 16.dp)
+                .clickable(
+                    onClick = {
+                        onProfileClick(post.owner.id)
+                    }
+                ))
 
         CustomDivider()
 

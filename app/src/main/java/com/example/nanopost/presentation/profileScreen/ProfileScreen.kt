@@ -3,9 +3,12 @@ package com.example.nanopost.presentation.profileScreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -33,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -108,10 +112,12 @@ fun Screen(
 
     Scaffold(
         floatingActionButton = {
-            FloatingButton(
-                onClick = onNewPostAdd,
-                icon = painterResource(R.drawable.add),
-            )
+            if (userProfile) {
+                FloatingButton(
+                    onClick = onNewPostAdd,
+                    icon = painterResource(R.drawable.add),
+                )
+            }
         },
         topBar = {
             CustomTopBar(
@@ -147,7 +153,12 @@ fun Screen(
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = paddingValues,
+            contentPadding = PaddingValues(
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+            ),
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             item {
@@ -161,7 +172,7 @@ fun Screen(
             }
 
             item {
-                ImagesCard(images)
+                ImagesCard(images, onImagesClick)
             }
 
             items(
@@ -173,6 +184,7 @@ fun Screen(
                     PostListItem(
                         post = item,
                         onClick = onPostClick,
+                        onProfileClick = {},
                         onLikeClick = {},
                         onUnlikeClick = {},
                     )
@@ -218,7 +230,10 @@ fun UserInfoCard(
                 )
             }
 
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     profile.username,
                     style = MaterialTheme.typography.titleLarge,
@@ -321,7 +336,7 @@ fun InfoCard(value: String, name: String, onClick: () -> Unit, modifier: Modifie
 }
 
 @Composable
-fun ImagesCard(images: List<Image>) {
+fun ImagesCard(images: List<Image>, onImagesClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
@@ -329,7 +344,8 @@ fun ImagesCard(images: List<Image>) {
             contentColor = MaterialTheme.colorScheme.surfaceVariant,
             disabledContainerColor = LocalExtendedColors.current.surface1,
             disabledContentColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+        ),
+        modifier = Modifier.clickable(onClick = onImagesClick)
     ) {
 
         Row(

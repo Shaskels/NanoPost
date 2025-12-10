@@ -1,7 +1,7 @@
 package com.example.nanopost.di
 
 import com.example.nanopost.data.local.SettingsDataStore
-import com.example.nanopost.data.remote.AuthService
+import com.example.nanopost.data.remote.network.AuthService
 import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.domain.exceptions.InternetProblemException
 import com.example.nanopost.domain.exceptions.WrongPasswordException

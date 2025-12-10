@@ -37,6 +37,7 @@ import com.example.nanopost.presentation.mainScreen.showSnackbar
 
 @Composable
 fun FeedScreen(
+    onProfileClick: (String) -> Unit,
     onNewPostAdd: () -> Unit,
     onPostClick: (String) -> Unit,
     feedViewModel: FeedViewModel = hiltViewModel()
@@ -78,7 +79,13 @@ fun FeedScreen(
                 when (val currentState = screenState.value) {
                     FeedScreenState.Initial -> {}
                     FeedScreenState.Loading -> Loading()
-                    is FeedScreenState.Content -> Screen(currentState, feedViewModel, onPostClick)
+                    is FeedScreenState.Content -> Screen(
+                        currentState,
+                        feedViewModel,
+                        onProfileClick,
+                        onPostClick
+                    )
+
                     FeedScreenState.Error -> Error(snackbarHost, feedViewModel)
                 }
             }
@@ -106,6 +113,7 @@ fun Error(snackbarHost: CustomSnackbarHost, feedViewModel: FeedViewModel) {
 fun Screen(
     screenState: FeedScreenState.Content,
     feedViewModel: FeedViewModel,
+    onProfileClick: (String) -> Unit,
     onPostClick: (String) -> Unit
 ) {
     if (screenState.posts.isEmpty()) {
@@ -129,12 +137,13 @@ fun Screen(
     } else {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(vertical = 8.dp)
+            contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             items(items = screenState.posts, key = { it.id }) { item ->
                 PostListItem(
                     item,
                     onPostClick,
+                    onProfileClick,
                     feedViewModel::likePost,
                     feedViewModel::unlikePost
                 )

@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.nanopost.data.remote.ApiService
-import com.example.nanopost.data.remote.BasePagingSource
+import com.example.nanopost.data.remote.network.ApiService
+import com.example.nanopost.data.remote.paging.BasePagingSource
 import com.example.nanopost.data.remote.mappers.toDomainProfile
 import com.example.nanopost.data.remote.mappers.toDomainProfileCompact
 import com.example.nanopost.domain.entity.Profile

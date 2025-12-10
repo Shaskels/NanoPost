@@ -1,14 +1,12 @@
-package com.example.nanopost.data.remote
+package com.example.nanopost.data.remote.network
 
-import com.example.nanopost.data.remote.model.RegisterRequest
-import com.example.nanopost.data.remote.model.TokenResponse
-import com.example.nanopost.data.remote.model.UsernameCheckResponse
+import com.example.nanopost.data.remote.network.BaseService
+import com.example.nanopost.data.remote.network.model.RegisterRequest
+import com.example.nanopost.data.remote.network.model.TokenResponse
+import com.example.nanopost.data.remote.network.model.UsernameCheckResponse
 import com.example.nanopost.di.AuthClient
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType

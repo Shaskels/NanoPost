@@ -36,6 +36,9 @@ android {
     buildFeatures {
         compose = true
     }
+    kotlinOptions {
+        freeCompilerArgs = listOf("-XXLanguage:+WhenGuards")
+    }
 }
 
 kotlin {

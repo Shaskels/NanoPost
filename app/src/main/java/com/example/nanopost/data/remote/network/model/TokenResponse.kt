@@ -1,4 +1,4 @@
-package com.example.nanopost.data.remote.model
+package com.example.nanopost.data.remote.network.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
