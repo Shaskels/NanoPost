@@ -1,6 +1,5 @@
 package com.example.nanopost.presentation.profileScreen
 
-import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -14,10 +13,10 @@ import com.example.nanopost.domain.usecase.GetUserImagesPreviewUseCase
 import com.example.nanopost.domain.usecase.GetUserPostsUseCase
 import com.example.nanopost.domain.usecase.GetUserProfileUseCase
 import com.example.nanopost.domain.usecase.LikePostUseCase
+import com.example.nanopost.domain.usecase.SubscribeUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase
-import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
+import com.example.nanopost.domain.usecase.UnsubscribeUseCase
 import com.example.nanopost.presentation.extentions.toAppException
-import com.example.nanopost.presentation.feedScreen.LikeErrors
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -40,6 +39,8 @@ class ProfileViewModel @AssistedInject constructor(
     private val getUserIdUseCase: GetUserIdUseCase,
     private val likePostUseCase: LikePostUseCase,
     private val unlikePostUseCase: UnlikePostUseCase,
+    private val subscribeUseCase: SubscribeUseCase,
+    private val unsubscribeUseCase: UnsubscribeUseCase,
     @Assisted val profileId: String?,
 ) : ViewModel() {
 
@@ -67,7 +68,8 @@ class ProfileViewModel @AssistedInject constructor(
             val images = async { getUserImagesUseCase(profileId) }
             val res1 = profile.await()
             val res2 = images.await()
-            _screenState.value = ProfileScreenState.Content(res1, res2, emptyList(), emptyList())
+            _screenState.value =
+                ProfileScreenState.Content(res1, res2, emptyList(), emptyList(), null)
         }
     }
 
@@ -89,6 +91,24 @@ class ProfileViewModel @AssistedInject constructor(
                 val likedPosts = currentState.likedPosts - postId
                 val unlikedPosts = currentState.unlikedPosts + postId
                 currentState.copy(likedPosts = likedPosts, unlikedPosts = unlikedPosts)
+            }
+        }
+    }
+
+    fun subscribe(profileId: String) {
+        viewModelScope.launch {
+            subscribeUseCase(profileId)
+            _screenState.updateState<ProfileScreenState.Content> { currentState ->
+                currentState.copy(subscribed = true)
+            }
+        }
+    }
+
+    fun unsubscribe(profileId: String) {
+        viewModelScope.launch {
+            unsubscribeUseCase(profileId)
+            _screenState.updateState<ProfileScreenState.Content> { currentState ->
+                currentState.copy(subscribed = false)
             }
         }
     }

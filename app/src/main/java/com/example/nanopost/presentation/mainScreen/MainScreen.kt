@@ -105,9 +105,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.Feed> {
                         FeedScreen(
-                            onLogout = {
-                                mainViewModel.logout()
-                            },
+                            onLogout = mainViewModel::logout,
                             onProfileClick = {
                                 backStack.add(Route.Profile(it))
                             },
@@ -160,9 +158,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             onNewPostAdd = {
                                 backStack.add(Route.NewPost)
                             },
-                            onLogout = {
-                                mainViewModel.logout()
-                            }
+                            onLogout = mainViewModel::logout
+
                         )
                     }
                     entry<Route.Empty> {}
@@ -175,7 +172,6 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         )
                         ProfilePostsScreen(
                             profilePostsViewModel = viewModel,
-                            isUserProfile = profile.profileId == null,
                             onImageClick = {
                                 backStack.add(Route.Image(it))
                             },
@@ -184,7 +180,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             },
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
-                            }
+                            },
+                            onLogout = mainViewModel::logout
                         )
                     }
                     entry<Route.Post> {
@@ -237,8 +234,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     }
                     entry<Route.Image> {
                         val viewModel = hiltViewModel(
-                             key = it.imageId,
-                            creationCallback = {factory: ImageViewModel.ImageViewModelFactory ->
+                            key = it.imageId,
+                            creationCallback = { factory: ImageViewModel.ImageViewModelFactory ->
                                 factory.create(it.imageId)
                             }
                         )

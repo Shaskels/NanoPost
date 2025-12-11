@@ -41,4 +41,14 @@ class ProfileRepositoryImpl @Inject constructor(
             }
         ).flow.map { pagingSource -> pagingSource.map { it.toDomainProfileCompact() } }
     }
+
+    override suspend fun subscribeOn(profileId: String) {
+        apiService.subscribeOn(profileId)
+    }
+
+    override suspend fun unsubscribeOf(profileId: String) {
+        apiService.unsubscribeOf(profileId)
+    }
+
+
 }

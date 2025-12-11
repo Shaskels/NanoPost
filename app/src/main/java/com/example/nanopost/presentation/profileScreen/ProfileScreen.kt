@@ -222,6 +222,9 @@ fun Screen(
                         UserInfoCard(
                             profile = screenState.profile,
                             userProfile = userProfile,
+                            onSubscribeClick = profileViewModel::subscribe,
+                            onUnsubscribeClick = profileViewModel::unsubscribe,
+                            isSubscribed = screenState.subscribed,
                             onImagesClick = onImagesClick,
                             onPostsClick = onPostsClick,
                             onSubscribersClick = onSubscribersClick
@@ -262,6 +265,9 @@ fun Screen(
 fun UserInfoCard(
     profile: Profile,
     userProfile: Boolean,
+    onSubscribeClick: (String) -> Unit,
+    onUnsubscribeClick: (String) -> Unit,
+    isSubscribed: Boolean?,
     onImagesClick: () -> Unit,
     onPostsClick: () -> Unit,
     onSubscribersClick: () -> Unit,
@@ -348,9 +354,9 @@ fun UserInfoCard(
                     .fillMaxWidth()
             )
         } else {
-            if (profile.subscribed) {
+            if ((profile.subscribed && isSubscribed != false) || isSubscribed == true) {
                 OutlinedButton(
-                    onClick = {},
+                    onClick = { onUnsubscribeClick(profile.id) },
                     text = stringResource(R.string.unsubscribe),
                     modifier = Modifier
                         .padding(16.dp)
@@ -358,7 +364,7 @@ fun UserInfoCard(
                 )
             } else {
                 LightButton(
-                    onClick = {},
+                    onClick = { onSubscribeClick(profile.id) },
                     text = stringResource(R.string.subscribe),
                     modifier = Modifier
                         .padding(16.dp)
