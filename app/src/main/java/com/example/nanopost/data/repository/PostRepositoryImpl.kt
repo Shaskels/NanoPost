@@ -32,9 +32,18 @@ class PostRepositoryImpl @Inject constructor(
         private const val PAGE_SIZE = 30
     }
 
-    override suspend fun getFeed(): List<Post> {
-        val feed = apiService.getFeed()
-        return feed.items.map { it.toDomainPost() }
+    override fun getFeed(): Flow<PagingData<Post>> {
+        return Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = {
+                BasePagingSource(loadData = { loadSize, key ->
+                    apiService.getFeed(
+                        loadSize,
+                        key
+                    )
+                })
+            }
+        ).flow.map { pagingSource -> pagingSource.map { it.toDomainPost() } }
     }
 
     override suspend fun putPost(text: String?, images: List<Uri>): Post {

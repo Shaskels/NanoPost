@@ -2,55 +2,77 @@ package com.example.nanopost.presentation.feedScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanopost.domain.usecase.GetPostsUseCase
+import androidx.paging.cachedIn
+import com.example.nanopost.domain.exceptions.AppException
+import com.example.nanopost.domain.exceptions.AuthenticationException
+import com.example.nanopost.domain.exceptions.InternetProblemException
+import com.example.nanopost.domain.exceptions.UnknownException
+import com.example.nanopost.domain.exceptions.WrongPasswordException
+import com.example.nanopost.domain.usecase.GetFeedUseCase
 import com.example.nanopost.domain.usecase.LikePostUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase
-import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
-import com.example.nanopost.presentation.authScreen.toAppException
-import com.example.nanopost.presentation.authScreen.toUiError
+import com.example.nanopost.presentation.extentions.toAppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val getPostsUseCase: GetPostsUseCase,
+    getFeedUseCase: GetFeedUseCase,
     private val likePostUseCase: LikePostUseCase,
     private val unlikePostUseCase: UnlikePostUseCase,
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<FeedScreenState>(FeedScreenState.Initial)
+    private val _screenState = MutableStateFlow(
+        FeedScreenState(
+            emptyList(),
+            emptyList(),
+            LikeErrors.NoError
+        )
+    )
     val screenState: StateFlow<FeedScreenState> = _screenState.asStateFlow()
+    val posts = getFeedUseCase().cachedIn(viewModelScope)
 
     val coroutineExceptionHandler = CoroutineExceptionHandler { context, throwable ->
-        _screenState.value = FeedScreenState.Error
+        val appException = throwable.toAppException()
+        _screenState.update { currentState ->
+            currentState.copy(likeError = appException.toUiError())
+        }
     }
 
-    init {
-        getPosts()
-    }
-
-    fun getPosts() {
-        _screenState.value = FeedScreenState.Loading
+    fun likePost(postId: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
-            val res = getPostsUseCase()
-            _screenState.value = FeedScreenState.Content(res)
-        }
-    }
-
-    fun likePost(postId: String){
-        viewModelScope.launch {
             likePostUseCase(postId)
+            _screenState.update { currentState ->
+                val likedPosts = currentState.likedPosts + postId
+                val unlikedPosts = currentState.unlikedPosts - postId
+                currentState.copy(likedPosts = likedPosts, unlikedPosts = unlikedPosts)
+            }
         }
     }
 
-    fun unlikePost(postId: String){
-        viewModelScope.launch {
+    fun unlikePost(postId: String) {
+        viewModelScope.launch(coroutineExceptionHandler) {
             unlikePostUseCase(postId)
+            _screenState.update { currentState ->
+                val likedPosts = currentState.likedPosts - postId
+                val unlikedPosts = currentState.unlikedPosts + postId
+                currentState.copy(likedPosts = likedPosts, unlikedPosts = unlikedPosts)
+            }
+        }
+    }
+
+    fun AppException.toUiError(): LikeErrors {
+        return when (this) {
+            is InternetProblemException -> LikeErrors.NetworkError
+            is UnknownException -> LikeErrors.UnknownError
+            is AuthenticationException -> LikeErrors.AuthenticationError
+            is WrongPasswordException -> LikeErrors.UnknownError
         }
     }
 }

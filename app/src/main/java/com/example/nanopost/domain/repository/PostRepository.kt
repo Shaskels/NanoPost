@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
 
-    suspend fun getFeed(): List<Post>
+    fun getFeed(): Flow<PagingData<Post>>
 
     suspend fun putPost(text: String?, images: List<Uri>): Post
 
