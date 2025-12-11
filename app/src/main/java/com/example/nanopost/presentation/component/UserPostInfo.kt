@@ -10,34 +10,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.nanopost.domain.entity.Post
+import com.example.nanopost.domain.entity.ProfileCompact
 import com.example.nanopost.util.dateTimeFormatter
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @Composable
-fun UserPostInfo(post: Post, modifier: Modifier = Modifier) {
+fun UserPostInfo(owner: ProfileCompact, dateCreated: Long, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
 
-        if (post.owner.avatarUrl == null) {
-            NoPhotoAvatar(post.owner.username, modifier = Modifier.size(40.dp))
+        if (owner.avatarUrl == null) {
+            NoPhotoAvatar(owner.username, modifier = Modifier.size(40.dp))
         } else {
-            PhotoAvatar(post.owner.avatarUrl, modifier = Modifier.size(40.dp))
+            PhotoAvatar(owner.avatarUrl, modifier = Modifier.size(40.dp))
         }
 
         Column(
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
-                post.owner.username,
+                owner.username,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
             Text(
-                dateTimeFormatter(post.dataCreated),
+                dateTimeFormatter(dateCreated),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )

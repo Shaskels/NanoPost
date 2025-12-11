@@ -14,18 +14,20 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopBar(
-    title: String,
     modifier: Modifier = Modifier,
+    title: String? = null,
     navigationIcon: @Composable (() -> Unit) = {},
     actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            if (title!=null) {
+                Text(
+                    title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         },
         modifier = modifier,
         navigationIcon = navigationIcon,

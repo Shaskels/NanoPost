@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,6 +16,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.example.nanopost.R
@@ -38,6 +42,7 @@ fun SubscribersScreen(
     onBackClick: () -> Unit
 ) {
     val subscribers = subscribersViewModel.subscribers.collectAsLazyPagingItems()
+    val pullToRefreshState = rememberPullToRefreshState()
 
     Scaffold(
         topBar = {
@@ -54,27 +59,35 @@ fun SubscribersScreen(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            contentPadding = PaddingValues(
-                bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                top = paddingValues.calculateTopPadding() + 16.dp,
-                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-            ),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-        ) {
-            items(
-                count = subscribers.itemCount,
-                key = subscribers.itemKey { it.id }
-            ) { index ->
-                val item = subscribers[index]
-                if (item != null) {
-                    SubscriberItem(item, onSubscriberClick)
-                }
-            }
 
-            loadState(subscribers.loadState.append, onRetryClick = subscribers::retry)
+        PullToRefreshBox(
+            isRefreshing = subscribers.loadState.refresh is LoadState.Loading,
+            onRefresh = subscribers::refresh,
+            state = pullToRefreshState,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            LazyColumn(
+                contentPadding = PaddingValues(
+                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                    top = paddingValues.calculateTopPadding() + 16.dp,
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp).fillMaxSize()
+            ) {
+                items(
+                    count = subscribers.itemCount,
+                    key = subscribers.itemKey { it.id }
+                ) { index ->
+                    val item = subscribers[index]
+                    if (item != null) {
+                        SubscriberItem(item, onSubscriberClick)
+                    }
+                }
+
+                loadState(subscribers.loadState.append, onRetryClick = subscribers::retry)
+            }
         }
     }
 }

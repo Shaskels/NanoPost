@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.1"
+agp = "8.13.2"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 ktor = "3.3.3"
@@ -21,6 +21,7 @@ work_version = "2.11.0"
 kotlinDatetime = "0.7.1"
 paging_version = "3.3.6"
 paging_compose = "3.4.0-alpha04"
+zoomable = "2.9.0"
 
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.1"
@@ -63,6 +64,7 @@ androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt_compiler"}
 androidx-paging-runtime = {module = "androidx.paging:paging-runtime", version.ref = "paging_version"}
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging_compose"}
+net-engawapg-zoomable = { module = "net.engawapg.lib:zoomable", version.ref="zoomable" }
 
 
 [plugins]

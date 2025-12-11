@@ -60,6 +60,10 @@ class ApiService @Inject constructor(
 
     suspend fun getProfile(profileId: String): ProfileModel = get("/v1/profile/$profileId")
 
+    suspend fun deleteImage(imageId: String) = delete<Unit>("/v1/image/$imageId")
+
+    suspend fun getImage(imageId: String) = get<ImageModel>("/v1/image/$imageId")
+
     suspend fun getProfileImages(
         profileId: String,
         count: Int,

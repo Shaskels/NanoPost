@@ -17,6 +17,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun PostListItem(
     post: Post,
     onClick: (String) -> Unit,
+    onImageClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
     onUnlikeClick: (String) -> Unit
@@ -35,7 +36,8 @@ fun PostListItem(
     )
     {
         UserPostInfo(
-            post = post,
+            owner = post.owner,
+            dateCreated = post.dateCreated,
             modifier = Modifier
                 .padding(vertical = 16.dp, horizontal = 16.dp)
                 .clickable(
@@ -58,6 +60,7 @@ fun PostListItem(
         if (post.images.isNotEmpty()) {
             PhotoPager(
                 post.images,
+                onImageClick,
                 modifier = Modifier.padding(top = 16.dp)
             )
         }

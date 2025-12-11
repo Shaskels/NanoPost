@@ -9,4 +9,8 @@ interface ImagesRepository {
     suspend fun getProfileImagesPreview(profileId: String): List<Image>
 
     fun getProfileImages(profileId: String): Flow<PagingData<Image>>
+
+    suspend fun deleteImage(imageId: String)
+
+    suspend fun getImage(imageId: String): Image
 }

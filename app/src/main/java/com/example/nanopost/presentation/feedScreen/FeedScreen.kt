@@ -36,6 +36,7 @@ import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 
 @Composable
 fun FeedScreen(
+    onImageClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
     onNewPostAdd: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -70,6 +71,7 @@ fun FeedScreen(
                 is FeedScreenState.Content -> Screen(
                     currentState,
                     feedViewModel,
+                    onImageClick,
                     onProfileClick,
                     onPostClick
                 )
@@ -89,6 +91,7 @@ fun Error(feedViewModel: FeedViewModel) {
 fun Screen(
     screenState: FeedScreenState.Content,
     feedViewModel: FeedViewModel,
+    onImageClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
     onPostClick: (String) -> Unit
 ) {
@@ -125,6 +128,7 @@ fun Screen(
                     PostListItem(
                         item,
                         onPostClick,
+                        onImageClick,
                         onProfileClick,
                         feedViewModel::likePost,
                         feedViewModel::unlikePost

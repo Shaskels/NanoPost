@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -65,6 +69,7 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
     onBackClick: () -> Unit,
+    onImageClick: (String) -> Unit,
     onImagesClick: () -> Unit,
     onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -82,6 +87,7 @@ fun ProfileScreen(
             images = currentState.images,
             posts = posts,
             onBackClick = onBackClick,
+            onImageClick = onImageClick,
             userProfile = isUserProfile,
             onImagesClick = onImagesClick,
             onSubscribersClick = onSubscribersClick,
@@ -104,6 +110,7 @@ fun Screen(
     posts: LazyPagingItems<Post>,
     userProfile: Boolean,
     onBackClick: () -> Unit,
+    onImageClick: (String) -> Unit,
     onImagesClick: () -> Unit,
     onSubscribersClick: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -112,6 +119,7 @@ fun Screen(
     onLogout: () -> Unit
 ) {
     var isAlertDialogShow by remember { mutableStateOf(false) }
+    val pullToRefreshState = rememberPullToRefreshState()
 
     Scaffold(
         floatingActionButton = {
@@ -164,47 +172,55 @@ fun Screen(
             )
         }
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(
-                bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                top = paddingValues.calculateTopPadding() + 16.dp,
-                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp)
+        PullToRefreshBox(
+            isRefreshing = posts.loadState.refresh is LoadState.Loading,
+            onRefresh = posts::refresh,
+            state = pullToRefreshState,
+            modifier = Modifier.fillMaxSize()
         ) {
-            item {
-                UserInfoCard(
-                    profile = profile,
-                    userProfile = userProfile,
-                    onImagesClick = onImagesClick,
-                    onPostsClick = onPostsClick,
-                    onSubscribersClick = onSubscribersClick
-                )
-            }
-
-            item {
-                ImagesCard(images, onImagesClick)
-            }
-
-            items(
-                count = posts.itemCount,
-                key = posts.itemKey { it.id }
-            ) { index ->
-                val item = posts[index]
-                if (item != null) {
-                    PostListItem(
-                        post = item,
-                        onClick = onPostClick,
-                        onProfileClick = {},
-                        onLikeClick = {},
-                        onUnlikeClick = {},
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(
+                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                    top = paddingValues.calculateTopPadding() + 16.dp,
+                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+                ),
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize()
+            ) {
+                item {
+                    UserInfoCard(
+                        profile = profile,
+                        userProfile = userProfile,
+                        onImagesClick = onImagesClick,
+                        onPostsClick = onPostsClick,
+                        onSubscribersClick = onSubscribersClick
                     )
                 }
-            }
 
-            loadState(posts.loadState.append, onRetryClick = posts::retry)
+                item {
+                    ImagesCard(images, onImagesClick)
+                }
+
+                items(
+                    count = posts.itemCount,
+                    key = posts.itemKey { it.id }
+                ) { index ->
+                    val item = posts[index]
+                    if (item != null) {
+                        PostListItem(
+                            post = item,
+                            onClick = onPostClick,
+                            onImageClick = onImageClick,
+                            onProfileClick = {},
+                            onLikeClick = {},
+                            onUnlikeClick = {},
+                        )
+                    }
+                }
+
+                loadState(posts.loadState.append, onRetryClick = posts::retry)
+            }
         }
     }
 }
