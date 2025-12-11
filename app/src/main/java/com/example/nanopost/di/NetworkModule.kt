@@ -69,7 +69,7 @@ class NetworkModule {
                 settingsDataStore.setUserId(token.userId)
                 BearerTokens(token.token, "")
             } else {
-                throw AuthenticationException()
+                throw AuthenticationException("Authentication failed")
             }
         },
     )
@@ -118,6 +118,19 @@ class NetworkModule {
 
         install(ContentNegotiation) {
             json(json)
+        }
+
+        HttpResponseValidator {
+            validateResponse { response ->
+                val statusCode = response.status.value
+
+                when (statusCode){
+                    HttpStatusCode.BadRequest.value -> throw WrongPasswordException("Wrong password")
+                    HttpStatusCode.InternalServerError.value -> throw InternetProblemException("Internet problem")
+                    HttpStatusCode.GatewayTimeout.value -> throw InternetProblemException("Internet problem")
+                    HttpStatusCode.Unauthorized.value -> throw AuthenticationException("Authentication failed")
+                }
+            }
         }
     }
 

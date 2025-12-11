@@ -3,6 +3,7 @@ package com.example.nanopost.data.remote.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.nanopost.data.remote.network.model.PagedResponse
+import com.example.nanopost.domain.exceptions.AuthenticationException
 
 class BasePagingSource<T : Any>(private val loadData: suspend (Int, String?) -> PagedResponse<T>) :
     PagingSource<String, T>() {
@@ -22,6 +23,8 @@ class BasePagingSource<T : Any>(private val loadData: suspend (Int, String?) -> 
                 prevKey = null,
                 nextKey = if (res.count != params.loadSize) null else res.offset
             )
+        } catch (e: AuthenticationException) {
+            LoadResult.Error(e)
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

@@ -20,7 +20,9 @@ fun PostListItem(
     onImageClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
     onLikeClick: (String) -> Unit,
-    onUnlikeClick: (String) -> Unit
+    onUnlikeClick: (String) -> Unit,
+    isLiked: Boolean = false,
+    isUnliked: Boolean = false,
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -67,13 +69,14 @@ fun PostListItem(
 
         LikeButton(
             onClick = {
-                if (post.likes.liked)
+                if (post.likes.liked || isLiked)
                     onUnlikeClick(post.id)
                 else
                     onLikeClick(post.id)
             },
-            likesCount = post.likes.likesCount,
-            liked = post.likes.liked,
+            likesCount = if (isLiked) post.likes.likesCount + 1
+            else post.likes.likesCount,
+            liked = isLiked || (post.likes.liked  && !isUnliked),
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
         )
 

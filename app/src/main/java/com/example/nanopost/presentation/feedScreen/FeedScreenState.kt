@@ -1,10 +1,14 @@
 package com.example.nanopost.presentation.feedScreen
 
-import com.example.nanopost.domain.entity.Post
+data class FeedScreenState(
+    val likedPosts: List<String>,
+    val unlikedPosts: List<String>,
+    val likeError: LikeErrors
+)
 
-sealed interface FeedScreenState {
-    data object Initial: FeedScreenState
-    data object Loading: FeedScreenState
-    data object Error: FeedScreenState
-    data class Content(val posts: List<Post>): FeedScreenState
+sealed interface LikeErrors {
+    data object NoError: LikeErrors
+    data object NetworkError: LikeErrors
+    data object AuthenticationError: LikeErrors
+    data object UnknownError: LikeErrors
 }

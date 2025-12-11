@@ -23,9 +23,9 @@ class ApiService @Inject constructor(
     @ApiClient httpClient: HttpClient,
 ) : BaseService(httpClient, baseUrl) {
 
-    suspend fun getFeed(): PagedResponse<PostModel> = get("/v1/feed") {
-        parameter("count", 30)
-        parameter("offset", 0)
+    suspend fun getFeed(count: Int, offset: String?): PagedResponse<PostModel> = get("/v1/feed") {
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
         parameter("mode", "full")
     }
 
