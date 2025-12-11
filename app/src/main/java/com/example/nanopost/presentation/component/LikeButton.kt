@@ -35,9 +35,18 @@ fun LikeButton(
         modifier = modifier,
     ) {
         if (liked)
-            Icon(painterResource(R.drawable.favorite_filled_yes), contentDescription = null, modifier = Modifier.size(18.dp))
+            Icon(
+                painterResource(R.drawable.favorite_filled_yes),
+                tint = MaterialTheme.colorScheme.error,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
         else
-            Icon(painterResource(R.drawable.favorite_filled_no), contentDescription = null, modifier = Modifier.size(18.dp))
+            Icon(
+                painterResource(R.drawable.favorite_filled_no),
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
         Text(
             likesCount.toString(),
             style = MaterialTheme.typography.labelLarge,

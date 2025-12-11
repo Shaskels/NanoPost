@@ -10,4 +10,8 @@ interface ProfileRepository {
     suspend fun getProfile(profileId: String): Profile
 
     fun getProfileSubscribers(profileId: String): Flow<PagingData<ProfileCompact>>
+
+    suspend fun subscribeOn(profileId: String)
+
+    suspend fun unsubscribeOf(profileId: String)
 }

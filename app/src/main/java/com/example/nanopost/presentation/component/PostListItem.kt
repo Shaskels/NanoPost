@@ -69,7 +69,7 @@ fun PostListItem(
 
         LikeButton(
             onClick = {
-                if (post.likes.liked || isLiked)
+                if ((post.likes.liked  && !isUnliked) || isLiked)
                     onUnlikeClick(post.id)
                 else
                     onLikeClick(post.id)

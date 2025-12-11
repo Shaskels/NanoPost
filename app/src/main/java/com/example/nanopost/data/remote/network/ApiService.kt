@@ -64,6 +64,10 @@ class ApiService @Inject constructor(
 
     suspend fun getImage(imageId: String) = get<ImageModel>("/v1/image/$imageId")
 
+    suspend fun subscribeOn(profileId: String) = put<Unit>("/v1/profile/$profileId/subscribe")
+
+    suspend fun unsubscribeOf(profileId: String) = delete<Unit>("/v1/profile/$profileId/subscribe")
+
     suspend fun getProfileImages(
         profileId: String,
         count: Int,
