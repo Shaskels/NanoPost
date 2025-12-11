@@ -50,10 +50,12 @@ import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.entity.Profile
+import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.component.CustomDialog
 import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.DarkButton
+import com.example.nanopost.presentation.component.ErrorState
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.component.Loading
@@ -62,6 +64,7 @@ import com.example.nanopost.presentation.component.OutlinedButton
 import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.component.loadState
+import com.example.nanopost.presentation.extentions.toAppException
 import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
@@ -77,53 +80,13 @@ fun ProfileScreen(
     onNewPostAdd: () -> Unit,
     onLogout: () -> Unit
 ) {
-
     val screenState = profileViewModel.screenState.collectAsState()
     val posts = profileViewModel.posts.collectAsLazyPagingItems()
-
-    when (val currentState = screenState.value) {
-        is ProfileScreenState.Content -> Screen(
-            profile = currentState.profile,
-            images = currentState.images,
-            posts = posts,
-            onBackClick = onBackClick,
-            onImageClick = onImageClick,
-            userProfile = isUserProfile,
-            onImagesClick = onImagesClick,
-            onSubscribersClick = onSubscribersClick,
-            onPostClick = onPostClick,
-            onPostsClick = onPostsClick,
-            onNewPostAdd = onNewPostAdd,
-            onLogout = onLogout
-        )
-
-        ProfileScreenState.Error -> {}
-        ProfileScreenState.Loading -> Loading()
-    }
-
-}
-
-@Composable
-fun Screen(
-    profile: Profile,
-    images: List<Image>,
-    posts: LazyPagingItems<Post>,
-    userProfile: Boolean,
-    onBackClick: () -> Unit,
-    onImageClick: (String) -> Unit,
-    onImagesClick: () -> Unit,
-    onSubscribersClick: () -> Unit,
-    onPostClick: (String) -> Unit,
-    onPostsClick: () -> Unit,
-    onNewPostAdd: () -> Unit,
-    onLogout: () -> Unit
-) {
     var isAlertDialogShow by remember { mutableStateOf(false) }
-    val pullToRefreshState = rememberPullToRefreshState()
 
     Scaffold(
         floatingActionButton = {
-            if (userProfile) {
+            if (isUserProfile) {
                 FloatingButton(
                     onClick = onNewPostAdd,
                     icon = painterResource(R.drawable.add),
@@ -134,7 +97,7 @@ fun Screen(
             CustomTopBar(
                 title = stringResource(R.string.profile),
                 navigationIcon = {
-                    if (!userProfile) {
+                    if (!isUserProfile) {
                         IconButton(onClick = onBackClick) {
                             Icon(
                                 painter = painterResource(R.drawable.arrow_back),
@@ -144,7 +107,7 @@ fun Screen(
                     }
                 },
                 actions = {
-                    if (userProfile) {
+                    if (isUserProfile) {
                         IconButton(onClick = {
                             isAlertDialogShow = true
                         }) {
@@ -172,54 +135,124 @@ fun Screen(
             )
         }
 
-        PullToRefreshBox(
-            isRefreshing = posts.loadState.refresh is LoadState.Loading,
-            onRefresh = posts::refresh,
-            state = pullToRefreshState,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(
-                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                    top = paddingValues.calculateTopPadding() + 16.dp,
-                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-                ),
-                modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize()
-            ) {
-                item {
-                    UserInfoCard(
-                        profile = profile,
-                        userProfile = userProfile,
-                        onImagesClick = onImagesClick,
-                        onPostsClick = onPostsClick,
-                        onSubscribersClick = onSubscribersClick
-                    )
-                }
+        when (val currentState = screenState.value) {
+            is ProfileScreenState.Content -> Screen(
+                screenState = currentState,
+                posts = posts,
+                profileViewModel = profileViewModel,
+                onImageClick = onImageClick,
+                userProfile = isUserProfile,
+                paddingValues = paddingValues,
+                onImagesClick = onImagesClick,
+                onSubscribersClick = onSubscribersClick,
+                onPostClick = onPostClick,
+                onPostsClick = onPostsClick,
+                onLogout = onLogout
+            )
 
-                item {
-                    ImagesCard(images, onImagesClick)
-                }
+            is ProfileScreenState.Error -> Error(
+                currentState.errorType,
+                profileViewModel::getUserProfile,
+                onLogout
+            )
 
-                items(
-                    count = posts.itemCount,
-                    key = posts.itemKey { it.id }
-                ) { index ->
-                    val item = posts[index]
-                    if (item != null) {
-                        PostListItem(
-                            post = item,
-                            onClick = onPostClick,
-                            onImageClick = onImageClick,
-                            onProfileClick = {},
-                            onLikeClick = {},
-                            onUnlikeClick = {},
+            ProfileScreenState.Loading -> Loading()
+        }
+    }
+}
+
+@Composable
+fun Error(errorType: ErrorType, onRetryClick: () -> Unit, onLogout: () -> Unit) {
+    when (errorType) {
+        ErrorType.AuthenticationError -> {
+            onLogout()
+        }
+
+        else -> ErrorState(onRetryClick)
+    }
+}
+
+@Composable
+fun Screen(
+    screenState: ProfileScreenState.Content,
+    posts: LazyPagingItems<Post>,
+    userProfile: Boolean,
+    paddingValues: PaddingValues,
+    profileViewModel: ProfileViewModel,
+    onLogout: () -> Unit,
+    onImageClick: (String) -> Unit,
+    onImagesClick: () -> Unit,
+    onSubscribersClick: () -> Unit,
+    onPostClick: (String) -> Unit,
+    onPostsClick: () -> Unit,
+) {
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    PullToRefreshBox(
+        isRefreshing = posts.loadState.refresh is LoadState.Loading,
+        onRefresh = posts::refresh,
+        state = pullToRefreshState,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        when (val state = posts.loadState.refresh) {
+            is LoadState.Error -> {
+                if (state.error.toAppException() is AuthenticationException) {
+                    onLogout()
+                } else {
+                    ErrorState(posts::retry)
+                }
+            }
+
+            LoadState.Loading -> Loading()
+
+            else -> {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(
+                        bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                        top = paddingValues.calculateTopPadding() + 16.dp,
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+                    ),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxSize()
+                ) {
+                    item {
+                        UserInfoCard(
+                            profile = screenState.profile,
+                            userProfile = userProfile,
+                            onImagesClick = onImagesClick,
+                            onPostsClick = onPostsClick,
+                            onSubscribersClick = onSubscribersClick
                         )
                     }
-                }
 
-                loadState(posts.loadState.append, onRetryClick = posts::retry)
+                    item {
+                        ImagesCard(screenState.images, onImagesClick)
+                    }
+
+                    items(
+                        count = posts.itemCount,
+                        key = posts.itemKey { it.id }
+                    ) { index ->
+                        val item = posts[index]
+                        if (item != null) {
+                            PostListItem(
+                                post = item,
+                                onClick = onPostClick,
+                                onImageClick = onImageClick,
+                                onProfileClick = {},
+                                onLikeClick = profileViewModel::likePost,
+                                onUnlikeClick = profileViewModel::unlikePost,
+                                isLiked = screenState.likedPosts.find { it == item.id } != null,
+                                isUnliked = screenState.unlikedPosts.find { it == item.id } != null,
+                            )
+                        }
+                    }
+
+                    loadState(posts.loadState.append, onRetryClick = posts::retry)
+                }
             }
         }
     }

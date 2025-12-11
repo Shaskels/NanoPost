@@ -36,6 +36,7 @@ import androidx.paging.compose.itemKey
 import com.example.nanopost.R
 import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.component.CustomTopBar
+import com.example.nanopost.presentation.component.ErrorState
 import com.example.nanopost.presentation.component.FloatingButton
 import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.component.Loading
@@ -80,20 +81,6 @@ fun FeedScreen(
 
     }
 
-    LaunchedEffect(feed.loadState.append) {
-        if (feed.loadState.append is LoadState.Error
-            && (feed.loadState.append as LoadState.Error).error.toAppException() is AuthenticationException
-        ) {
-            onLogout()
-            snackbarHost.showSnackbar(
-                message = "You're logged out",
-                actionLabel = null,
-                onActionPerformed = {},
-                onDismiss = {}
-            )
-        }
-    }
-
     Scaffold(
         topBar = {
             CustomTopBar(
@@ -114,7 +101,15 @@ fun FeedScreen(
             state = pullToRefreshState,
             modifier = Modifier.fillMaxSize()
         ) {
-            when (feed.loadState.refresh) {
+            when (val state = feed.loadState.refresh) {
+                is LoadState.Error -> {
+                    if (state.error.toAppException() is AuthenticationException) {
+                        onLogout()
+                    } else {
+                        ErrorState(feed::retry)
+                    }
+                }
+
                 is LoadState.Loading -> {
                     Loading()
                 }
@@ -147,12 +142,8 @@ fun FeedScreen(
                                     onClick = onPostClick,
                                     onImageClick = onImageClick,
                                     onProfileClick = onProfileClick,
-                                    onLikeClick = {
-                                        feedViewModel.likePost(it)
-                                    },
-                                    onUnlikeClick = {
-                                        feedViewModel.unlikePost(it)
-                                    },
+                                    onLikeClick = feedViewModel::likePost,
+                                    onUnlikeClick = feedViewModel::unlikePost,
                                     isLiked = screenState.likedPosts.find { it == item.id } != null,
                                     isUnliked = screenState.unlikedPosts.find { it == item.id } != null,
                                 )
