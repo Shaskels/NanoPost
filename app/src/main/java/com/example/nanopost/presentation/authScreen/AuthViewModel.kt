@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.entity.PasswordCheckResult
 import com.example.nanopost.domain.entity.UsernameCheckResult
 import com.example.nanopost.domain.exceptions.AppException
+import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.domain.exceptions.InternetProblemException
 import com.example.nanopost.domain.exceptions.UnknownException
 import com.example.nanopost.domain.exceptions.WrongPasswordException
@@ -15,6 +16,7 @@ import com.example.nanopost.domain.validation.PasswordValidator
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
 import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
+import com.example.nanopost.presentation.extentions.toAppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -105,20 +107,14 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    private fun AppException.toUiError(): ErrorState {
+        return when (this) {
+            is InternetProblemException -> ErrorState.InternetError
+            is WrongPasswordException -> ErrorState.WrongPasswordError
+            is UnknownException -> ErrorState.UnknownError
+            is AuthenticationException -> ErrorState.UnknownError
+        }
+    }
+
 }
 
-fun AppException.toUiError(): ErrorState {
-    return when (this) {
-        is InternetProblemException -> ErrorState.InternetError
-        is WrongPasswordException -> ErrorState.WrongPasswordError
-        is UnknownException -> ErrorState.UnknownError
-    }
-}
-
-fun Throwable.toAppException(): AppException {
-    return when(this) {
-        is WrongPasswordException -> WrongPasswordException(this.message)
-        is InternetProblemException -> InternetProblemException(this.message)
-        else -> UnknownException(this.message ?: "")
-    }
-}

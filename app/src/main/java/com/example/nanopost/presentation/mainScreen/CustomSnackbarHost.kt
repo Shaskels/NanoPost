@@ -10,7 +10,7 @@ data class CustomSnackbarHost(val scope: CoroutineScope, val snackbarHostState: 
 
 fun CustomSnackbarHost.showSnackbar(
     message: String,
-    actionLabel: String,
+    actionLabel: String?,
     onActionPerformed: () -> Unit,
     onDismiss: () -> Unit
 ) {
