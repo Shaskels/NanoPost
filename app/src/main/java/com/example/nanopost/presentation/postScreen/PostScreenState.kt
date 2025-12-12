@@ -1,10 +1,11 @@
 package com.example.nanopost.presentation.postScreen
 
 import com.example.nanopost.domain.entity.Post
+import com.example.nanopost.domain.exceptions.AppException
 
 sealed interface PostScreenState {
 
     data object Loading: PostScreenState
-    data object Error: PostScreenState
+    data class Error(val e: AppException): PostScreenState
     data class Content(val post: Post): PostScreenState
 }

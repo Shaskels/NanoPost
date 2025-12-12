@@ -30,16 +30,21 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.ProfileCompact
+import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.component.CustomTopBar
+import com.example.nanopost.presentation.component.ErrorState
+import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.NoPhotoAvatar
 import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.component.loadState
+import com.example.nanopost.presentation.extentions.toAppException
 
 @Composable
 fun SubscribersScreen(
     subscribersViewModel: SubscribersViewModel,
     onSubscriberClick: (String) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     val subscribers = subscribersViewModel.subscribers.collectAsLazyPagingItems()
     val pullToRefreshState = rememberPullToRefreshState()
@@ -66,27 +71,43 @@ fun SubscribersScreen(
             state = pullToRefreshState,
             modifier = Modifier.fillMaxSize()
         ) {
-            LazyColumn(
-                contentPadding = PaddingValues(
-                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                    top = paddingValues.calculateTopPadding() + 16.dp,
-                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp).fillMaxSize()
-            ) {
-                items(
-                    count = subscribers.itemCount,
-                    key = subscribers.itemKey { it.id }
-                ) { index ->
-                    val item = subscribers[index]
-                    if (item != null) {
-                        SubscriberItem(item, onSubscriberClick)
+
+            when (val state = subscribers.loadState.refresh) {
+                is LoadState.Error -> {
+                    if (state.error.toAppException() is AuthenticationException) {
+                        onLogout()
+                    } else {
+                        ErrorState(subscribers::retry)
                     }
                 }
 
-                loadState(subscribers.loadState.append, onRetryClick = subscribers::retry)
+                is LoadState.Loading -> {
+                    Loading()
+                }
+
+                else -> LazyColumn(
+                    contentPadding = PaddingValues(
+                        bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                        top = paddingValues.calculateTopPadding() + 16.dp,
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+                    ),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxSize()
+                ) {
+                    items(
+                        count = subscribers.itemCount,
+                        key = subscribers.itemKey { it.id }
+                    ) { index ->
+                        val item = subscribers[index]
+                        if (item != null) {
+                            SubscriberItem(item, onSubscriberClick)
+                        }
+                    }
+
+                    loadState(subscribers.loadState.append, onRetryClick = subscribers::retry)
+                }
             }
         }
     }

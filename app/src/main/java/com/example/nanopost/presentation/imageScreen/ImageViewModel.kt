@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.DeleteImageUseCase
 import com.example.nanopost.domain.usecase.GetImageUseCase
 import com.example.nanopost.domain.usecase.GetUserIdUseCase
+import com.example.nanopost.presentation.extentions.toAppException
+import com.example.nanopost.presentation.profileScreen.ProfileScreenState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,12 +28,17 @@ class ImageViewModel @AssistedInject constructor(
     private val _screenState = MutableStateFlow<ImageScreenState>(ImageScreenState.Loading)
     val screenState: StateFlow<ImageScreenState> = _screenState.asStateFlow()
 
+    val coroutineExceptionHandler = CoroutineExceptionHandler { context, throwable ->
+        val appException = throwable.toAppException()
+        _screenState.value = ImageScreenState.Error(appException)
+    }
+
     init {
         getImage()
     }
 
     fun getImage() {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             _screenState.value = ImageScreenState.Loading
             val res = getImageUseCase(imageId)
             _screenState.value = ImageScreenState.Content(res)
@@ -38,7 +46,7 @@ class ImageViewModel @AssistedInject constructor(
     }
 
     fun deleteImage() {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             deleteImageUseCase(imageId)
         }
     }

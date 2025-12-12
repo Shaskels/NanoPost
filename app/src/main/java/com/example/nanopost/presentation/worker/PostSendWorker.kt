@@ -70,7 +70,11 @@ class PostSendWorker @AssistedInject constructor(
             currentCoroutineContext().ensureActive()
         }
 
-        uploadPostUseCase(text, imageUris)
+        try {
+            uploadPostUseCase(text, imageUris)
+        } catch (e: Exception) {
+            return Result.failure()
+        }
         return Result.success()
     }
 
