@@ -59,4 +59,20 @@ class ProfileRepositoryImpl @Inject constructor(
         apiService.patchProfile(displayName, bio, avatar)
     }
 
+    override fun searchProfile(query: String): Flow<PagingData<ProfileCompact>> {
+        return Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = {
+                BasePagingSource(loadData = { loadSize, key ->
+                    apiService.searchProfile(
+                        query,
+                        loadSize,
+                        key
+                    )
+                })
+            }
+        ).flow.map { pagingSource -> pagingSource.map { it.toDomainProfileCompact() } }
+    }
+
+
 }

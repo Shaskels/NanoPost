@@ -17,4 +17,6 @@ interface ProfileRepository {
     suspend fun unsubscribeOf(profileId: String)
 
     suspend fun updateProfile(displayName: String?, bio: String?, avatar: ImageInfo?)
+
+    fun searchProfile(query: String): Flow<PagingData<ProfileCompact>>
 }

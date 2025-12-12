@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
@@ -44,11 +46,13 @@ import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
 
 @Composable
 fun FeedScreen(
+    onSearchClick: () -> Unit,
     onImageClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
     onNewPostAdd: () -> Unit,
@@ -78,11 +82,7 @@ fun FeedScreen(
                     LikeErrors.NetworkError -> "Something wrong with your network"
                     LikeErrors.NoError -> ""
                     LikeErrors.UnknownError -> "Failed to like"
-                },
-                actionLabel = null,
-                onActionPerformed = {},
-                onDismiss = {}
-            )
+                }, actionLabel = null, onActionPerformed = {}, onDismiss = {})
         }
 
     }
@@ -90,8 +90,11 @@ fun FeedScreen(
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = stringResource(R.string.feed),
-            )
+                title = stringResource(R.string.feed), actions = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(painterResource(R.drawable.search), contentDescription = null)
+                    }
+                })
         },
         floatingActionButton = {
             FloatingButton(
@@ -139,9 +142,7 @@ fun FeedScreen(
                             .fillMaxSize()
                     ) {
                         items(
-                            count = feed.itemCount,
-                            key = feed.itemKey { it.id }
-                        ) { index ->
+                            count = feed.itemCount, key = feed.itemKey { it.id }) { index ->
                             val item = feed[index]
                             if (item != null) {
                                 PostListItem(
@@ -166,6 +167,11 @@ fun FeedScreen(
 }
 
 @Composable
+fun Feed() {
+
+}
+
+@Composable
 fun EmptyScreen(
     onRefresh: () -> Unit
 ) {
@@ -182,8 +188,7 @@ fun EmptyScreen(
             )
 
             LightButton(
-                onClick = onRefresh,
-                text = stringResource(R.string.update)
+                onClick = onRefresh, text = stringResource(R.string.update)
             )
         }
     }

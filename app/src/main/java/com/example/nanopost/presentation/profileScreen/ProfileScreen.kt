@@ -487,6 +487,7 @@ fun Image(url: String) {
         model = url,
         contentDescription = null,
         contentScale = ContentScale.FillBounds,
+        placeholder = painterResource(R.drawable.no_photo),
         modifier = Modifier
             .size(80.dp)
             .clip(RoundedCornerShape(8.dp))
