@@ -206,48 +206,52 @@ fun Screen(
         state = pullToRefreshState,
         modifier = Modifier.fillMaxSize()
     ) {
-        when (val state = posts.loadState.refresh) {
-            is LoadState.Error -> {
-                if (state.error.toAppException() is AuthenticationException) {
-                    onLogout()
-                } else {
-                    ErrorState(posts::retry)
-                }
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+            ),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxSize()
+        ) {
+            item {
+                UserInfoCard(
+                    profile = screenState.profile,
+                    userProfile = userProfile,
+                    onSubscribeClick = profileViewModel::subscribe,
+                    onUnsubscribeClick = profileViewModel::unsubscribe,
+                    isSubscribed = screenState.subscribed,
+                    onImagesClick = onImagesClick,
+                    onPostsClick = onPostsClick,
+                    onSubscribersClick = onSubscribersClick,
+                    onProfileEditClick = onProfileEditClick,
+                )
             }
 
-            LoadState.Loading -> Loading()
+            item {
+                ImagesCard(screenState.images, onImagesClick)
+            }
 
-            else -> {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(
-                        bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                        top = paddingValues.calculateTopPadding() + 16.dp,
-                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxSize()
-                ) {
-                    item {
-                        UserInfoCard(
-                            profile = screenState.profile,
-                            userProfile = userProfile,
-                            onSubscribeClick = profileViewModel::subscribe,
-                            onUnsubscribeClick = profileViewModel::unsubscribe,
-                            isSubscribed = screenState.subscribed,
-                            onImagesClick = onImagesClick,
-                            onPostsClick = onPostsClick,
-                            onSubscribersClick = onSubscribersClick,
-                            onProfileEditClick = onProfileEditClick,
-                        )
+            when (val state = posts.loadState.refresh) {
+                is LoadState.Error -> {
+                    if (state.error.toAppException() is AuthenticationException) {
+                        onLogout()
+                    } else {
+                        item {
+                            ErrorState(posts::retry)
+                        }
                     }
+                }
 
-                    item {
-                        ImagesCard(screenState.images, onImagesClick)
-                    }
+                LoadState.Loading -> item {
+                    Loading()
+                }
 
+                else -> {
                     items(
                         count = posts.itemCount,
                         key = posts.itemKey { it.id }
