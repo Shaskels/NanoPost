@@ -87,6 +87,16 @@ class ApiService @Inject constructor(
             )
         }
 
+    suspend fun searchProfile(
+        query: String,
+        count: Int,
+        offset: String?
+    ): PagedResponse<ProfileCompactModel> = get("/v1/profile/search") {
+        parameter("query", query)
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+    }
+
     suspend fun getProfileImages(
         profileId: String,
         count: Int,

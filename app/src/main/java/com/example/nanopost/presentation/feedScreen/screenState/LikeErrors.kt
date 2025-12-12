@@ -1,10 +1,4 @@
-package com.example.nanopost.presentation.feedScreen
-
-data class FeedScreenState(
-    val likedPosts: List<String>,
-    val unlikedPosts: List<String>,
-    val likeError: LikeErrors
-)
+package com.example.nanopost.presentation.feedScreen.screenState
 
 sealed interface LikeErrors {
     data object NoError: LikeErrors

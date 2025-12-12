@@ -37,6 +37,7 @@ import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
 import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
+import com.example.nanopost.presentation.searchProfilesScreen.SearchProfilesScreen
 import com.example.nanopost.presentation.subscribersScreen.SubscribersScreen
 import com.example.nanopost.presentation.subscribersScreen.SubscribersViewModel
 
@@ -118,6 +119,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             },
                             onPostClick = {
                                 backStack.add(Route.Post(it))
+                            },
+                            onSearchClick = {
+                                backStack.add(Route.SearchProfile)
                             }
                         )
                     }
@@ -259,6 +263,14 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             onCloseClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             }
+                        )
+                    }
+                    entry<Route.SearchProfile> {
+                        SearchProfilesScreen(
+                            onProfileClick = {
+                                backStack.add(Route.Profile(it))
+                            },
+                            onLogout = mainViewModel::logout
                         )
                     }
                 },
