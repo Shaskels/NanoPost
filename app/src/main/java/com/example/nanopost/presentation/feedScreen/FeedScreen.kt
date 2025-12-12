@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
@@ -59,6 +60,7 @@ fun FeedScreen(
     val snackbarHost = LocalSnackbarHost.current
     val feed = feedViewModel.posts.collectAsLazyPagingItems()
     val pullToRefreshState = rememberPullToRefreshState()
+    val listState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
         feed.refresh()
@@ -125,6 +127,7 @@ fun FeedScreen(
                 else -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
+                        state = listState,
                         contentPadding = PaddingValues(
                             bottom = paddingValues.calculateBottomPadding() + 16.dp,
                             top = paddingValues.calculateTopPadding() + 16.dp,

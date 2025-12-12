@@ -1,6 +1,7 @@
 package com.example.nanopost.domain.repository
 
 import androidx.paging.PagingData
+import com.example.nanopost.data.remote.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Profile
 import com.example.nanopost.domain.entity.ProfileCompact
 import kotlinx.coroutines.flow.Flow
@@ -14,4 +15,6 @@ interface ProfileRepository {
     suspend fun subscribeOn(profileId: String)
 
     suspend fun unsubscribeOf(profileId: String)
+
+    suspend fun updateProfile(displayName: String?, bio: String?, avatar: ImageInfo?)
 }

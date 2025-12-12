@@ -35,4 +35,7 @@ sealed interface Route: NavKey {
 
     @Serializable
     data class Image(val imageId: String): Route
+
+    @Serializable
+    data object EditProfile: Route
 }

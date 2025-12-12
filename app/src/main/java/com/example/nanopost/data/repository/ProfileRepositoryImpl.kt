@@ -8,6 +8,7 @@ import com.example.nanopost.data.remote.network.ApiService
 import com.example.nanopost.data.remote.paging.BasePagingSource
 import com.example.nanopost.data.remote.mappers.toDomainProfile
 import com.example.nanopost.data.remote.mappers.toDomainProfileCompact
+import com.example.nanopost.data.remote.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Profile
 import com.example.nanopost.domain.entity.ProfileCompact
 import com.example.nanopost.domain.repository.ProfileRepository
@@ -50,5 +51,12 @@ class ProfileRepositoryImpl @Inject constructor(
         apiService.unsubscribeOf(profileId)
     }
 
+    override suspend fun updateProfile(
+        displayName: String?,
+        bio: String?,
+        avatar: ImageInfo?
+    ) {
+        apiService.patchProfile(displayName, bio, avatar)
+    }
 
 }
