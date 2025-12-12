@@ -2,6 +2,7 @@ package com.example.nanopost.domain.repository
 
 import android.net.Uri
 import androidx.paging.PagingData
+import com.example.nanopost.data.remote.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Post
 import kotlinx.coroutines.flow.Flow
 
@@ -9,7 +10,7 @@ interface PostRepository {
 
     fun getFeed(): Flow<PagingData<Post>>
 
-    suspend fun putPost(text: String?, images: List<Uri>): Post
+    suspend fun putPost(text: String?, images: List<ImageInfo>): Post
 
     suspend fun getPost(postId: String): Post
 

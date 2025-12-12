@@ -57,10 +57,6 @@ class ProfileViewModel @AssistedInject constructor(
         _screenState.value = ProfileScreenState.Error(appException.toUiError())
     }
 
-    init {
-        getUserProfile()
-    }
-
     fun getUserProfile() {
         _screenState.value = ProfileScreenState.Loading
         viewModelScope.launch(coroutineExceptionHandler) {

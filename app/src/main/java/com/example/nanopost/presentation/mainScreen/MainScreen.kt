@@ -24,6 +24,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.component.CustomSnackbar
+import com.example.nanopost.presentation.editProfileScreen.EditProfileScreen
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.imageScreen.ImageScreen
 import com.example.nanopost.presentation.imageScreen.ImageViewModel
@@ -137,6 +138,9 @@ fun MainScreen(mainViewModel: MainViewModel) {
                         ProfileScreen(
                             profileViewModel = viewModel,
                             isUserProfile = profile.profileId == null,
+                            onProfileEditClick = {
+                                backStack.add(Route.EditProfile)
+                            },
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
                             },
@@ -248,6 +252,13 @@ fun MainScreen(mainViewModel: MainViewModel) {
                                 backStack.removeAt(backStack.lastIndex)
                             },
                             onLogout = mainViewModel::logout
+                        )
+                    }
+                    entry<Route.EditProfile> {
+                        EditProfileScreen(
+                            onCloseClick = {
+                                backStack.removeAt(backStack.lastIndex)
+                            }
                         )
                     }
                 },

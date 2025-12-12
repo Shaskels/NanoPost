@@ -28,7 +28,7 @@ fun NoPhotoAvatar(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            name.firstOrNull().toString(),
+            (name.firstOrNull() ?: "" ).toString(),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(5.dp).align(Alignment.CenterHorizontally)
         )

@@ -1,7 +1,9 @@
 package com.example.nanopost.presentation.profileScreen
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -27,6 +29,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -72,6 +75,7 @@ import com.example.nanopost.presentation.theme.LocalExtendedColors
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     isUserProfile: Boolean,
+    onProfileEditClick: () -> Unit,
     onBackClick: () -> Unit,
     onImageClick: (String) -> Unit,
     onImagesClick: () -> Unit,
@@ -86,6 +90,7 @@ fun ProfileScreen(
     var isAlertDialogShow by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        profileViewModel.getUserProfile()
         posts.refresh()
     }
 
@@ -145,6 +150,7 @@ fun ProfileScreen(
                 screenState = currentState,
                 posts = posts,
                 profileViewModel = profileViewModel,
+                onProfileEditClick = onProfileEditClick,
                 onImageClick = onImageClick,
                 userProfile = isUserProfile,
                 paddingValues = paddingValues,
@@ -184,6 +190,7 @@ fun Screen(
     userProfile: Boolean,
     paddingValues: PaddingValues,
     profileViewModel: ProfileViewModel,
+    onProfileEditClick: () -> Unit,
     onLogout: () -> Unit,
     onImageClick: (String) -> Unit,
     onImagesClick: () -> Unit,
@@ -199,47 +206,52 @@ fun Screen(
         state = pullToRefreshState,
         modifier = Modifier.fillMaxSize()
     ) {
-        when (val state = posts.loadState.refresh) {
-            is LoadState.Error -> {
-                if (state.error.toAppException() is AuthenticationException) {
-                    onLogout()
-                } else {
-                    ErrorState(posts::retry)
-                }
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
+            ),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxSize()
+        ) {
+            item {
+                UserInfoCard(
+                    profile = screenState.profile,
+                    userProfile = userProfile,
+                    onSubscribeClick = profileViewModel::subscribe,
+                    onUnsubscribeClick = profileViewModel::unsubscribe,
+                    isSubscribed = screenState.subscribed,
+                    onImagesClick = onImagesClick,
+                    onPostsClick = onPostsClick,
+                    onSubscribersClick = onSubscribersClick,
+                    onProfileEditClick = onProfileEditClick,
+                )
             }
 
-            LoadState.Loading -> Loading()
+            item {
+                ImagesCard(screenState.images, onImagesClick)
+            }
 
-            else -> {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(
-                        bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                        top = paddingValues.calculateTopPadding() + 16.dp,
-                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxSize()
-                ) {
-                    item {
-                        UserInfoCard(
-                            profile = screenState.profile,
-                            userProfile = userProfile,
-                            onSubscribeClick = profileViewModel::subscribe,
-                            onUnsubscribeClick = profileViewModel::unsubscribe,
-                            isSubscribed = screenState.subscribed,
-                            onImagesClick = onImagesClick,
-                            onPostsClick = onPostsClick,
-                            onSubscribersClick = onSubscribersClick
-                        )
+            when (val state = posts.loadState.refresh) {
+                is LoadState.Error -> {
+                    if (state.error.toAppException() is AuthenticationException) {
+                        onLogout()
+                    } else {
+                        item {
+                            ErrorState(posts::retry)
+                        }
                     }
+                }
 
-                    item {
-                        ImagesCard(screenState.images, onImagesClick)
-                    }
+                LoadState.Loading -> item {
+                    Loading()
+                }
 
+                else -> {
                     items(
                         count = posts.itemCount,
                         key = posts.itemKey { it.id }
@@ -270,6 +282,7 @@ fun Screen(
 fun UserInfoCard(
     profile: Profile,
     userProfile: Boolean,
+    onProfileEditClick: () -> Unit,
     onSubscribeClick: (String) -> Unit,
     onUnsubscribeClick: (String) -> Unit,
     isSubscribed: Boolean?,
@@ -289,7 +302,7 @@ fun UserInfoCard(
         Row(modifier = Modifier.padding(16.dp)) {
             if (profile.avatarSmall == null) {
                 NoPhotoAvatar(
-                    profile.username,
+                    profile.displayName ?: profile.username,
                     modifier = Modifier
                         .padding(end = 16.dp)
                         .size(64.dp)
@@ -308,7 +321,7 @@ fun UserInfoCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    profile.username,
+                    profile.displayName ?: profile.username,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -352,7 +365,7 @@ fun UserInfoCard(
 
         if (userProfile) {
             DarkButton(
-                onClick = {},
+                onClick = onProfileEditClick,
                 text = stringResource(R.string.edit),
                 modifier = Modifier
                     .padding(16.dp)
@@ -383,28 +396,42 @@ fun UserInfoCard(
 
 @Composable
 fun InfoCard(value: String, name: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .padding(16.dp)
-            .clickable(onClick = onClick)
-    ) {
-        Text(
-            value,
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.align(
-                Alignment.CenterHorizontally
-            )
-        )
+    val interactionSource = remember { MutableInteractionSource() }
 
-        Text(
-            name,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.align(
-                Alignment.CenterHorizontally
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.clickable(
+            onClick = onClick,
+            interactionSource = interactionSource,
+            indication = ripple(
+                bounded = true,
+                radius = 250.dp,
+                color = LocalExtendedColors.current.surface1
             )
         )
+    ) {
+        Column(
+            modifier = modifier
+                .padding(16.dp)
+        ) {
+            Text(
+                value,
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.align(
+                    Alignment.CenterHorizontally
+                )
+            )
+
+            Text(
+                name,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.align(
+                    Alignment.CenterHorizontally
+                )
+            )
+        }
     }
 }
 

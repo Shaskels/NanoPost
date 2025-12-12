@@ -1,6 +1,5 @@
 package com.example.nanopost.data.remote.network
 
-import com.example.nanopost.data.remote.network.BaseService
 import com.example.nanopost.data.remote.network.model.ImageInfo
 import com.example.nanopost.data.remote.network.model.ImageModel
 import com.example.nanopost.data.remote.network.model.PagedResponse
@@ -67,6 +66,26 @@ class ApiService @Inject constructor(
     suspend fun subscribeOn(profileId: String) = put<Unit>("/v1/profile/$profileId/subscribe")
 
     suspend fun unsubscribeOf(profileId: String) = delete<Unit>("/v1/profile/$profileId/subscribe")
+
+    suspend fun patchProfile(displayName: String?, bio: String?, avatar: ImageInfo?) =
+        patch<Unit>("/v1/profile") {
+            setBody(
+                MultiPartFormDataContent(
+                    parts = formData {
+                        displayName?.let { append("displayName", displayName) }
+                        bio?.let { append("bio", bio) }
+                        avatar?.let {
+                            append(
+                                key = "avatar",
+                                filename = avatar.name,
+                                contentType = avatar.mimeType?.let { ContentType.Companion.parse(it) },
+                                bodyBuilder = { writeFully(avatar.bytes) }
+                            )
+                        }
+                    }
+                )
+            )
+        }
 
     suspend fun getProfileImages(
         profileId: String,

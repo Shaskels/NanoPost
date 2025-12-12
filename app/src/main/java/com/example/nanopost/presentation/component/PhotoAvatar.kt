@@ -16,7 +16,7 @@ fun PhotoAvatar(url: String, modifier: Modifier = Modifier) {
     AsyncImage(
         model = url,
         contentDescription = null,
-        contentScale = ContentScale.FillHeight,
+        contentScale = ContentScale.FillBounds,
         placeholder = painterResource(R.drawable.no_photo),
         modifier = modifier
             .size(40.dp)

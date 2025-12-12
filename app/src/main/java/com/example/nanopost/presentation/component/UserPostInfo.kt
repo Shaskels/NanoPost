@@ -23,7 +23,7 @@ fun UserPostInfo(owner: ProfileCompact, dateCreated: Long, modifier: Modifier = 
     ) {
 
         if (owner.avatarUrl == null) {
-            NoPhotoAvatar(owner.username, modifier = Modifier.size(40.dp))
+            NoPhotoAvatar(owner.displayName ?: owner.username, modifier = Modifier.size(40.dp))
         } else {
             PhotoAvatar(owner.avatarUrl, modifier = Modifier.size(40.dp))
         }
@@ -32,7 +32,7 @@ fun UserPostInfo(owner: ProfileCompact, dateCreated: Long, modifier: Modifier = 
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
-                owner.username,
+                owner.displayName ?: owner.username,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )

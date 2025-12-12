@@ -1,6 +1,8 @@
 package com.example.nanopost.domain.repository
 
+import android.net.Uri
 import androidx.paging.PagingData
+import com.example.nanopost.data.remote.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
 import kotlinx.coroutines.flow.Flow
@@ -13,4 +15,6 @@ interface ImagesRepository {
     suspend fun deleteImage(imageId: String)
 
     suspend fun getImage(imageId: String): Image
+
+    fun uriToImageInfo(uri: Uri): ImageInfo
 }

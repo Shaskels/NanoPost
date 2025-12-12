@@ -41,4 +41,6 @@
     <string name="wrong_password">Wrong password</string>
     <string name="post_is_uploading">Post is uploading…</string>
     <string name="empty_feed">There is nothing there</string>
+    <string name="display_name">Display name</string>
+    <string name="bio">Bio</string>
 </resources>
