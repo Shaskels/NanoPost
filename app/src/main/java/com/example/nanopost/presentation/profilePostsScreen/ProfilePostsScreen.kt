@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -32,7 +33,6 @@ import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
-import com.example.nanopost.presentation.feedScreen.EmptyScreen
 
 @Composable
 fun ProfilePostsScreen(
@@ -44,6 +44,7 @@ fun ProfilePostsScreen(
 ) {
     val likesState by profilePostsViewModel.screenState.collectAsState()
     val posts = profilePostsViewModel.posts.collectAsLazyPagingItems()
+    val listState = rememberLazyListState()
     val pullToRefreshState = rememberPullToRefreshState()
 
     LaunchedEffect(Unit) {
@@ -90,6 +91,7 @@ fun ProfilePostsScreen(
                 else -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
+                        state = listState,
                         contentPadding = PaddingValues(
                             bottom = paddingValues.calculateBottomPadding() + 16.dp,
                             top = paddingValues.calculateTopPadding() + 16.dp,
