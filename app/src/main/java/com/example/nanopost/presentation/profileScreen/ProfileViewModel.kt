@@ -74,7 +74,7 @@ class ProfileViewModel @AssistedInject constructor(
     }
 
     fun likePost(postId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             likePostUseCase(postId)
             _screenState.updateState<ProfileScreenState.Content> { currentState ->
                 val likedPosts = currentState.likedPosts + postId
@@ -85,7 +85,7 @@ class ProfileViewModel @AssistedInject constructor(
     }
 
     fun unlikePost(postId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             unlikePostUseCase(postId)
             _screenState.updateState<ProfileScreenState.Content> { currentState ->
                 val likedPosts = currentState.likedPosts - postId
@@ -96,7 +96,7 @@ class ProfileViewModel @AssistedInject constructor(
     }
 
     fun subscribe(profileId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             subscribeUseCase(profileId)
             _screenState.updateState<ProfileScreenState.Content> { currentState ->
                 currentState.copy(subscribed = true)

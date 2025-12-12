@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -83,6 +84,10 @@ fun ProfileScreen(
     val screenState = profileViewModel.screenState.collectAsState()
     val posts = profileViewModel.posts.collectAsLazyPagingItems()
     var isAlertDialogShow by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        posts.refresh()
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -329,7 +334,7 @@ fun UserInfoCard(
             )
 
             InfoCard(
-                value = profile.subscribersCount.toString(),
+                value = if (isSubscribed == true) "${profile.subscribersCount + 1}" else profile.subscribersCount.toString(),
                 name = stringResource(R.string.subscribers),
                 onClick = onSubscribersClick,
                 modifier = Modifier.weight(1f)

@@ -27,26 +27,40 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
+import com.example.nanopost.domain.exceptions.AppException
+import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.component.CustomTopBar
 import com.example.nanopost.presentation.component.ErrorState
 import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.UserPostInfo
+import com.example.nanopost.presentation.extentions.toAppException
+import com.example.nanopost.presentation.postScreen.Error
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun ImageScreen(
     imageViewModel: ImageViewModel,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     val screenState = imageViewModel.screenState.collectAsState()
 
     when (val currentState = screenState.value) {
         is ImageScreenState.Content -> Screen(currentState.image, imageViewModel, onBackClick)
-        ImageScreenState.Error -> ErrorState(onRetryClick = imageViewModel::getImage)
+        is ImageScreenState.Error -> Error(currentState.e, imageViewModel::getImage, onLogout)
         ImageScreenState.Loading -> Loading()
     }
 
+}
+
+@Composable
+fun Error(ex: AppException, onRetryClick: () -> Unit, onLogout: () -> Unit) {
+    if (ex is AuthenticationException) {
+        onLogout()
+    } else {
+        ErrorState(onRetryClick)
+    }
 }
 
 @Composable

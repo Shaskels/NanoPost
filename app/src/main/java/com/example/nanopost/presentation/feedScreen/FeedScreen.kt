@@ -60,6 +60,10 @@ fun FeedScreen(
     val feed = feedViewModel.posts.collectAsLazyPagingItems()
     val pullToRefreshState = rememberPullToRefreshState()
 
+    LaunchedEffect(Unit) {
+        feed.refresh()
+    }
+
     LaunchedEffect(screenState.likeError) {
         if (screenState.likeError != LikeErrors.NoError) {
             snackbarHost.showSnackbar(

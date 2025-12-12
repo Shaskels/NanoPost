@@ -195,7 +195,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             postViewModel = viewModel,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
-                            }
+                            },
+                            onLogout = mainViewModel::logout
                         )
                     }
                     entry<Route.Subscribers> { profile ->
@@ -212,7 +213,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             },
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
-                            }
+                            },
+                            onLogout = mainViewModel::logout
                         )
                     }
                     entry<Route.Images> { profile ->
@@ -229,7 +231,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             },
                             onImageClick = {
                                 backStack.add(Route.Image(it))
-                            }
+                            },
+                            onLogout = mainViewModel::logout
                         )
                     }
                     entry<Route.Image> {
@@ -243,7 +246,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
                             viewModel,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
-                            }
+                            },
+                            onLogout = mainViewModel::logout
                         )
                     }
                 },

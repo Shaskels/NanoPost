@@ -33,19 +33,36 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Post
+import com.example.nanopost.domain.exceptions.AppException
+import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.component.CustomDivider
 import com.example.nanopost.presentation.component.CustomTopBar
+import com.example.nanopost.presentation.component.ErrorState
 import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.UserPostInfo
+import com.example.nanopost.presentation.extentions.toAppException
 
 @Composable
-fun PostScreen(postViewModel: PostViewModel, onBackClick: () -> Unit) {
+fun PostScreen(postViewModel: PostViewModel, onBackClick: () -> Unit, onLogout: () -> Unit) {
     val screenState = postViewModel.screenState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        postViewModel.getPost()
+    }
 
     when (val currentState = screenState.value) {
         is PostScreenState.Content -> Screen(currentState.post, postViewModel, onBackClick)
-        PostScreenState.Error -> {}
+        is PostScreenState.Error -> Error(currentState.e, postViewModel::getPost, onLogout)
         PostScreenState.Loading -> Loading()
+    }
+}
+
+@Composable
+fun Error(ex: AppException, onRetryClick: () -> Unit, onLogout: () -> Unit) {
+    if (ex is AuthenticationException) {
+        onLogout()
+    } else {
+        ErrorState(onRetryClick)
     }
 }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkManager
+import androidx.work.await
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.NewPostScreenState
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
 import com.example.nanopost.presentation.worker.PostSendWorker
@@ -62,20 +63,27 @@ class NewPostViewModel @Inject constructor(
 
     fun onUploadPost() {
         if (isNetworkAvailable(context)) {
-            _screenState.update { currentState ->
-                currentState.copy(
-                    uploadState = UploadState.Success
+            if (_screenState.value.postText.isNotEmpty() || _screenState.value.postImages.isNotEmpty()) {
+                _screenState.update { currentState ->
+                    currentState.copy(
+                        uploadState = UploadState.Success
+                    )
+                }
+                workManager.enqueue(
+                    PostSendWorker.newRequest(
+                        _screenState.value.postText,
+                        _screenState.value.postImages
+                    )
                 )
             }
-            workManager.enqueue(
-                PostSendWorker.newRequest(
-                    _screenState.value.postText,
-                    _screenState.value.postImages
-                )
-            )
+            else {
+                _screenState.update { currentState ->
+                    currentState.copy(uploadState = UploadState.DataFailure)
+                }
+            }
         } else {
             _screenState.update { currentState ->
-                currentState.copy(uploadState = UploadState.Failure)
+                currentState.copy(uploadState = UploadState.InternetFailure)
             }
         }
     }

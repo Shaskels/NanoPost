@@ -61,7 +61,7 @@ fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hilt
     LaunchedEffect(screenState.uploadState) {
         when (screenState.uploadState) {
             UploadState.None -> {}
-            UploadState.Failure -> {
+            UploadState.InternetFailure -> {
                 snackbarHost.showSnackbar(
                     message = "There’s something wrong with your network connection",
                     actionLabel = "Retry",
@@ -72,6 +72,15 @@ fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hilt
 
             UploadState.Success -> {
                 onClose()
+            }
+
+            UploadState.DataFailure -> {
+                snackbarHost.showSnackbar(
+                    message = "Not enouth data",
+                    actionLabel = null,
+                    onActionPerformed = {},
+                    onDismiss = {}
+                )
             }
         }
     }
