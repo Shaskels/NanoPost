@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
@@ -6,10 +6,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun FloatingButton(onClick: () -> Unit, icon: Painter, modifier: Modifier = Modifier) {

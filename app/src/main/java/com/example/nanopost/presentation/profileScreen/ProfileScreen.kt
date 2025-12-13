@@ -50,26 +50,27 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
+import com.example.component.uicomponents.CustomDialog
+import com.example.component.uicomponents.CustomDivider
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.DarkButton
+import com.example.component.uicomponents.ErrorState
+import com.example.component.uicomponents.FloatingButton
+import com.example.component.uicomponents.LightButton
+import com.example.component.uicomponents.Loading
+import com.example.component.uicomponents.NoPhotoAvatar
+import com.example.component.uicomponents.OutlinedButton
+import com.example.component.uicomponents.PhotoAvatar
+import com.example.component.uicomponents.loadState
+import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.entity.Profile
 import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.presentation.component.CustomDialog
-import com.example.nanopost.presentation.component.CustomDivider
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.DarkButton
-import com.example.nanopost.presentation.component.ErrorState
-import com.example.nanopost.presentation.component.FloatingButton
-import com.example.nanopost.presentation.component.LightButton
-import com.example.nanopost.presentation.component.Loading
-import com.example.nanopost.presentation.component.NoPhotoAvatar
-import com.example.nanopost.presentation.component.OutlinedButton
-import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.component.PostListItem
-import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
-import com.example.nanopost.presentation.theme.LocalExtendedColors
+import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable
 fun ProfileScreen(
@@ -487,7 +488,7 @@ fun Image(url: String) {
         model = url,
         contentDescription = null,
         contentScale = ContentScale.FillBounds,
-        placeholder = painterResource(R.drawable.no_photo),
+        placeholder = painterResource(uiComponentsR.drawable.no_photo),
         modifier = Modifier
             .size(80.dp)
             .clip(RoundedCornerShape(8.dp))

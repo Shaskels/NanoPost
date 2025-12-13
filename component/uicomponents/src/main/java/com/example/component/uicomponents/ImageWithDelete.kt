@@ -1,7 +1,6 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -20,8 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.toUri
-import com.example.nanopost.R
+import com.example.component.uicomponent.R
 
 @Composable
 fun ImageWithDelete(uri: Uri, onDeleteClick: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier) {

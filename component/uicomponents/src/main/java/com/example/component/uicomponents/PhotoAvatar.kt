@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -9,7 +9,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.nanopost.R
+import com.example.component.uicomponent.R
 
 @Composable
 fun PhotoAvatar(url: String, modifier: Modifier = Modifier) {

@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -9,7 +9,7 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.nanopost.presentation.theme.LocalExtendedColors
+import com.example.component.uicomponents.theme.LocalExtendedColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

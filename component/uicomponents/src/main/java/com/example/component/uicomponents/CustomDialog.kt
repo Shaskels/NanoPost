@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -6,12 +6,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.example.nanopost.R
-import com.example.nanopost.presentation.theme.LocalExtendedColors
+import com.example.component.uicomponent.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomDialog(onDismissRequest: ()-> Unit, onConfirmButton: () -> Unit, title: String, text: String) {
+fun CustomDialog(onDismissRequest: () -> Unit, onConfirmButton: () -> Unit, title: String, text: String) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {

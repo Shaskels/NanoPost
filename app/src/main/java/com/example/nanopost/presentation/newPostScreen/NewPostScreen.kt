@@ -31,14 +31,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.component.uicomponents.AddImageButton
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.ImageWithDelete
+import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.nanopost.R
-import com.example.nanopost.presentation.component.AddImageButton
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.ImageWithDelete
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
-import com.example.nanopost.presentation.theme.LocalExtendedColors
 import timber.log.Timber
 
 @Composable

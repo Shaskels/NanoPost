@@ -20,9 +20,9 @@
     <string name="register">Register</string>
     <string name="password_not_match_error">Passwords do not match</string>
     <string name="network_connection_error">There’s something wrong with your network connection</string>
-    <string name="retry">Retry</string>
+
     <string name="update">Update</string>
-    <string name="search_profiles">Search profiles…</string>
+
     <string name="profile">Profile</string>
     <string name="feed">Feed</string>
     <string name="posts_big">Posts</string>
@@ -33,9 +33,8 @@
     <string name="enter_post_text">Enter post text</string>
     <string name="delete">Delete</string>
     <string name="logout">Logout</string>
-    <string name="cancel">Cancel</string>
-    <string name="confirm">Confirm</string>
-    <string name="failed_to_load">Failed to load</string>
+
+
     <string name="are_you_sure_you_want_to_confirm">Are you sure you want to log out?</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="wrong_password">Wrong password</string>

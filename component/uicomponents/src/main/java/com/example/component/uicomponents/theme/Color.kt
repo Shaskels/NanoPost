@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.theme
+package com.example.component.uicomponents.theme
 
 import androidx.compose.ui.graphics.Color
 

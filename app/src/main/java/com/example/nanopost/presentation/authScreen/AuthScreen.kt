@@ -25,14 +25,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.component.uicomponents.CustomTextField
+import com.example.component.uicomponents.LightButton
 import com.example.nanopost.R
+import com.example.component.uicomponent.R as uiComponentsR
 import com.example.nanopost.domain.entity.PasswordCheckResult
 import com.example.nanopost.domain.entity.UsernameCheckResult
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
 import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
-import com.example.nanopost.presentation.component.CustomTextField
-import com.example.nanopost.presentation.component.LightButton
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
 
@@ -69,7 +70,7 @@ fun Screen(
                     ErrorState.WrongPasswordError -> resources.getString(R.string.wrong_password)
                     else -> ""
                 },
-                actionLabel = resources.getString(R.string.retry),
+                actionLabel = resources.getString(uiComponentsR.string.retry),
                 onActionPerformed = {
                     when (screenState.authState) {
                         is AuthState.CheckName -> authViewModel.checkUsername(username)

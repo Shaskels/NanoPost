@@ -36,15 +36,16 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.ErrorState
+import com.example.component.uicomponents.FloatingButton
+import com.example.component.uicomponents.LightButton
+import com.example.component.uicomponents.Loading
+import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
+import com.example.component.uicomponent.R as uiComponentsR
 import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.ErrorState
-import com.example.nanopost.presentation.component.FloatingButton
-import com.example.nanopost.presentation.component.LightButton
-import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.PostListItem
-import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
 import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
@@ -92,7 +93,7 @@ fun FeedScreen(
             CustomTopBar(
                 title = stringResource(R.string.feed), actions = {
                     IconButton(onClick = onSearchClick) {
-                        Icon(painterResource(R.drawable.search), contentDescription = null)
+                        Icon(painterResource(uiComponentsR.drawable.search), contentDescription = null)
                     }
                 })
         },

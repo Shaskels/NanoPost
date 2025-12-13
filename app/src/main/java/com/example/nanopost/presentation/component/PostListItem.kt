@@ -10,8 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.component.uicomponents.CustomDivider
+import com.example.component.uicomponents.LikeButton
+import com.example.component.uicomponents.PhotoPager
+import com.example.component.uicomponents.UiImage
+import com.example.component.uicomponents.theme.LocalExtendedColors
+import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun PostListItem(
@@ -61,7 +66,7 @@ fun PostListItem(
 
         if (post.images.isNotEmpty()) {
             PhotoPager(
-                post.images,
+                post.images.map { it.toUiImage() },
                 onImageClick,
                 modifier = Modifier.padding(top = 16.dp)
             )
@@ -82,3 +87,9 @@ fun PostListItem(
 
     }
 }
+fun Image.toUiImage() = UiImage(
+    id = this.id,
+    url = this.sizes.first().url,
+    height = this.sizes.first().height,
+    width = this.sizes.first().width,
+)

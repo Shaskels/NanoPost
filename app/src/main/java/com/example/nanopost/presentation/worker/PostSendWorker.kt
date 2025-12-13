@@ -19,6 +19,7 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.nanopost.R
+import com.example.component.uicomponent.R as uiComponentsR
 import com.example.nanopost.domain.usecase.UploadPostUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -95,7 +96,7 @@ class PostSendWorker @AssistedInject constructor(
             .setContentTitle(applicationContext.getString(R.string.post_is_uploading))
             .setOngoing(true)
             .setProgress(0, 0, true)
-            .addAction(R.drawable.cancel, "Cancel", intent)
+            .addAction(uiComponentsR.drawable.cancel, "Cancel", intent)
             .build()
     }
 

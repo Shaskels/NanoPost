@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.ErrorState
+import com.example.component.uicomponents.Loading
+import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
 import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.ErrorState
-import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.PostListItem
-import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
 
 @Composable

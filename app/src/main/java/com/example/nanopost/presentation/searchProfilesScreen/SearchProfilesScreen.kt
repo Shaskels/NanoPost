@@ -19,11 +19,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.example.component.uicomponents.ErrorState
+import com.example.component.uicomponents.Loading
+import com.example.component.uicomponents.SearchField
+import com.example.component.uicomponents.loadState
 import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.presentation.component.ErrorState
-import com.example.nanopost.presentation.component.Loading
-import com.example.nanopost.presentation.component.SearchField
-import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
 import com.example.nanopost.presentation.subscribersScreen.SubscriberItem
 

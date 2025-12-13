@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -15,8 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.example.nanopost.R
-import com.example.nanopost.presentation.theme.LocalExtendedColors
+import com.example.component.uicomponent.R
+import com.example.component.uicomponents.theme.LocalExtendedColors
 
 @Composable
 fun SearchField(

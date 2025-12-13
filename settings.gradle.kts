@@ -23,3 +23,4 @@ rootProject.name = "NanoPost"
 include(":app")
 include(":util:networkchecker")
 include(":util:datetime")
+include(":component:uicomponents")

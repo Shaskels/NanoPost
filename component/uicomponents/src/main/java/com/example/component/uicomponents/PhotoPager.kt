@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,12 +20,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.nanopost.R
-import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.presentation.theme.LocalExtendedColors
+import com.example.component.uicomponent.R
+import com.example.component.uicomponents.theme.LocalExtendedColors
 
 @Composable
-fun PhotoPager(images: List<Image>, onClick: (String) -> Unit, modifier: Modifier = Modifier) {
+fun PhotoPager(images: List<UiImage>, onClick: (String) -> Unit, modifier: Modifier = Modifier) {
     val maxPage = images.size
     val pagerState = rememberPagerState(pageCount = { maxPage })
 
@@ -39,7 +38,7 @@ fun PhotoPager(images: List<Image>, onClick: (String) -> Unit, modifier: Modifie
 }
 
 @Composable
-fun PhotoPaged(image: Image?, page: Int, maxPage: Int, onClick: (String) -> Unit) {
+fun PhotoPaged(image: UiImage?, page: Int, maxPage: Int, onClick: (String) -> Unit) {
     if (image != null) {
         Box(
             contentAlignment = Alignment.Center,
@@ -48,7 +47,7 @@ fun PhotoPaged(image: Image?, page: Int, maxPage: Int, onClick: (String) -> Unit
                 .clickable(onClick = { onClick(image.id) })
         ) {
             AsyncImage(
-                model = image.sizes.first().url,
+                model = image.url,
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
                 placeholder = painterResource(R.drawable.no_photo),
@@ -75,9 +74,16 @@ fun PhotoPaged(image: Image?, page: Int, maxPage: Int, onClick: (String) -> Unit
     }
 }
 
-private fun List<Image>.findHighestRatio(): Float {
-    val image = this.maxWith { i1, i2 -> i1.sizes.first().height - i2.sizes.first().height }
-    val height = image.sizes.first().height
-    val width = image.sizes.first().width.toFloat()
+private fun List<UiImage>.findHighestRatio(): Float {
+    val image = this.maxWith { i1, i2 -> i1.height - i2.height }
+    val height = image.height
+    val width = image.width.toFloat()
     return width / height
 }
+
+data class UiImage(
+    val id: String,
+    val url: String,
+    val height: Int,
+    val width: Int,
+)

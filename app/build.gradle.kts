@@ -49,6 +49,7 @@ dependencies {
 
     implementation(project(":util:datetime"))
     implementation(project(":util:networkchecker"))
+    implementation(project(":component:uicomponents"))
 
     //ktor
     implementation(libs.ktor.client.core)

@@ -22,11 +22,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.component.uicomponents.CustomTextField
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.NoPhotoAvatar
+import com.example.component.uicomponents.PhotoAvatar
 import com.example.nanopost.R
-import com.example.nanopost.presentation.component.CustomTextField
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.NoPhotoAvatar
-import com.example.nanopost.presentation.component.PhotoAvatar
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
 

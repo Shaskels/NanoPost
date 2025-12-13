@@ -31,16 +31,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.component.uicomponents.CustomDivider
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.ErrorState
+import com.example.component.uicomponents.Loading
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.exceptions.AppException
 import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.presentation.component.CustomDivider
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.ErrorState
-import com.example.nanopost.presentation.component.Loading
 import com.example.nanopost.presentation.component.UserPostInfo
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable
 fun PostScreen(postViewModel: PostViewModel, onBackClick: () -> Unit, onLogout: () -> Unit) {
@@ -158,7 +158,7 @@ fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
                     model = item.sizes.first().url,
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth,
-                    placeholder = painterResource(R.drawable.no_photo),
+                    placeholder = painterResource(uiComponentsR.drawable.no_photo),
                     modifier = Modifier.fillMaxWidth()
                 )
             }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="failed_to_load">Failed to load</string>
+    <string name="retry">Retry</string>
+    <string name="search_profiles">Search profiles…</string>
+</resources>

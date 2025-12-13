@@ -21,9 +21,9 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.example.component.uicomponents.CustomSnackbar
 import com.example.nanopost.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
-import com.example.nanopost.presentation.component.CustomSnackbar
 import com.example.nanopost.presentation.editProfileScreen.EditProfileScreen
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.imageScreen.ImageScreen

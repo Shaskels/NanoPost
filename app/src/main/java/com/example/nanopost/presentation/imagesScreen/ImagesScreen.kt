@@ -23,13 +23,14 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
+import com.example.component.uicomponents.CustomTopBar
+import com.example.component.uicomponents.ErrorState
+import com.example.component.uicomponents.Loading
+import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
 import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.presentation.component.CustomTopBar
-import com.example.nanopost.presentation.component.ErrorState
-import com.example.nanopost.presentation.component.Loading
-import com.example.nanopost.presentation.component.loadState
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable
 fun ImagesScreen(
@@ -98,7 +99,7 @@ fun ImagesScreen(
                                 model = item.sizes.first().url,
                                 contentDescription = null,
                                 contentScale = ContentScale.FillBounds,
-                                placeholder = painterResource(R.drawable.no_photo),
+                                placeholder = painterResource(uiComponentsR.drawable.no_photo),
                                 modifier = Modifier
                                     .height(125.dp)
                                     .clickable(onClick = { onImageClick(item.id) })
