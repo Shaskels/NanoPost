@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.usecase
+package com.example.feature.auth.domain
 
 import com.example.shared.domain.entity.UsernameCheckResult
 import com.example.shared.domain.repository.AuthRepository

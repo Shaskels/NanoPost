@@ -34,10 +34,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.component.uicomponents.AddImageButton
 import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ImageWithDelete
+import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.nanopost.R
-import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
-import com.example.nanopost.presentation.mainScreen.showSnackbar
+import com.example.component.uicomponents.showSnackbar
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
 import timber.log.Timber
 

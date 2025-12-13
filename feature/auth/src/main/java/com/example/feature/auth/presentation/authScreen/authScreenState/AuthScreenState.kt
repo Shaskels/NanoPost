@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.authScreen.authScreenState
+package com.example.feature.auth.presentation.authScreen.authScreenState
 
 sealed interface AuthScreenState {
     data class Content(

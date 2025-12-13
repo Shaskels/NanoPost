@@ -11,7 +11,7 @@ import com.example.nanopost.domain.usecase.LikePostUseCase
 import com.example.nanopost.domain.usecase.SubscribeUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase
 import com.example.nanopost.domain.usecase.UnsubscribeUseCase
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.InternetProblemException

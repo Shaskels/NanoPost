@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.authScreen
+package com.example.feature.auth.presentation.authScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,15 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.component.uicomponents.CustomTextField
 import com.example.component.uicomponents.LightButton
-import com.example.nanopost.R
-import com.example.component.uicomponent.R as uiComponentsR
-import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
-import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
-import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
-import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
-import com.example.nanopost.presentation.mainScreen.showSnackbar
+import com.example.component.uicomponents.LocalSnackbarHost
+import com.example.component.uicomponents.showSnackbar
+import com.example.feature.auth.R
+import com.example.feature.auth.presentation.authScreen.authScreenState.AuthScreenState
+import com.example.feature.auth.presentation.authScreen.authScreenState.AuthState
+import com.example.feature.auth.presentation.authScreen.authScreenState.ErrorState
 import com.example.shared.domain.entity.PasswordCheckResult
 import com.example.shared.domain.entity.UsernameCheckResult
+import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable
 fun AuthScreen(onLogged: () -> Unit, authViewModel: AuthViewModel = hiltViewModel()) {
@@ -93,7 +93,7 @@ fun Screen(
         onLogged()
     }
 
-    Scaffold { paddingValues ->
+    Scaffold(modifier = Modifier) { paddingValues ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier

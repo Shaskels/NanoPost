@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="username">Username</string>
+    <string name="continue_auth">Continue</string>
+    <string name="username_tooshort_error">Username must be longer then 3 characters</string>
+    <string name="username_toolong_error">Username must be shorter then 16 characters</string>
+    <string name="username_invalidcharacters_error">The name contains unsupported characters (allowed a-z,_,.)</string>
+    <string name="username_taken_error">Name taken by another user</string>
+    <string name="password_tooshort_error">Password should be longer then 8 characters</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="password_not_match_error">Passwords do not match</string>
+    <string name="network_connection_error">There’s something wrong with your network connection</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="app_name">NanoPost</string>
+</resources>

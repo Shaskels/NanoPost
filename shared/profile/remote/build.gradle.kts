@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.shared.settings"
+    namespace = "com.example.shared.profile.remote"
     compileSdk {
         version = release(36)
     }

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.DeletePostUseCase
 import com.example.nanopost.domain.usecase.GetPostUseCase
 import com.example.nanopost.domain.usecase.GetUserIdUseCase
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = PostViewModel.PostViewModelFactory::class)

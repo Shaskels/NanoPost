@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.validation
+package com.example.feature.auth.domain.validation
 
 import com.example.shared.domain.entity.PasswordCheckResult
 import javax.inject.Inject

@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":shared:post:domain"))
     implementation(project(":shared:post:remote"))
     implementation(project(":util:image"))
+    implementation(project(":feature:auth"))
 
     //ktor
     implementation(libs.ktor.client.core)

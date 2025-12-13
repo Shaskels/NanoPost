@@ -41,14 +41,14 @@ import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.FloatingButton
 import com.example.component.uicomponents.LightButton
 import com.example.component.uicomponents.Loading
+import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
 import com.example.component.uicomponent.R as uiComponentsR
 import com.example.nanopost.presentation.component.PostListItem
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
-import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
-import com.example.nanopost.presentation.mainScreen.showSnackbar
+import com.example.component.uicomponents.showSnackbar
 import com.example.shared.network.domain.exceptions.AuthenticationException
 
 @Composable
@@ -165,11 +165,6 @@ fun FeedScreen(
             }
         }
     }
-}
-
-@Composable
-fun Feed() {
-
 }
 
 @Composable

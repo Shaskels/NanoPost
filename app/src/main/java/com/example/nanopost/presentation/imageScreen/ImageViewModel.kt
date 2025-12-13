@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.DeleteImageUseCase
 import com.example.nanopost.domain.usecase.GetImageUseCase
 import com.example.nanopost.domain.usecase.GetUserIdUseCase
-import com.example.nanopost.presentation.extentions.toAppException
-import com.example.nanopost.presentation.profileScreen.ProfileScreenState
+import com.example.shared.network.domain.exceptions.toAppException
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.example.nanopost.domain.usecase.GetFeedUseCase
 import com.example.nanopost.domain.usecase.LikePostUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.nanopost.presentation.feedScreen.screenState.FeedScreenState
 import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
 import com.example.shared.network.domain.exceptions.AppException

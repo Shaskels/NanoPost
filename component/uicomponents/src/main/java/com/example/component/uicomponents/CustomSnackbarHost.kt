@@ -1,11 +1,15 @@
-package com.example.nanopost.presentation.mainScreen
+package com.example.component.uicomponents
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.runtime.compositionLocalOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
+    error("No Snackbar Host State")
+}
 data class CustomSnackbarHost(val scope: CoroutineScope, val snackbarHostState: SnackbarHostState)
 
 fun CustomSnackbarHost.showSnackbar(

@@ -35,7 +35,7 @@ import com.example.component.uicomponents.NoPhotoAvatar
 import com.example.component.uicomponents.PhotoAvatar
 import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.shared.domain.entity.ProfileCompact
 import com.example.shared.network.domain.exceptions.AuthenticationException
 

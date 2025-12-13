@@ -65,7 +65,7 @@ import com.example.component.uicomponents.loadState
 import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.nanopost.R
 import com.example.nanopost.presentation.component.PostListItem
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.shared.domain.entity.Image
 import com.example.shared.domain.entity.Post
 import com.example.shared.domain.entity.Profile

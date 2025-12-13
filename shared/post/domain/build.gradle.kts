@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.shared.settings"
+    namespace = "com.example.shared.post.domain"
     compileSdk {
         version = release(36)
     }

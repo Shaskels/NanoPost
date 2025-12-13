@@ -1,15 +1,14 @@
-package com.example.nanopost.presentation.authScreen
+package com.example.feature.auth.presentation.authScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanopost.domain.usecase.CheckUsernameUseCase
-import com.example.nanopost.domain.usecase.LoginUserUseCase
-import com.example.nanopost.domain.usecase.RegisterUserUseCase
-import com.example.nanopost.domain.validation.PasswordValidator
-import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
-import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
-import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.feature.auth.domain.CheckUsernameUseCase
+import com.example.feature.auth.domain.LoginUserUseCase
+import com.example.feature.auth.domain.RegisterUserUseCase
+import com.example.feature.auth.domain.validation.PasswordValidator
+import com.example.feature.auth.presentation.authScreen.authScreenState.AuthScreenState
+import com.example.feature.auth.presentation.authScreen.authScreenState.AuthState
+import com.example.feature.auth.presentation.authScreen.authScreenState.ErrorState
 import com.example.shared.domain.entity.PasswordCheckResult
 import com.example.shared.domain.entity.UsernameCheckResult
 import com.example.shared.network.domain.exceptions.AppException
@@ -17,6 +16,7 @@ import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.InternetProblemException
 import com.example.shared.network.domain.exceptions.UnknownException
 import com.example.shared.network.domain.exceptions.WrongPasswordException
+import com.example.shared.network.domain.exceptions.toAppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler

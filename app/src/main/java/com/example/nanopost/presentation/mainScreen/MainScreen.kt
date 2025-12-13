@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,7 +21,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.component.uicomponents.CustomSnackbar
-import com.example.nanopost.presentation.authScreen.AuthScreen
+import com.example.component.uicomponents.CustomSnackbarHost
+import com.example.component.uicomponents.LocalSnackbarHost
+import com.example.feature.auth.presentation.authScreen.AuthScreen
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.editProfileScreen.EditProfileScreen
 import com.example.nanopost.presentation.feedScreen.FeedScreen
@@ -41,9 +42,7 @@ import com.example.nanopost.presentation.searchProfilesScreen.SearchProfilesScre
 import com.example.nanopost.presentation.subscribersScreen.SubscribersScreen
 import com.example.nanopost.presentation.subscribersScreen.SubscribersViewModel
 
-val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
-    error("No Snackbar Host State")
-}
+
 
 @Composable
 fun MainScreen(mainViewModel: MainViewModel) {

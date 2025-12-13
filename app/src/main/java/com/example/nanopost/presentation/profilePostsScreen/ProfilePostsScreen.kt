@@ -31,7 +31,7 @@ import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
 import com.example.nanopost.presentation.component.PostListItem
-import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 
 @Composable
