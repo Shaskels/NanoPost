@@ -47,6 +47,9 @@ kotlin {
 
 dependencies {
 
+    implementation(project(":util:datetime"))
+    implementation(project(":util:networkchecker"))
+
     //ktor
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)
@@ -87,9 +90,6 @@ dependencies {
     implementation(libs.hilt.android.work)
     implementation(libs.androidx.work.runtime)
     ksp(libs.androidx.hilt.compiler)
-
-    //datetime
-    implementation(libs.kotlinx.datetime)
 
     //paging
     implementation(libs.androidx.paging.runtime)

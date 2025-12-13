@@ -1,4 +1,4 @@
-package com.example.nanopost.util
+package com.example.util.datetime
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone

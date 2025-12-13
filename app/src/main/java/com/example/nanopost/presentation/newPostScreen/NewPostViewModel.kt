@@ -4,11 +4,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkManager
-import androidx.work.await
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.NewPostScreenState
 import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
 import com.example.nanopost.presentation.worker.PostSendWorker
-import com.example.nanopost.util.isNetworkAvailable
+import com.example.util.networkchecker.isNetworkAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow

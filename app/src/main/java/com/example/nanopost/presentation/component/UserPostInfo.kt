@@ -9,11 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.entity.ProfileCompact
-import com.example.nanopost.util.dateTimeFormatter
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import com.example.util.datetime.dateTimeFormatter
 
 @Composable
 fun UserPostInfo(owner: ProfileCompact, dateCreated: Long, modifier: Modifier = Modifier) {
