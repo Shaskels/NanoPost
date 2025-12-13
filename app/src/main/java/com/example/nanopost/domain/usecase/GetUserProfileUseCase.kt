@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.entity.Profile
-import com.example.nanopost.domain.repository.ProfileRepository
+import com.example.shared.domain.entity.Profile
+import com.example.shared.domain.repository.ProfileRepository
 import com.example.shared.settings.domain.repository.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

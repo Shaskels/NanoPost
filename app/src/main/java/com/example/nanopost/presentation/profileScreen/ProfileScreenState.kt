@@ -1,7 +1,7 @@
 package com.example.nanopost.presentation.profileScreen
 
 import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.entity.Profile
+import com.example.shared.domain.entity.Profile
 
 sealed interface ProfileScreenState {
 

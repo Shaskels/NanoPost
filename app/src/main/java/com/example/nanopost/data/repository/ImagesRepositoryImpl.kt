@@ -13,12 +13,12 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.nanopost.data.remote.mappers.toDomainImage
 import com.example.nanopost.domain.entity.Image
-import com.example.shared.network.data.network.model.ImageInfo
 import com.example.nanopost.domain.repository.ImagesRepository
 import com.example.shared.network.data.network.ApiService
 import com.example.shared.network.data.network.model.ImageModel
 import com.example.shared.network.data.network.model.PagedResponse
 import com.example.shared.network.data.paging.BasePagingSource
+import com.example.util.image.ImageInfo
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,6 +1,6 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.repository.ProfileRepository
+import com.example.shared.domain.repository.ProfileRepository
 import javax.inject.Inject
 
 class UnsubscribeUseCase @Inject constructor(

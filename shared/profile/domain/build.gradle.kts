@@ -1,9 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -37,27 +34,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    implementation(project(":shared:settings"))
-    implementation(project(":util:image"))
-
-    //hilt
-    implementation(libs.hilt.android.runtime)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.compose)
-
-    //serialization
-    implementation(libs.kotlinx.serialization.json)
-
-    //ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.logging)
-    implementation(libs.ktor.auth)
-    implementation(libs.ktor.contentNegotiation)
-    implementation(libs.okhttp)
-    implementation(libs.ktor.serialization)
-
     //paging
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
+
+    implementation(project(":util:image"))
 }

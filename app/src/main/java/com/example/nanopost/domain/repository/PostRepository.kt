@@ -1,8 +1,8 @@
 package com.example.nanopost.domain.repository
 
 import androidx.paging.PagingData
-import com.example.shared.network.data.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Post
+import com.example.util.image.ImageInfo
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {

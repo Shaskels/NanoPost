@@ -1,18 +1,16 @@
-package com.example.nanopost.data.repository
+package com.example.shared.remote
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.nanopost.data.remote.mappers.toDomainProfile
-import com.example.nanopost.data.remote.mappers.toDomainProfileCompact
-import com.example.shared.network.data.network.model.ImageInfo
-import com.example.nanopost.domain.entity.Profile
-import com.example.nanopost.domain.entity.ProfileCompact
-import com.example.nanopost.domain.repository.ProfileRepository
+import com.example.shared.domain.entity.Profile
+import com.example.shared.domain.entity.ProfileCompact
+import com.example.shared.domain.repository.ProfileRepository
 import com.example.shared.network.data.network.ApiService
 import com.example.shared.network.data.network.model.ProfileCompactModel
 import com.example.shared.network.data.paging.BasePagingSource
+import com.example.util.image.ImageInfo
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -30,7 +28,7 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     override fun getProfileSubscribers(profileId: String): Flow<PagingData<ProfileCompact>> {
-        val pager: Pager<String, ProfileCompactModel> =  Pager(
+        val pager: Pager<String, ProfileCompactModel> = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = {
                 BasePagingSource(loadData = { loadSize, key ->

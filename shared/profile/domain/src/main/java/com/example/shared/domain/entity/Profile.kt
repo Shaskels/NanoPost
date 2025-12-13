@@ -1,8 +1,5 @@
-package com.example.nanopost.domain.entity
+package com.example.shared.domain.entity
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Profile (
     val id: String,
     val username: String,

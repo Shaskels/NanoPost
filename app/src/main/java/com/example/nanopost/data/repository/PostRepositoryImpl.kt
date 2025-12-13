@@ -1,17 +1,16 @@
 package com.example.nanopost.data.repository
 
-import android.content.ContentResolver
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.nanopost.data.remote.mappers.toDomainPost
-import com.example.shared.network.data.network.model.PostModel
-import com.example.shared.network.data.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.repository.PostRepository
 import com.example.shared.network.data.network.ApiService
+import com.example.shared.network.data.network.model.PostModel
 import com.example.shared.network.data.paging.BasePagingSource
+import com.example.util.image.ImageInfo
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

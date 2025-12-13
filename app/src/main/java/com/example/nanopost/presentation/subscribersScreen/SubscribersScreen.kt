@@ -35,8 +35,8 @@ import com.example.component.uicomponents.NoPhotoAvatar
 import com.example.component.uicomponents.PhotoAvatar
 import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
-import com.example.nanopost.domain.entity.ProfileCompact
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.domain.entity.ProfileCompact
 import com.example.shared.network.domain.exceptions.AuthenticationException
 
 @Composable
@@ -123,7 +123,7 @@ fun SubscriberItem(profile: ProfileCompact, onSubscriberClick: (String) -> Unit)
             .clickable(onClick = { onSubscriberClick(profile.id) })
     ) {
         if (profile.avatarUrl != null) {
-            PhotoAvatar(profile.avatarUrl, modifier = Modifier.size(40.dp))
+            PhotoAvatar(profile.avatarUrl!!, modifier = Modifier.size(40.dp))
         } else {
             NoPhotoAvatar(profile.username, modifier = Modifier.size(40.dp))
         }

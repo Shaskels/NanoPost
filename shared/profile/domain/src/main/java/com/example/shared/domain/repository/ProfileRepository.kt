@@ -1,9 +1,9 @@
-package com.example.nanopost.domain.repository
+package com.example.shared.domain.repository
 
 import androidx.paging.PagingData
-import com.example.shared.network.data.network.model.ImageInfo
-import com.example.nanopost.domain.entity.Profile
-import com.example.nanopost.domain.entity.ProfileCompact
+import com.example.shared.domain.entity.Profile
+import com.example.shared.domain.entity.ProfileCompact
+import com.example.util.image.ImageInfo
 import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {

@@ -37,25 +37,14 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    implementation(project(":shared:settings"))
+    implementation(project(":shared:profile:domain"))
+    implementation(project(":shared:network"))
     implementation(project(":util:image"))
 
     //hilt
     implementation(libs.hilt.android.runtime)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.compose)
-
-    //serialization
-    implementation(libs.kotlinx.serialization.json)
-
-    //ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.logging)
-    implementation(libs.ktor.auth)
-    implementation(libs.ktor.contentNegotiation)
-    implementation(libs.okhttp)
-    implementation(libs.ktor.serialization)
 
     //paging
     implementation(libs.androidx.paging.runtime)

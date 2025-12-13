@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.component.uicomponents.NoPhotoAvatar
 import com.example.component.uicomponents.PhotoAvatar
-import com.example.nanopost.domain.entity.ProfileCompact
+import com.example.shared.domain.entity.ProfileCompact
 import com.example.util.datetime.dateTimeFormatter
 
 @Composable
@@ -24,7 +24,7 @@ fun UserPostInfo(owner: ProfileCompact, dateCreated: Long, modifier: Modifier = 
         if (owner.avatarUrl == null) {
             NoPhotoAvatar(owner.displayName ?: owner.username, modifier = Modifier.size(40.dp))
         } else {
-            PhotoAvatar(owner.avatarUrl, modifier = Modifier.size(40.dp))
+            PhotoAvatar(owner.avatarUrl!!, modifier = Modifier.size(40.dp))
         }
 
         Column(

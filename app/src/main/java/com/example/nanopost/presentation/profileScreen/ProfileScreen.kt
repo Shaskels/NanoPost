@@ -66,9 +66,9 @@ import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.domain.entity.Profile
 import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.domain.entity.Profile
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.component.uicomponent.R as uiComponentsR
 
@@ -310,7 +310,7 @@ fun UserInfoCard(
                 )
             } else {
                 PhotoAvatar(
-                    profile.avatarSmall,
+                    profile.avatarSmall!!,
                     modifier = Modifier
                         .padding(end = 16.dp)
                         .size(64.dp)
@@ -329,7 +329,7 @@ fun UserInfoCard(
 
                 if (profile.bio != null) {
                     Text(
-                        profile.bio,
+                        profile.bio!!,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface,
                     )

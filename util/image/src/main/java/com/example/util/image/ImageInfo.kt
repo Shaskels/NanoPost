@@ -1,4 +1,4 @@
-package com.example.shared.network.data.network.model
+package com.example.util.image
 
 data class ImageInfo (
     val name: String,

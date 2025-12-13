@@ -4,12 +4,11 @@ import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.ImageSize
 import com.example.nanopost.domain.entity.Likes
 import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.domain.entity.ProfileCompact
 import com.example.shared.network.data.network.model.ImageModel
 import com.example.shared.network.data.network.model.ImageSizeModel
 import com.example.shared.network.data.network.model.LikesModel
 import com.example.shared.network.data.network.model.PostModel
-import com.example.shared.network.data.network.model.ProfileCompactModel
+import com.example.shared.remote.toDomainProfileCompact
 
 fun PostModel.toDomainPost(): Post = Post(
     id = this.id,
@@ -18,14 +17,6 @@ fun PostModel.toDomainPost(): Post = Post(
     text = this.text,
     images = this.images.map { it.toDomainImage() },
     likes = this.likes.toDomainLikes()
-)
-
-fun ProfileCompactModel.toDomainProfileCompact(): ProfileCompact = ProfileCompact(
-    id = this.id,
-    username = this.username,
-    displayName = this.displayName,
-    avatarUrl = this.avatarUrl,
-    subscribed = this.subscribed ?: false
 )
 
 fun ImageModel.toDomainImage(): Image = Image(

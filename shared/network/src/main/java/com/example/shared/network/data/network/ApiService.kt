@@ -1,12 +1,12 @@
 package com.example.shared.network.data.network
 
-import com.example.shared.network.data.network.model.ImageInfo
 import com.example.shared.network.data.network.model.ImageModel
 import com.example.shared.network.data.network.model.PagedResponse
 import com.example.shared.network.data.network.model.PostModel
 import com.example.shared.network.data.network.model.ProfileCompactModel
 import com.example.shared.network.data.network.model.ProfileModel
 import com.example.shared.network.di.ApiClient
+import com.example.util.image.ImageInfo
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.append

@@ -54,6 +54,9 @@ dependencies {
     implementation(project(":shared:settings"))
     implementation(project(":shared:auth:domain"))
     implementation(project(":shared:auth:remote"))
+    implementation(project(":shared:profile:domain"))
+    implementation(project(":shared:profile:remote"))
+    implementation(project(":util:image"))
 
     //ktor
     implementation(libs.ktor.client.core)
