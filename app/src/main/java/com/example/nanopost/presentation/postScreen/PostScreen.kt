@@ -36,8 +36,8 @@ import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.nanopost.R
-import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.presentation.component.UserPostInfo
+import com.example.shared.domain.entity.Post
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.component.uicomponent.R as uiComponentsR
@@ -145,7 +145,7 @@ fun Screen(post: Post, postViewModel: PostViewModel, onBackClick: () -> Unit) {
             item {
                 if (post.text != null) {
                     Text(
-                        text = post.text,
+                        text = post.text!!,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 16.dp)

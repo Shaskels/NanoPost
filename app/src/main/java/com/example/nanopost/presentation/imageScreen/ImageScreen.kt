@@ -29,9 +29,9 @@ import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.nanopost.R
-import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.presentation.component.UserPostInfo
 import com.example.nanopost.presentation.postScreen.Error
+import com.example.shared.domain.entity.Image
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import net.engawapg.lib.zoomable.rememberZoomState

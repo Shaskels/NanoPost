@@ -1,4 +1,4 @@
-package com.example.nanopost.data.repository
+package com.example.shared.remote
 
 import android.content.ContentResolver
 import android.graphics.Bitmap
@@ -11,9 +11,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.nanopost.data.remote.mappers.toDomainImage
-import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.repository.ImagesRepository
+import com.example.shared.domain.entity.Image
+import com.example.shared.domain.repository.ImagesRepository
 import com.example.shared.network.data.network.ApiService
 import com.example.shared.network.data.network.model.ImageModel
 import com.example.shared.network.data.network.model.PagedResponse

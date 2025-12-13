@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.usecase
 
 import android.net.Uri
-import com.example.nanopost.domain.repository.ImagesRepository
+import com.example.shared.domain.repository.ImagesRepository
 import com.example.shared.domain.repository.ProfileRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers

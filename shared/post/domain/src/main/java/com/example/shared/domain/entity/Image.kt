@@ -1,7 +1,4 @@
-package com.example.nanopost.domain.entity
-
-import com.example.shared.domain.entity.ProfileCompact
-
+package com.example.shared.domain.entity
 data class Image(
     val id: String,
     val owner: ProfileCompact,

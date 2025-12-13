@@ -1,6 +1,6 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.repository.PostRepository
+import com.example.shared.domain.repository.PostRepository
 import javax.inject.Inject
 
 class LikePostUseCase @Inject constructor(

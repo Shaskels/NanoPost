@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.domain.repository.PostRepository
+import com.example.shared.domain.entity.Post
+import com.example.shared.domain.repository.PostRepository
 import javax.inject.Inject
 
 class GetPostUseCase @Inject constructor(

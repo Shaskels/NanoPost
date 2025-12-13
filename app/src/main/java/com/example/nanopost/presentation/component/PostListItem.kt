@@ -15,8 +15,8 @@ import com.example.component.uicomponents.LikeButton
 import com.example.component.uicomponents.PhotoPager
 import com.example.component.uicomponents.UiImage
 import com.example.component.uicomponents.theme.LocalExtendedColors
-import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.entity.Post
+import com.example.shared.domain.entity.Image
+import com.example.shared.domain.entity.Post
 
 @Composable
 fun PostListItem(
@@ -57,7 +57,7 @@ fun PostListItem(
 
         if (!post.text.isNullOrEmpty()) {
             Text(
-                post.text,
+                post.text!!,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)

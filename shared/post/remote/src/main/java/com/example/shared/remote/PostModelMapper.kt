@@ -1,14 +1,13 @@
-package com.example.nanopost.data.remote.mappers
+package com.example.shared.remote
 
-import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.entity.ImageSize
-import com.example.nanopost.domain.entity.Likes
-import com.example.nanopost.domain.entity.Post
+import com.example.shared.domain.entity.Image
+import com.example.shared.domain.entity.ImageSize
+import com.example.shared.domain.entity.Likes
+import com.example.shared.domain.entity.Post
 import com.example.shared.network.data.network.model.ImageModel
 import com.example.shared.network.data.network.model.ImageSizeModel
 import com.example.shared.network.data.network.model.LikesModel
 import com.example.shared.network.data.network.model.PostModel
-import com.example.shared.remote.toDomainProfileCompact
 
 fun PostModel.toDomainPost(): Post = Post(
     id = this.id,

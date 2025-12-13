@@ -1,12 +1,11 @@
-package com.example.nanopost.data.repository
+package com.example.shared.remote
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.nanopost.data.remote.mappers.toDomainPost
-import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.domain.repository.PostRepository
+import com.example.shared.domain.entity.Post
+import com.example.shared.domain.repository.PostRepository
 import com.example.shared.network.data.network.ApiService
 import com.example.shared.network.data.network.model.PostModel
 import com.example.shared.network.data.paging.BasePagingSource

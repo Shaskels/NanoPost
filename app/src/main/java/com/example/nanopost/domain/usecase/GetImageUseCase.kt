@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.repository.ImagesRepository
+import com.example.shared.domain.entity.Image
+import com.example.shared.domain.repository.ImagesRepository
 import javax.inject.Inject
 
 class GetImageUseCase @Inject constructor(

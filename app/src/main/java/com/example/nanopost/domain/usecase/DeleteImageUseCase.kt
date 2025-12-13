@@ -1,6 +1,6 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.repository.ImagesRepository
+import com.example.shared.domain.repository.ImagesRepository
 import javax.inject.Inject
 
 class DeleteImageUseCase @Inject constructor(

@@ -1,8 +1,8 @@
-package com.example.nanopost.domain.repository
+package com.example.shared.domain.repository
 
 import android.net.Uri
 import androidx.paging.PagingData
-import com.example.nanopost.domain.entity.Image
+import com.example.shared.domain.entity.Image
 import com.example.util.image.ImageInfo
 import kotlinx.coroutines.flow.Flow
 

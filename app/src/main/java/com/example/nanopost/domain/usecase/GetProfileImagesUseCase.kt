@@ -1,8 +1,8 @@
 package com.example.nanopost.domain.usecase
 
 import androidx.paging.PagingData
-import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.repository.ImagesRepository
+import com.example.shared.domain.entity.Image
+import com.example.shared.domain.repository.ImagesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

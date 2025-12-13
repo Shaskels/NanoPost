@@ -56,6 +56,8 @@ dependencies {
     implementation(project(":shared:auth:remote"))
     implementation(project(":shared:profile:domain"))
     implementation(project(":shared:profile:remote"))
+    implementation(project(":shared:post:domain"))
+    implementation(project(":shared:post:remote"))
     implementation(project(":util:image"))
 
     //ktor
