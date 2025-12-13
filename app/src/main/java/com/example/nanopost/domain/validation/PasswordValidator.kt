@@ -1,6 +1,6 @@
 package com.example.nanopost.domain.validation
 
-import com.example.nanopost.domain.entity.PasswordCheckResult
+import com.example.shared.domain.entity.PasswordCheckResult
 import javax.inject.Inject
 
 class PasswordValidator @Inject constructor() {

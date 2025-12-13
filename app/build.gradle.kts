@@ -52,6 +52,8 @@ dependencies {
     implementation(project(":component:uicomponents"))
     implementation(project(":shared:network"))
     implementation(project(":shared:settings"))
+    implementation(project(":shared:auth:domain"))
+    implementation(project(":shared:auth:remote"))
 
     //ktor
     implementation(libs.ktor.client.core)

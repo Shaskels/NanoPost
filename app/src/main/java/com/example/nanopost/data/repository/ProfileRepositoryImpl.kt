@@ -76,6 +76,4 @@ class ProfileRepositoryImpl @Inject constructor(
         )
         return pager.flow.map { pagingSource -> pagingSource.map { it.toDomainProfileCompact() } }
     }
-
-
 }

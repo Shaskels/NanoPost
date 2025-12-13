@@ -1,7 +1,7 @@
 package com.example.nanopost.presentation.authScreen.authScreenState
 
-import com.example.nanopost.domain.entity.PasswordCheckResult
-import com.example.nanopost.domain.entity.UsernameCheckResult
+import com.example.shared.domain.entity.PasswordCheckResult
+import com.example.shared.domain.entity.UsernameCheckResult
 
 sealed interface AuthState {
     data object Login : AuthState

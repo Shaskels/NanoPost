@@ -1,7 +1,7 @@
-package com.example.nanopost.domain.repository
+package com.example.shared.domain.repository
 
-import com.example.nanopost.domain.entity.AuthResult
-import com.example.nanopost.domain.entity.UsernameCheckResult
+import com.example.shared.domain.entity.AuthResult
+import com.example.shared.domain.entity.UsernameCheckResult
 
 interface AuthRepository {
 

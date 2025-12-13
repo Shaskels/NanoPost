@@ -29,13 +29,13 @@ import com.example.component.uicomponents.CustomTextField
 import com.example.component.uicomponents.LightButton
 import com.example.nanopost.R
 import com.example.component.uicomponent.R as uiComponentsR
-import com.example.nanopost.domain.entity.PasswordCheckResult
-import com.example.nanopost.domain.entity.UsernameCheckResult
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenState
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
 import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
 import com.example.nanopost.presentation.mainScreen.LocalSnackbarHost
 import com.example.nanopost.presentation.mainScreen.showSnackbar
+import com.example.shared.domain.entity.PasswordCheckResult
+import com.example.shared.domain.entity.UsernameCheckResult
 
 @Composable
 fun AuthScreen(onLogged: () -> Unit, authViewModel: AuthViewModel = hiltViewModel()) {

@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.entity.UsernameCheckResult
-import com.example.nanopost.domain.repository.AuthRepository
+import com.example.shared.domain.entity.UsernameCheckResult
+import com.example.shared.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class CheckUsernameUseCase @Inject constructor(

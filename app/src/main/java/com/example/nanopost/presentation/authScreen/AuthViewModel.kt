@@ -2,8 +2,6 @@ package com.example.nanopost.presentation.authScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanopost.domain.entity.PasswordCheckResult
-import com.example.nanopost.domain.entity.UsernameCheckResult
 import com.example.nanopost.domain.usecase.CheckUsernameUseCase
 import com.example.nanopost.domain.usecase.LoginUserUseCase
 import com.example.nanopost.domain.usecase.RegisterUserUseCase
@@ -12,6 +10,8 @@ import com.example.nanopost.presentation.authScreen.authScreenState.AuthScreenSt
 import com.example.nanopost.presentation.authScreen.authScreenState.AuthState
 import com.example.nanopost.presentation.authScreen.authScreenState.ErrorState
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.domain.entity.PasswordCheckResult
+import com.example.shared.domain.entity.UsernameCheckResult
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.InternetProblemException
