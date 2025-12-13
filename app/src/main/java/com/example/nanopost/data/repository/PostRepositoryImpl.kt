@@ -1,39 +1,31 @@
 package com.example.nanopost.data.repository
 
 import android.content.ContentResolver
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.provider.MediaStore
-import androidx.core.graphics.decodeBitmap
-import androidx.core.graphics.scale
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.nanopost.data.remote.network.ApiService
-import com.example.nanopost.data.remote.paging.BasePagingSource
 import com.example.nanopost.data.remote.mappers.toDomainPost
-import com.example.nanopost.data.remote.network.model.ImageInfo
+import com.example.shared.network.data.network.model.PostModel
+import com.example.shared.network.data.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.repository.PostRepository
+import com.example.shared.network.data.network.ApiService
+import com.example.shared.network.data.paging.BasePagingSource
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.io.ByteArrayOutputStream
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val contentResolver: ContentResolver,
 ) : PostRepository {
 
     companion object {
-        private const val MAX_IMAGE_SIZE = 2560
         private const val PAGE_SIZE = 30
     }
 
     override fun getFeed(): Flow<PagingData<Post>> {
-        return Pager(
+        val pager: Pager<String, PostModel> = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = {
                 BasePagingSource(loadData = { loadSize, key ->
@@ -43,7 +35,8 @@ class PostRepositoryImpl @Inject constructor(
                     )
                 })
             }
-        ).flow.map { pagingSource -> pagingSource.map { it.toDomainPost() } }
+        )
+        return pager.flow.map { pagingSource -> pagingSource.map { it -> it.toDomainPost() } }
     }
 
     override suspend fun putPost(text: String?, images: List<ImageInfo>): Post {
@@ -67,7 +60,7 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getProfilePosts(profileId: String): Flow<PagingData<Post>> {
-        return Pager(
+        val pager: Pager<String, PostModel> = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = {
                 BasePagingSource(loadData = { loadSize, key ->
@@ -78,6 +71,7 @@ class PostRepositoryImpl @Inject constructor(
                     )
                 })
             }
-        ).flow.map { pagingSource -> pagingSource.map { it.toDomainPost() } }
+        )
+        return pager.flow.map { pagingSource -> pagingSource.map { it.toDomainPost() } }
     }
 }

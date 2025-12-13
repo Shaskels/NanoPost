@@ -1,11 +1,11 @@
 package com.example.nanopost.data.repository
 
-import com.example.nanopost.data.remote.network.AuthService
 import com.example.nanopost.data.remote.mappers.toDomainEntity
-import com.example.nanopost.data.remote.network.model.RegisterRequest
 import com.example.nanopost.domain.entity.AuthResult
 import com.example.nanopost.domain.entity.UsernameCheckResult
 import com.example.nanopost.domain.repository.AuthRepository
+import com.example.shared.network.data.network.AuthService
+import com.example.shared.network.data.network.model.RegisterRequest
 import jakarta.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

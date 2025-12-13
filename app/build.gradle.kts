@@ -50,6 +50,8 @@ dependencies {
     implementation(project(":util:datetime"))
     implementation(project(":util:networkchecker"))
     implementation(project(":component:uicomponents"))
+    implementation(project(":shared:network"))
+    implementation(project(":shared:settings"))
 
     //ktor
     implementation(libs.ktor.client.core)
@@ -67,9 +69,6 @@ dependencies {
 
     //serialization
     implementation(libs.kotlinx.serialization.json)
-
-    //datastore
-    implementation(libs.androidx.datastore.preferences)
 
     //navigation3
     implementation(libs.androidx.navigation3.ui)

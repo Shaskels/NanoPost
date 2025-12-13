@@ -1,10 +1,10 @@
 package com.example.nanopost.presentation.extentions
 
-import com.example.nanopost.domain.exceptions.AppException
-import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.domain.exceptions.InternetProblemException
-import com.example.nanopost.domain.exceptions.UnknownException
-import com.example.nanopost.domain.exceptions.WrongPasswordException
+import com.example.shared.network.domain.exceptions.AppException
+import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.InternetProblemException
+import com.example.shared.network.domain.exceptions.UnknownException
+import com.example.shared.network.domain.exceptions.WrongPasswordException
 
 fun Throwable.toAppException(): AppException {
     return when(this) {

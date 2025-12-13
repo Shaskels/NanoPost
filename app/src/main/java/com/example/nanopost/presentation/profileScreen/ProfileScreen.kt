@@ -67,9 +67,9 @@ import com.example.nanopost.R
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.entity.Profile
-import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.component.PostListItem
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable

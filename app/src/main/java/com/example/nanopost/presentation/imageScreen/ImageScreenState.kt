@@ -1,7 +1,7 @@
 package com.example.nanopost.presentation.imageScreen
 
 import com.example.nanopost.domain.entity.Image
-import com.example.nanopost.domain.exceptions.AppException
+import com.example.shared.network.domain.exceptions.AppException
 
 sealed interface ImageScreenState {
     data class Error(val e: AppException): ImageScreenState

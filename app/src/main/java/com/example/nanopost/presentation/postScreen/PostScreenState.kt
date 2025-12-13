@@ -1,7 +1,7 @@
 package com.example.nanopost.presentation.postScreen
 
 import com.example.nanopost.domain.entity.Post
-import com.example.nanopost.domain.exceptions.AppException
+import com.example.shared.network.domain.exceptions.AppException
 
 sealed interface PostScreenState {
 

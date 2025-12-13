@@ -1,7 +1,7 @@
 package com.example.nanopost.data.remote.mappers
 
-import com.example.nanopost.data.remote.network.model.ProfileModel
 import com.example.nanopost.domain.entity.Profile
+import com.example.shared.network.data.network.model.ProfileModel
 
 fun ProfileModel.toDomainProfile() = Profile(
     id = this.id,

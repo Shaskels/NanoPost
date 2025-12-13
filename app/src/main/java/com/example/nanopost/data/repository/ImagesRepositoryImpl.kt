@@ -12,11 +12,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.nanopost.data.remote.mappers.toDomainImage
-import com.example.nanopost.data.remote.network.ApiService
-import com.example.nanopost.data.remote.network.model.ImageInfo
-import com.example.nanopost.data.remote.paging.BasePagingSource
 import com.example.nanopost.domain.entity.Image
+import com.example.shared.network.data.network.model.ImageInfo
 import com.example.nanopost.domain.repository.ImagesRepository
+import com.example.shared.network.data.network.ApiService
+import com.example.shared.network.data.network.model.ImageModel
+import com.example.shared.network.data.network.model.PagedResponse
+import com.example.shared.network.data.paging.BasePagingSource
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -33,11 +35,12 @@ class ImagesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getProfileImagesPreview(profileId: String): List<Image> {
-        return apiService.getProfileImages(profileId, 4, null).items.map { it.toDomainImage() }
+        val pagedData: PagedResponse<ImageModel> = apiService.getProfileImages(profileId, 4, null)
+        return pagedData.items.map { it.toDomainImage() }
     }
 
     override fun getProfileImages(profileId: String): Flow<PagingData<Image>> {
-        return Pager(
+        val pager: Pager<String, ImageModel> = Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = {
                 BasePagingSource(loadData = { loadSize, key ->
@@ -48,7 +51,8 @@ class ImagesRepositoryImpl @Inject constructor(
                     )
                 })
             }
-        ).flow.map { pagedData -> pagedData.map { it.toDomainImage() } }
+        )
+        return pager.flow.map { pagedData -> pagedData.map { it.toDomainImage() } }
     }
 
     override suspend fun deleteImage(imageId: String) {

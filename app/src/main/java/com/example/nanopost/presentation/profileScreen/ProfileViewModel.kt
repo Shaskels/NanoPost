@@ -3,11 +3,6 @@ package com.example.nanopost.presentation.profileScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.nanopost.domain.exceptions.AppException
-import com.example.nanopost.domain.exceptions.AuthenticationException
-import com.example.nanopost.domain.exceptions.InternetProblemException
-import com.example.nanopost.domain.exceptions.UnknownException
-import com.example.nanopost.domain.exceptions.WrongPasswordException
 import com.example.nanopost.domain.usecase.GetUserIdUseCase
 import com.example.nanopost.domain.usecase.GetUserImagesPreviewUseCase
 import com.example.nanopost.domain.usecase.GetUserPostsUseCase
@@ -17,6 +12,11 @@ import com.example.nanopost.domain.usecase.SubscribeUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase
 import com.example.nanopost.domain.usecase.UnsubscribeUseCase
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.AppException
+import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.InternetProblemException
+import com.example.shared.network.domain.exceptions.UnknownException
+import com.example.shared.network.domain.exceptions.WrongPasswordException
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

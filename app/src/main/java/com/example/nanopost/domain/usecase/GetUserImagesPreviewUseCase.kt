@@ -2,7 +2,7 @@ package com.example.nanopost.domain.usecase
 
 import com.example.nanopost.domain.entity.Image
 import com.example.nanopost.domain.repository.ImagesRepository
-import com.example.nanopost.domain.repository.SettingsRepository
+import com.example.shared.settings.domain.repository.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

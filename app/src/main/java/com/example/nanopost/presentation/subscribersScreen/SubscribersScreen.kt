@@ -36,8 +36,8 @@ import com.example.component.uicomponents.PhotoAvatar
 import com.example.component.uicomponents.loadState
 import com.example.nanopost.R
 import com.example.nanopost.domain.entity.ProfileCompact
-import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.extentions.toAppException
+import com.example.shared.network.domain.exceptions.AuthenticationException
 
 @Composable
 fun SubscribersScreen(

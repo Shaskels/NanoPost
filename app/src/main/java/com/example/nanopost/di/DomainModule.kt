@@ -4,12 +4,12 @@ import com.example.nanopost.data.repository.AuthRepositoryImpl
 import com.example.nanopost.data.repository.ImagesRepositoryImpl
 import com.example.nanopost.data.repository.PostRepositoryImpl
 import com.example.nanopost.data.repository.ProfileRepositoryImpl
-import com.example.nanopost.data.repository.SettingsRepositoryImpl
 import com.example.nanopost.domain.repository.AuthRepository
 import com.example.nanopost.domain.repository.ImagesRepository
 import com.example.nanopost.domain.repository.PostRepository
 import com.example.nanopost.domain.repository.ProfileRepository
-import com.example.nanopost.domain.repository.SettingsRepository
+import com.example.shared.settings.data.SettingsRepositoryImpl
+import com.example.shared.settings.domain.repository.SettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

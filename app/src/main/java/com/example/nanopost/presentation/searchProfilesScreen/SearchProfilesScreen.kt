@@ -23,9 +23,9 @@ import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.SearchField
 import com.example.component.uicomponents.loadState
-import com.example.nanopost.domain.exceptions.AuthenticationException
 import com.example.nanopost.presentation.extentions.toAppException
 import com.example.nanopost.presentation.subscribersScreen.SubscriberItem
+import com.example.shared.network.domain.exceptions.AuthenticationException
 
 @Composable
 fun SearchProfilesScreen(

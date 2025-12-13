@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.usecase
 
 import com.example.nanopost.domain.repository.AuthRepository
-import com.example.nanopost.domain.repository.SettingsRepository
+import com.example.shared.settings.domain.repository.SettingsRepository
 import javax.inject.Inject
 
 class RegisterUserUseCase @Inject constructor(

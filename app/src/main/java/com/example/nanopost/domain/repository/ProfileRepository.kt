@@ -1,7 +1,7 @@
 package com.example.nanopost.domain.repository
 
 import androidx.paging.PagingData
-import com.example.nanopost.data.remote.network.model.ImageInfo
+import com.example.shared.network.data.network.model.ImageInfo
 import com.example.nanopost.domain.entity.Profile
 import com.example.nanopost.domain.entity.ProfileCompact
 import kotlinx.coroutines.flow.Flow

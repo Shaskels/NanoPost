@@ -3,7 +3,6 @@ package com.example.nanopost.domain.usecase
 import androidx.paging.PagingData
 import com.example.nanopost.domain.entity.Post
 import com.example.nanopost.domain.repository.PostRepository
-import com.example.nanopost.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
