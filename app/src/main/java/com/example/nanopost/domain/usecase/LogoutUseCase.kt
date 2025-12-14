@@ -1,6 +1,6 @@
 package com.example.nanopost.domain.usecase
 
-import com.example.nanopost.domain.repository.SettingsRepository
+import com.example.shared.settings.domain.repository.SettingsRepository
 import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(
@@ -9,5 +9,4 @@ class LogoutUseCase @Inject constructor(
     suspend operator fun invoke() {
         settingsRepository.clearData()
     }
-
 }

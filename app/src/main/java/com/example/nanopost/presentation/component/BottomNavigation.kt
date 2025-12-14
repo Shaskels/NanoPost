@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.nanopost.R
 import com.example.nanopost.presentation.mainScreen.NavigationOptions
-import com.example.nanopost.presentation.theme.LocalExtendedColors
 
 @Composable
 fun BottomNavigation(

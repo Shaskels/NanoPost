@@ -1,0 +1,20 @@
+package com.example.shared.domain.usecase
+
+import com.example.shared.domain.entity.Profile
+import com.example.shared.domain.repository.ProfileRepository
+import com.example.shared.settings.domain.repository.SettingsRepository
+import jakarta.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+class GetUserProfileUseCase @Inject constructor(
+    private val settingsRepository: SettingsRepository,
+    private val profileRepository: ProfileRepository
+) {
+    suspend operator fun invoke(profileId: String?): Profile {
+        return withContext(Dispatchers.IO) {
+            val userId = profileId ?: settingsRepository.getUserId()
+            profileRepository.getProfile(userId)
+        }
+    }
+}

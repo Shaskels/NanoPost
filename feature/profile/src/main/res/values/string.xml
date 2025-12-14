@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="are_you_sure_you_want_to_confirm">Are you sure you want to log out?</string>
+    <string name="images">images</string>
+    <string name="subscribers">subscribers</string>
+    <string name="posts">posts</string>
+    <string name="edit">Edit</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="images_big">Images</string>
+</resources>

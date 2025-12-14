@@ -1,0 +1,127 @@
+package com.example.shared.network.data.network
+
+import com.example.shared.network.data.network.model.ImageModel
+import com.example.shared.network.data.network.model.PagedResponse
+import com.example.shared.network.data.network.model.PostModel
+import com.example.shared.network.data.network.model.ProfileCompactModel
+import com.example.shared.network.data.network.model.ProfileModel
+import com.example.shared.network.di.ApiClient
+import com.example.util.image.ImageInfo
+import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.append
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.parameter
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.utils.io.core.writeFully
+import javax.inject.Inject
+
+class ApiService @Inject constructor(
+    baseUrl: String,
+    @ApiClient httpClient: HttpClient,
+) : BaseService(httpClient, baseUrl) {
+
+    suspend fun getFeed(count: Int, offset: String?): PagedResponse<PostModel> = get("/v1/feed") {
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+        parameter("mode", "full")
+    }
+
+    suspend fun putPost(
+        text: String?,
+        images: List<ImageInfo>
+    ): PostModel = put("/v1/post") {
+        setBody(
+            MultiPartFormDataContent(
+                parts = formData {
+                    text?.let { append("text", text) }
+                    images.forEachIndexed { index, images ->
+                        append(
+                            key = "image$index",
+                            filename = images.name,
+                            contentType = images.mimeType?.let { ContentType.Companion.parse(it) },
+                            bodyBuilder = { writeFully(images.bytes) }
+                        )
+                    }
+                }
+            )
+        )
+    }
+
+    suspend fun getPost(postId: String): PostModel = get("/v1/post/$postId")
+
+    suspend fun deletePost(postId: String) = delete<Unit>("/v1/post/$postId")
+
+    suspend fun likePost(postId: String): PostModel = put("/v1/post/$postId/like")
+
+    suspend fun unlikePost(postId: String): PostModel = delete("/v1/post/$postId/like")
+
+    suspend fun getProfile(profileId: String): ProfileModel = get("/v1/profile/$profileId")
+
+    suspend fun deleteImage(imageId: String) = delete<Unit>("/v1/image/$imageId")
+
+    suspend fun getImage(imageId: String) = get<ImageModel>("/v1/image/$imageId")
+
+    suspend fun subscribeOn(profileId: String) = put<Unit>("/v1/profile/$profileId/subscribe")
+
+    suspend fun unsubscribeOf(profileId: String) = delete<Unit>("/v1/profile/$profileId/subscribe")
+
+    suspend fun patchProfile(displayName: String?, bio: String?, avatar: ImageInfo?) =
+        patch<Unit>("/v1/profile") {
+            setBody(
+                MultiPartFormDataContent(
+                    parts = formData {
+                        displayName?.let { append("displayName", displayName) }
+                        bio?.let { append("bio", bio) }
+                        avatar?.let {
+                            append(
+                                key = "avatar",
+                                filename = avatar.name,
+                                contentType = avatar.mimeType?.let { ContentType.Companion.parse(it) },
+                                bodyBuilder = { writeFully(avatar.bytes) }
+                            )
+                        }
+                    }
+                )
+            )
+        }
+
+    suspend fun searchProfile(
+        query: String,
+        count: Int,
+        offset: String?
+    ): PagedResponse<ProfileCompactModel> = get("/v1/profile/search") {
+        parameter("query", query)
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+    }
+
+    suspend fun getProfileImages(
+        profileId: String,
+        count: Int,
+        offset: String?
+    ): PagedResponse<ImageModel> =
+        get("/v1/images/$profileId") {
+            parameter("count", count)
+            offset?.let { parameter("offset", offset) }
+        }
+
+    suspend fun getProfilePosts(
+        profileId: String,
+        count: Int,
+        offset: String?
+    ): PagedResponse<PostModel> = get("/v1/posts/$profileId") {
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+    }
+
+    suspend fun getProfileSubscribers(
+        profileId: String,
+        count: Int,
+        offset: String?,
+    ): PagedResponse<ProfileCompactModel> = get("/v1/subscribers/$profileId") {
+        parameter("count", count)
+        offset?.let { parameter("offset", offset) }
+    }
+}

@@ -1,0 +1,12 @@
+package com.example.feature.image.domain
+
+import com.example.shared.domain.repository.ImagesRepository
+import javax.inject.Inject
+
+class DeleteImageUseCase @Inject constructor(
+    private val imagesRepository: ImagesRepository
+) {
+    suspend operator fun invoke(imageId: String) {
+        imagesRepository.deleteImage(imageId)
+    }
+}

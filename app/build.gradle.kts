@@ -47,14 +47,26 @@ kotlin {
 
 dependencies {
 
-    //ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.logging)
-    implementation(libs.ktor.auth)
-    implementation(libs.ktor.contentNegotiation)
-    implementation(libs.okhttp)
-    implementation(libs.ktor.serialization)
+    implementation(project(":component:uicomponents"))
+    implementation(project(":shared:network"))
+    implementation(project(":shared:settings"))
+    implementation(project(":shared:auth:domain"))
+    implementation(project(":shared:auth:remote"))
+    implementation(project(":shared:profile:domain"))
+    implementation(project(":shared:profile:remote"))
+    implementation(project(":shared:post:domain"))
+    implementation(project(":shared:post:remote"))
+    implementation(project(":feature:auth"))
+    implementation(project(":feature:editprofile"))
+    implementation(project(":feature:image"))
+    implementation(project(":feature:subscribers"))
+    implementation(project(":feature:post"))
+    implementation(project(":feature:newpost"))
+    implementation(project(":feature:searchprofiles"))
+    implementation(project(":feature:profileposts"))
+    implementation(project(":feature:images"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:feed"))
 
     //hilt
     implementation(libs.hilt.android.runtime)
@@ -63,9 +75,6 @@ dependencies {
 
     //serialization
     implementation(libs.kotlinx.serialization.json)
-
-    //datastore
-    implementation(libs.androidx.datastore.preferences)
 
     //navigation3
     implementation(libs.androidx.navigation3.ui)
@@ -76,10 +85,6 @@ dependencies {
     //timber
     implementation(libs.jakewharton.timber)
 
-    //coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.http)
-
     //splashScreen
     implementation(libs.androidx.core.splashscreen)
 
@@ -87,16 +92,6 @@ dependencies {
     implementation(libs.hilt.android.work)
     implementation(libs.androidx.work.runtime)
     ksp(libs.androidx.hilt.compiler)
-
-    //datetime
-    implementation(libs.kotlinx.datetime)
-
-    //paging
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
-
-    //zoomable
-    implementation(libs.net.engawapg.zoomable)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.nanopost.presentation.theme.NanoPostTheme
+import com.example.component.uicomponents.theme.NanoPostTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

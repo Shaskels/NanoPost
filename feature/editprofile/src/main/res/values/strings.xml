@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="display_name">Display name</string>
+    <string name="bio">Bio</string>
+    <string name="profile">Profile</string>
+</resources>

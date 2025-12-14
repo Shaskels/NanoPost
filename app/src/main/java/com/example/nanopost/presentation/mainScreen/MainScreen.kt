@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,29 +20,28 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.example.nanopost.presentation.authScreen.AuthScreen
+import com.examle.feature.images.presentation.imagesScreen.ImagesScreen
+import com.examle.feature.images.presentation.imagesScreen.ImagesViewModel
+import com.example.component.uicomponents.CustomSnackbar
+import com.example.component.uicomponents.CustomSnackbarHost
+import com.example.component.uicomponents.LocalSnackbarHost
+import com.example.feature.auth.presentation.authScreen.AuthScreen
+import com.example.feature.editprofile.presentation.editProfileScreen.EditProfileScreen
+import com.example.feature.feed.presentation.feedScreen.FeedScreen
+import com.example.feature.image.presentation.imageScreen.ImageScreen
+import com.example.feature.image.presentation.imageScreen.ImageViewModel
+import com.example.feature.newpost.presentation.newPostScreen.NewPostScreen
+import com.example.feature.post.presentation.postScreen.PostScreen
+import com.example.feature.post.presentation.postScreen.PostViewModel
+import com.example.feature.profile.presentation.profileScreen.ProfileScreen
+import com.example.feature.profile.presentation.profileScreen.ProfileViewModel
+import com.example.feature.profileposts.presentation.profilePostsScreen.ProfilePostsScreen
+import com.example.feature.profileposts.presentation.profilePostsScreen.ProfilePostsViewModel
+import com.example.feature.searchprofiles.presentation.searchProfilesScreen.SearchProfilesScreen
+import com.example.feature.subscribers.presentation.subscribersScreen.SubscribersScreen
+import com.example.feature.subscribers.presentation.subscribersScreen.SubscribersViewModel
 import com.example.nanopost.presentation.component.BottomNavigation
-import com.example.nanopost.presentation.component.CustomSnackbar
-import com.example.nanopost.presentation.editProfileScreen.EditProfileScreen
-import com.example.nanopost.presentation.feedScreen.FeedScreen
-import com.example.nanopost.presentation.imageScreen.ImageScreen
-import com.example.nanopost.presentation.imageScreen.ImageViewModel
-import com.example.nanopost.presentation.imagesScreen.ImagesScreen
-import com.example.nanopost.presentation.imagesScreen.ImagesViewModel
-import com.example.nanopost.presentation.newPostScreen.NewPostScreen
-import com.example.nanopost.presentation.postScreen.PostScreen
-import com.example.nanopost.presentation.postScreen.PostViewModel
-import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
-import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
-import com.example.nanopost.presentation.profileScreen.ProfileScreen
-import com.example.nanopost.presentation.profileScreen.ProfileViewModel
-import com.example.nanopost.presentation.searchProfilesScreen.SearchProfilesScreen
-import com.example.nanopost.presentation.subscribersScreen.SubscribersScreen
-import com.example.nanopost.presentation.subscribersScreen.SubscribersViewModel
 
-val LocalSnackbarHost = compositionLocalOf<CustomSnackbarHost> {
-    error("No Snackbar Host State")
-}
 
 @Composable
 fun MainScreen(mainViewModel: MainViewModel) {
@@ -174,7 +172,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     entry<Route.ProfilePosts> { profile ->
                         val viewModel = hiltViewModel(
                             key = profile.profileId,
-                            creationCallback = { factory: ProfilePostsViewModelFactory ->
+                            creationCallback = { factory: ProfilePostsViewModel.ProfilePostsViewModelFactory ->
                                 factory.create(profile.profileId)
                             }
                         )

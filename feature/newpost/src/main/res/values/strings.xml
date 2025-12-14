@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="post_is_uploading">Post is uploading…</string>
+    <string name="new_post">New post…</string>
+    <string name="add_image">Add image…</string>
+    <string name="enter_post_text">Enter post text</string>
+</resources>
