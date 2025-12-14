@@ -1,12 +1,12 @@
-package com.example.nanopost.presentation.newPostScreen
+package com.example.feature.newpost.presentation.newPostScreen
 
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkManager
-import com.example.nanopost.presentation.newPostScreen.newPostScreenState.NewPostScreenState
-import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
-import com.example.nanopost.presentation.worker.PostSendWorker
+import com.example.feature.newpost.presentation.newPostScreen.newPostScreenState.NewPostScreenState
+import com.example.feature.newpost.presentation.newPostScreen.newPostScreenState.UploadState
+import com.example.feature.newpost.presentation.worker.PostSendWorker
 import com.example.util.networkchecker.isNetworkAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

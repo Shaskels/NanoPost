@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":feature:image"))
     implementation(project(":feature:subscribers"))
     implementation(project(":feature:post"))
+    implementation(project(":feature:newpost"))
 
     //ktor
     implementation(libs.ktor.client.core)

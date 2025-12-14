@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.newPostScreen.newPostScreenState
+package com.example.feature.newpost.presentation.newPostScreen.newPostScreenState
 
 import android.net.Uri
 

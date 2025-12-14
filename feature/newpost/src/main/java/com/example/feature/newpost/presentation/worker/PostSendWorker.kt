@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.worker
+package com.example.feature.newpost.presentation.worker
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -18,13 +18,13 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.example.nanopost.R
-import com.example.component.uicomponent.R as uiComponentsR
-import com.example.nanopost.domain.usecase.UploadPostUseCase
+import com.example.feature.newpost.R
+import com.example.feature.newpost.domain.UploadPostUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
+import com.example.component.uicomponent.R as uiComponentsR
 
 @HiltWorker
 class PostSendWorker @AssistedInject constructor(

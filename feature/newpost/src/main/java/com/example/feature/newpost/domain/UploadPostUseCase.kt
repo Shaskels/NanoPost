@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.usecase
+package com.example.feature.newpost.domain
 
 import android.net.Uri
 import com.example.shared.domain.repository.ImagesRepository

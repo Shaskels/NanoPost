@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.newPostScreen
+package com.example.feature.newpost.presentation.newPostScreen
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -35,10 +35,10 @@ import com.example.component.uicomponents.AddImageButton
 import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ImageWithDelete
 import com.example.component.uicomponents.LocalSnackbarHost
-import com.example.component.uicomponents.theme.LocalExtendedColors
-import com.example.nanopost.R
 import com.example.component.uicomponents.showSnackbar
-import com.example.nanopost.presentation.newPostScreen.newPostScreenState.UploadState
+import com.example.component.uicomponents.theme.LocalExtendedColors
+import com.example.feature.newpost.R
+import com.example.feature.newpost.presentation.newPostScreen.newPostScreenState.UploadState
 import timber.log.Timber
 
 @Composable
@@ -76,7 +76,7 @@ fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hilt
 
             UploadState.DataFailure -> {
                 snackbarHost.showSnackbar(
-                    message = "Not enouth data",
+                    message = "Not enough data",
                     actionLabel = null,
                     onActionPerformed = {},
                     onDismiss = {}
