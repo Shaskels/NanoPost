@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.usecase
+package com.examle.feature.images.domain
 
 import androidx.paging.PagingData
 import com.example.shared.domain.entity.Image

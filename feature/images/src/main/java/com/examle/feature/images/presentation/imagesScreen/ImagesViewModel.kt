@@ -1,9 +1,9 @@
-package com.example.nanopost.presentation.imagesScreen
+package com.examle.feature.images.presentation.imagesScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.nanopost.domain.usecase.GetProfileImagesUseCase
+import com.examle.feature.images.domain.GetProfileImagesUseCase
 import com.example.shared.settings.domain.usecase.GetUserIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

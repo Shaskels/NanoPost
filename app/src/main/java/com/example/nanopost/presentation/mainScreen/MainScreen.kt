@@ -20,6 +20,8 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.examle.feature.images.presentation.imagesScreen.ImagesScreen
+import com.examle.feature.images.presentation.imagesScreen.ImagesViewModel
 import com.example.component.uicomponents.CustomSnackbar
 import com.example.component.uicomponents.CustomSnackbarHost
 import com.example.component.uicomponents.LocalSnackbarHost
@@ -37,8 +39,6 @@ import com.example.feature.subscribers.presentation.subscribersScreen.Subscriber
 import com.example.feature.subscribers.presentation.subscribersScreen.SubscribersViewModel
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.feedScreen.FeedScreen
-import com.example.nanopost.presentation.imagesScreen.ImagesScreen
-import com.example.nanopost.presentation.imagesScreen.ImagesViewModel
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
 

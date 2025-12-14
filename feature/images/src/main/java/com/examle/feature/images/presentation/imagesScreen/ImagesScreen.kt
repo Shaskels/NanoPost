@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.imagesScreen
+package com.examle.feature.images.presentation.imagesScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,9 +27,9 @@ import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.loadState
-import com.example.nanopost.R
-import com.example.shared.network.domain.exceptions.toAppException
+import com.example.feature.images.R
 import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable
