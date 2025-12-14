@@ -1,7 +1,7 @@
-package com.example.nanopost.presentation.searchProfilesScreen
+package com.example.feature.searchprofiles.presentation.searchProfilesScreen
 
 import androidx.lifecycle.ViewModel
-import com.example.nanopost.domain.usecase.SearchProfileUseCase
+import com.example.feature.searchprofiles.entity.SearchProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.searchProfilesScreen
+package com.example.feature.searchprofiles.presentation.searchProfilesScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
