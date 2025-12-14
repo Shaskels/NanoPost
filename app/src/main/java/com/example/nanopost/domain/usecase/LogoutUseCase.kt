@@ -9,5 +9,4 @@ class LogoutUseCase @Inject constructor(
     suspend operator fun invoke() {
         settingsRepository.clearData()
     }
-
 }
