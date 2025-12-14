@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.postScreen
+package com.example.feature.post.presentation.postScreen
 
 import com.example.shared.domain.entity.Post
 import com.example.shared.network.domain.exceptions.AppException

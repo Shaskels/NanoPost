@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.postScreen
+package com.example.feature.post.presentation.postScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -36,7 +36,7 @@ import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.UserPostInfo
-import com.example.nanopost.R
+import com.example.feature.post.R
 import com.example.shared.domain.entity.Post
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
