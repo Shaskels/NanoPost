@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.feedScreen
+package com.example.feature.feed.presentation.feedScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,9 +44,8 @@ import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.component.uicomponents.loadState
 import com.example.component.uicomponents.showSnackbar
-import com.example.feature.profileposts.presentation.profilePostsScreen.PostListItem
-import com.example.nanopost.R
-import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
+import com.example.feature.feed.R
+import com.example.feature.feed.presentation.feedScreen.screenState.LikeErrors
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
 import com.example.component.uicomponent.R as uiComponentsR

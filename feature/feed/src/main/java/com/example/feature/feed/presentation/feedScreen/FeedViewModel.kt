@@ -1,19 +1,19 @@
-package com.example.nanopost.presentation.feedScreen
+package com.example.feature.feed.presentation.feedScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.nanopost.domain.usecase.GetFeedUseCase
+import com.example.feature.feed.domain.GetFeedUseCase
+import com.example.feature.feed.presentation.feedScreen.screenState.FeedScreenState
+import com.example.feature.feed.presentation.feedScreen.screenState.LikeErrors
 import com.example.shared.domain.usecase.LikePostUseCase
 import com.example.shared.domain.usecase.UnlikePostUseCase
-import com.example.shared.network.domain.exceptions.toAppException
-import com.example.nanopost.presentation.feedScreen.screenState.FeedScreenState
-import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.InternetProblemException
 import com.example.shared.network.domain.exceptions.UnknownException
 import com.example.shared.network.domain.exceptions.WrongPasswordException
+import com.example.shared.network.domain.exceptions.toAppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow

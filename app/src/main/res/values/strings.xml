@@ -1,23 +1,4 @@
 <resources>
-
-
     <string name="profile">Profile</string>
-
-
-    <string name="update">Update</string>
-
     <string name="feed">Feed</string>
-
-
-
-
-    <string name="delete">Delete</string>
-
-
-
-
-
-
-    <string name="empty_feed">There is nothing there</string>
-
 </resources>

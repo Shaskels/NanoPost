@@ -47,8 +47,6 @@ kotlin {
 
 dependencies {
 
-    implementation(project(":util:datetime"))
-    implementation(project(":util:networkchecker"))
     implementation(project(":component:uicomponents"))
     implementation(project(":shared:network"))
     implementation(project(":shared:settings"))
@@ -58,7 +56,6 @@ dependencies {
     implementation(project(":shared:profile:remote"))
     implementation(project(":shared:post:domain"))
     implementation(project(":shared:post:remote"))
-    implementation(project(":util:image"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:editprofile"))
     implementation(project(":feature:image"))
@@ -69,15 +66,7 @@ dependencies {
     implementation(project(":feature:profileposts"))
     implementation(project(":feature:images"))
     implementation(project(":feature:profile"))
-
-    //ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.logging)
-    implementation(libs.ktor.auth)
-    implementation(libs.ktor.contentNegotiation)
-    implementation(libs.okhttp)
-    implementation(libs.ktor.serialization)
+    implementation(project(":feature:feed"))
 
     //hilt
     implementation(libs.hilt.android.runtime)
@@ -96,10 +85,6 @@ dependencies {
     //timber
     implementation(libs.jakewharton.timber)
 
-    //coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.http)
-
     //splashScreen
     implementation(libs.androidx.core.splashscreen)
 
@@ -107,13 +92,6 @@ dependencies {
     implementation(libs.hilt.android.work)
     implementation(libs.androidx.work.runtime)
     ksp(libs.androidx.hilt.compiler)
-
-    //paging
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
-
-    //zoomable
-    implementation(libs.net.engawapg.zoomable)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

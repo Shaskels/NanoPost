@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.feedScreen.screenState
+package com.example.feature.feed.presentation.feedScreen.screenState
 
 sealed interface LikeErrors {
     data object NoError: LikeErrors

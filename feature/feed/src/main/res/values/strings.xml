@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feed">Feed</string>
+    <string name="empty_feed">There is nothing there</string>
+    <string name="update">Update</string>
+</resources>
