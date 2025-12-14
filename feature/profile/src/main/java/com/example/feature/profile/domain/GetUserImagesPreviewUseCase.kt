@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.usecase
+package com.example.feature.profile.domain
 
 import com.example.shared.domain.entity.Image
 import com.example.shared.domain.repository.ImagesRepository

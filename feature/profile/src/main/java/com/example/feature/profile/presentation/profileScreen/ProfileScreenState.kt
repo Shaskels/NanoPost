@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.profileScreen
+package com.example.feature.profile.presentation.profileScreen
 
 import com.example.shared.domain.entity.Image
 import com.example.shared.domain.entity.Profile

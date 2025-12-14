@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.usecase
+package com.example.shared.domain.usecase
 
 import com.example.shared.domain.repository.ProfileRepository
 import javax.inject.Inject

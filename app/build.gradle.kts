@@ -68,6 +68,7 @@ dependencies {
     implementation(project(":feature:searchprofiles"))
     implementation(project(":feature:profileposts"))
     implementation(project(":feature:images"))
+    implementation(project(":feature:profile"))
 
     //ktor
     implementation(libs.ktor.client.core)

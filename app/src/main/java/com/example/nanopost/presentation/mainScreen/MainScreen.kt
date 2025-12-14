@@ -32,6 +32,8 @@ import com.example.feature.image.presentation.imageScreen.ImageViewModel
 import com.example.feature.newpost.presentation.newPostScreen.NewPostScreen
 import com.example.feature.post.presentation.postScreen.PostScreen
 import com.example.feature.post.presentation.postScreen.PostViewModel
+import com.example.feature.profile.presentation.profileScreen.ProfileScreen
+import com.example.feature.profile.presentation.profileScreen.ProfileViewModel
 import com.example.feature.profileposts.presentation.profilePostsScreen.ProfilePostsScreen
 import com.example.feature.profileposts.presentation.profilePostsScreen.ProfilePostsViewModel
 import com.example.feature.searchprofiles.presentation.searchProfilesScreen.SearchProfilesScreen
@@ -39,8 +41,6 @@ import com.example.feature.subscribers.presentation.subscribersScreen.Subscriber
 import com.example.feature.subscribers.presentation.subscribersScreen.SubscribersViewModel
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.feedScreen.FeedScreen
-import com.example.nanopost.presentation.profileScreen.ProfileScreen
-import com.example.nanopost.presentation.profileScreen.ProfileViewModel
 
 
 @Composable

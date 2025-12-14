@@ -1,15 +1,15 @@
-package com.example.nanopost.presentation.profileScreen
+package com.example.feature.profile.presentation.profileScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.nanopost.domain.usecase.GetUserImagesPreviewUseCase
-import com.example.nanopost.domain.usecase.SubscribeUseCase
-import com.example.nanopost.domain.usecase.UnsubscribeUseCase
+import com.example.feature.profile.domain.GetUserImagesPreviewUseCase
 import com.example.shared.domain.usecase.GetUserPostsUseCase
 import com.example.shared.domain.usecase.GetUserProfileUseCase
 import com.example.shared.domain.usecase.LikePostUseCase
+import com.example.shared.domain.usecase.SubscribeUseCase
 import com.example.shared.domain.usecase.UnlikePostUseCase
+import com.example.shared.domain.usecase.UnsubscribeUseCase
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.InternetProblemException

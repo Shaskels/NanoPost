@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.profileScreen
+package com.example.feature.profile.presentation.profileScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -63,8 +63,7 @@ import com.example.component.uicomponents.OutlinedButton
 import com.example.component.uicomponents.PhotoAvatar
 import com.example.component.uicomponents.loadState
 import com.example.component.uicomponents.theme.LocalExtendedColors
-import com.example.feature.profileposts.presentation.profilePostsScreen.PostListItem
-import com.example.nanopost.R
+import com.example.feature.profile.R
 import com.example.shared.domain.entity.Image
 import com.example.shared.domain.entity.Post
 import com.example.shared.domain.entity.Profile
