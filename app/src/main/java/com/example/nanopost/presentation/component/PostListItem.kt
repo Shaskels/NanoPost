@@ -14,6 +14,7 @@ import com.example.component.uicomponents.CustomDivider
 import com.example.component.uicomponents.LikeButton
 import com.example.component.uicomponents.PhotoPager
 import com.example.component.uicomponents.UiImage
+import com.example.component.uicomponents.UserPostInfo
 import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.shared.domain.entity.Image
 import com.example.shared.domain.entity.Post
@@ -43,7 +44,9 @@ fun PostListItem(
     )
     {
         UserPostInfo(
-            owner = post.owner,
+            avatarUrl = post.owner.avatarUrl,
+            displayName = post.owner.displayName,
+            username = post.owner.username,
             dateCreated = post.dateCreated,
             modifier = Modifier
                 .padding(vertical = 16.dp, horizontal = 16.dp)

@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.component.uicomponents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,29 +9,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.component.uicomponents.NoPhotoAvatar
-import com.example.component.uicomponents.PhotoAvatar
-import com.example.shared.domain.entity.ProfileCompact
 import com.example.util.datetime.dateTimeFormatter
 
 @Composable
-fun UserPostInfo(owner: ProfileCompact, dateCreated: Long, modifier: Modifier = Modifier) {
+fun UserPostInfo(avatarUrl: String?, displayName: String?, username: String, dateCreated: Long, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier,
     ) {
 
-        if (owner.avatarUrl == null) {
-            NoPhotoAvatar(owner.displayName ?: owner.username, modifier = Modifier.size(40.dp))
+        if (avatarUrl == null) {
+            NoPhotoAvatar(displayName ?: username, modifier = Modifier.size(40.dp))
         } else {
-            PhotoAvatar(owner.avatarUrl!!, modifier = Modifier.size(40.dp))
+            PhotoAvatar(avatarUrl, modifier = Modifier.size(40.dp))
         }
 
         Column(
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
-                owner.displayName ?: owner.username,
+                displayName ?: username,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )

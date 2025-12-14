@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":util:image"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:editprofile"))
+    implementation(project(":feature:image"))
 
     //ktor
     implementation(libs.ktor.client.core)

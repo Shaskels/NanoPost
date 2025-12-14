@@ -25,10 +25,10 @@ import com.example.component.uicomponents.CustomSnackbarHost
 import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.feature.auth.presentation.authScreen.AuthScreen
 import com.example.feature.editprofile.presentation.editProfileScreen.EditProfileScreen
+import com.example.feature.image.presentation.imageScreen.ImageScreen
+import com.example.feature.image.presentation.imageScreen.ImageViewModel
 import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.feedScreen.FeedScreen
-import com.example.nanopost.presentation.imageScreen.ImageScreen
-import com.example.nanopost.presentation.imageScreen.ImageViewModel
 import com.example.nanopost.presentation.imagesScreen.ImagesScreen
 import com.example.nanopost.presentation.imagesScreen.ImagesViewModel
 import com.example.nanopost.presentation.newPostScreen.NewPostScreen

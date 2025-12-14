@@ -31,6 +31,9 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":util:datetime"))
+
     //coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.http)

@@ -1,11 +1,11 @@
-package com.example.nanopost.presentation.imageScreen
+package com.example.feature.image.presentation.imageScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanopost.domain.usecase.DeleteImageUseCase
-import com.example.nanopost.domain.usecase.GetImageUseCase
-import com.example.nanopost.domain.usecase.GetUserIdUseCase
+import com.example.feature.image.domain.DeleteImageUseCase
+import com.example.feature.image.domain.GetImageUseCase
 import com.example.shared.network.domain.exceptions.toAppException
+import com.example.shared.settings.domain.usecase.GetUserIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

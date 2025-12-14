@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.feature.editprofile"
+    namespace = "com.example.feature.image"
     compileSdk {
         version = release(36)
     }
@@ -34,10 +34,11 @@ android {
 
 dependencies {
 
-    implementation(project(":shared:profile:domain"))
-    implementation(project(":shared:profile:remote"))
     implementation(project(":shared:post:domain"))
     implementation(project(":shared:post:remote"))
+    implementation(project(":shared:profile:domain"))
+    implementation(project(":shared:network"))
+    implementation(project(":shared:settings"))
     implementation(project(":component:uicomponents"))
     implementation(project(":util:image"))
 
@@ -45,6 +46,13 @@ dependencies {
     implementation(libs.hilt.android.runtime)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.compose)
+
+    //coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.http)
+
+    //zoomable
+    implementation(libs.net.engawapg.zoomable)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

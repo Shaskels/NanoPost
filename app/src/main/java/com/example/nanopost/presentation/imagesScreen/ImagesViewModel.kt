@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.nanopost.domain.usecase.GetProfileImagesUseCase
-import com.example.nanopost.domain.usecase.GetUserIdUseCase
+import com.example.shared.settings.domain.usecase.GetUserIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

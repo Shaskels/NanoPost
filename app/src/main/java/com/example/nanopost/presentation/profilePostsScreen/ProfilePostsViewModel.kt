@@ -3,7 +3,7 @@ package com.example.nanopost.presentation.profilePostsScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.nanopost.domain.usecase.GetUserIdUseCase
+import com.example.shared.settings.domain.usecase.GetUserIdUseCase
 import com.example.nanopost.domain.usecase.GetUserPostsUseCase
 import com.example.nanopost.domain.usecase.LikePostUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase

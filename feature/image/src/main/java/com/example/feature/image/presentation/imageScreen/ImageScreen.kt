@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.imageScreen
+package com.example.feature.image.presentation.imageScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,9 +28,8 @@ import coil3.compose.AsyncImage
 import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
-import com.example.nanopost.R
-import com.example.nanopost.presentation.component.UserPostInfo
-import com.example.nanopost.presentation.postScreen.Error
+import com.example.component.uicomponents.UserPostInfo
+import com.example.feature.image.R
 import com.example.shared.domain.entity.Image
 import com.example.shared.network.domain.exceptions.AppException
 import com.example.shared.network.domain.exceptions.AuthenticationException
@@ -134,7 +133,9 @@ fun Screen(image: Image, imageViewModel: ImageViewModel, onBackClick: () -> Unit
             )
 
             UserPostInfo(
-                owner = image.owner,
+                avatarUrl = image.owner.avatarUrl,
+                displayName = image.owner.displayName,
+                username = image.owner.username,
                 dateCreated = image.dateCreated,
                 modifier = Modifier
                     .fillMaxWidth()

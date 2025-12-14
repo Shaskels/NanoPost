@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nanopost.domain.usecase.DeletePostUseCase
 import com.example.nanopost.domain.usecase.GetPostUseCase
-import com.example.nanopost.domain.usecase.GetUserIdUseCase
+import com.example.shared.settings.domain.usecase.GetUserIdUseCase
 import com.example.shared.network.domain.exceptions.toAppException
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
