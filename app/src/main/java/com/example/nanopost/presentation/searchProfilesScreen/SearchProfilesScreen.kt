@@ -22,10 +22,10 @@ import androidx.paging.compose.itemKey
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.SearchField
+import com.example.component.uicomponents.SubscriberItem
 import com.example.component.uicomponents.loadState
-import com.example.shared.network.domain.exceptions.toAppException
-import com.example.nanopost.presentation.subscribersScreen.SubscriberItem
 import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.toAppException
 
 @Composable
 fun SearchProfilesScreen(
@@ -86,8 +86,9 @@ fun SearchProfilesScreen(
                                 val item = profiles[index]
                                 if (item != null) {
                                     SubscriberItem(
-                                        item,
-                                        onProfileClick
+                                        avatarUrl = item.avatarUrl,
+                                        username = item.username,
+                                        onSubscriberClick = { onProfileClick(item.id) }
                                     )
                                 }
                             }

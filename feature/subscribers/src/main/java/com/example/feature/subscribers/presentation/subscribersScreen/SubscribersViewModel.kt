@@ -1,9 +1,9 @@
-package com.example.nanopost.presentation.subscribersScreen
+package com.example.feature.subscribers.presentation.subscribersScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.nanopost.domain.usecase.GetProfileSubscribersUseCase
+import com.example.feature.subscribers.presentation.domain.GetProfileSubscribersUseCase
 import com.example.shared.settings.domain.usecase.GetUserIdUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
