@@ -89,8 +89,10 @@ fun Screen(
         }
     }
 
-    if (screenState.authState == AuthState.Logged) {
-        onLogged()
+    LaunchedEffect(screenState.authState) {
+        if (screenState.authState == AuthState.Logged) {
+            onLogged()
+        }
     }
 
     Scaffold(modifier = Modifier) { paddingValues ->

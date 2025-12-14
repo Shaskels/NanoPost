@@ -60,6 +60,7 @@ dependencies {
     implementation(project(":shared:post:remote"))
     implementation(project(":util:image"))
     implementation(project(":feature:auth"))
+    implementation(project(":feature:editprofile"))
 
     //ktor
     implementation(libs.ktor.client.core)

@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.editProfileScreen
+package com.example.feature.editprofile.presentation.editProfileScreen
 
 data class EditProfileScreenState (
     val displayName: String?,

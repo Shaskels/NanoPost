@@ -1,11 +1,11 @@
-package com.example.nanopost.domain.usecase
+package com.example.shared.domain.usecase
 
 import com.example.shared.domain.entity.Profile
 import com.example.shared.domain.repository.ProfileRepository
 import com.example.shared.settings.domain.repository.SettingsRepository
+import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class GetUserProfileUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository,

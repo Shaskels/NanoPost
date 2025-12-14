@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.example.nanopost.domain.usecase.GetUserIdUseCase
 import com.example.nanopost.domain.usecase.GetUserImagesPreviewUseCase
 import com.example.nanopost.domain.usecase.GetUserPostsUseCase
-import com.example.nanopost.domain.usecase.GetUserProfileUseCase
+import com.example.shared.domain.usecase.GetUserProfileUseCase
 import com.example.nanopost.domain.usecase.LikePostUseCase
 import com.example.nanopost.domain.usecase.SubscribeUseCase
 import com.example.nanopost.domain.usecase.UnlikePostUseCase

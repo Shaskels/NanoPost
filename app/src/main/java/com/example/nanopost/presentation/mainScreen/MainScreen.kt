@@ -24,8 +24,8 @@ import com.example.component.uicomponents.CustomSnackbar
 import com.example.component.uicomponents.CustomSnackbarHost
 import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.feature.auth.presentation.authScreen.AuthScreen
+import com.example.feature.editprofile.presentation.editProfileScreen.EditProfileScreen
 import com.example.nanopost.presentation.component.BottomNavigation
-import com.example.nanopost.presentation.editProfileScreen.EditProfileScreen
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.imageScreen.ImageScreen
 import com.example.nanopost.presentation.imageScreen.ImageViewModel
@@ -41,7 +41,6 @@ import com.example.nanopost.presentation.profileScreen.ProfileViewModel
 import com.example.nanopost.presentation.searchProfilesScreen.SearchProfilesScreen
 import com.example.nanopost.presentation.subscribersScreen.SubscribersScreen
 import com.example.nanopost.presentation.subscribersScreen.SubscribersViewModel
-
 
 
 @Composable

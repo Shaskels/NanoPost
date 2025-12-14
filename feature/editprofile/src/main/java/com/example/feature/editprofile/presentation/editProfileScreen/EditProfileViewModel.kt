@@ -1,10 +1,10 @@
-package com.example.nanopost.presentation.editProfileScreen
+package com.example.feature.editprofile.presentation.editProfileScreen
 
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanopost.domain.usecase.GetUserProfileUseCase
-import com.example.nanopost.domain.usecase.UpdateProfileUseCase
+import com.example.feature.editprofile.presentation.domain.UpdateProfileUseCase
+import com.example.shared.domain.usecase.GetUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler

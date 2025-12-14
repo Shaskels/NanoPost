@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.editProfileScreen
+package com.example.feature.editprofile.presentation.editProfileScreen
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -28,7 +28,7 @@ import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.component.uicomponents.NoPhotoAvatar
 import com.example.component.uicomponents.PhotoAvatar
 import com.example.component.uicomponents.showSnackbar
-import com.example.nanopost.R
+import com.example.feature.editprofile.R
 
 @Composable
 fun EditProfileScreen(
