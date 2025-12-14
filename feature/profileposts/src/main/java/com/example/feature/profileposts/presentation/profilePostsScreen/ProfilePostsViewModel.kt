@@ -1,12 +1,12 @@
-package com.example.nanopost.presentation.profilePostsScreen
+package com.example.feature.profileposts.presentation.profilePostsScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.example.shared.domain.usecase.GetUserPostsUseCase
+import com.example.shared.domain.usecase.LikePostUseCase
+import com.example.shared.domain.usecase.UnlikePostUseCase
 import com.example.shared.settings.domain.usecase.GetUserIdUseCase
-import com.example.nanopost.domain.usecase.GetUserPostsUseCase
-import com.example.nanopost.domain.usecase.LikePostUseCase
-import com.example.nanopost.domain.usecase.UnlikePostUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

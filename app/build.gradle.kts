@@ -66,6 +66,7 @@ dependencies {
     implementation(project(":feature:post"))
     implementation(project(":feature:newpost"))
     implementation(project(":feature:searchprofiles"))
+    implementation(project(":feature:profileposts"))
 
     //ktor
     implementation(libs.ktor.client.core)

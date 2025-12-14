@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.component
+package com.example.feature.profileposts.presentation.profilePostsScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding

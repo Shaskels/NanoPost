@@ -30,6 +30,8 @@ import com.example.feature.image.presentation.imageScreen.ImageViewModel
 import com.example.feature.newpost.presentation.newPostScreen.NewPostScreen
 import com.example.feature.post.presentation.postScreen.PostScreen
 import com.example.feature.post.presentation.postScreen.PostViewModel
+import com.example.feature.profileposts.presentation.profilePostsScreen.ProfilePostsScreen
+import com.example.feature.profileposts.presentation.profilePostsScreen.ProfilePostsViewModel
 import com.example.feature.searchprofiles.presentation.searchProfilesScreen.SearchProfilesScreen
 import com.example.feature.subscribers.presentation.subscribersScreen.SubscribersScreen
 import com.example.feature.subscribers.presentation.subscribersScreen.SubscribersViewModel
@@ -37,8 +39,6 @@ import com.example.nanopost.presentation.component.BottomNavigation
 import com.example.nanopost.presentation.feedScreen.FeedScreen
 import com.example.nanopost.presentation.imagesScreen.ImagesScreen
 import com.example.nanopost.presentation.imagesScreen.ImagesViewModel
-import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsScreen
-import com.example.nanopost.presentation.profilePostsScreen.ProfilePostsViewModel.ProfilePostsViewModelFactory
 import com.example.nanopost.presentation.profileScreen.ProfileScreen
 import com.example.nanopost.presentation.profileScreen.ProfileViewModel
 
@@ -172,7 +172,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
                     entry<Route.ProfilePosts> { profile ->
                         val viewModel = hiltViewModel(
                             key = profile.profileId,
-                            creationCallback = { factory: ProfilePostsViewModelFactory ->
+                            creationCallback = { factory: ProfilePostsViewModel.ProfilePostsViewModelFactory ->
                                 factory.create(profile.profileId)
                             }
                         )

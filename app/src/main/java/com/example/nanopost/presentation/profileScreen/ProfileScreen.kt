@@ -63,13 +63,13 @@ import com.example.component.uicomponents.OutlinedButton
 import com.example.component.uicomponents.PhotoAvatar
 import com.example.component.uicomponents.loadState
 import com.example.component.uicomponents.theme.LocalExtendedColors
+import com.example.feature.profileposts.presentation.profilePostsScreen.PostListItem
 import com.example.nanopost.R
-import com.example.nanopost.presentation.component.PostListItem
-import com.example.shared.network.domain.exceptions.toAppException
 import com.example.shared.domain.entity.Image
 import com.example.shared.domain.entity.Post
 import com.example.shared.domain.entity.Profile
 import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.toAppException
 import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable

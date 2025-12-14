@@ -43,13 +43,13 @@ import com.example.component.uicomponents.LightButton
 import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.LocalSnackbarHost
 import com.example.component.uicomponents.loadState
-import com.example.nanopost.R
-import com.example.component.uicomponent.R as uiComponentsR
-import com.example.nanopost.presentation.component.PostListItem
-import com.example.shared.network.domain.exceptions.toAppException
-import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
 import com.example.component.uicomponents.showSnackbar
+import com.example.feature.profileposts.presentation.profilePostsScreen.PostListItem
+import com.example.nanopost.R
+import com.example.nanopost.presentation.feedScreen.screenState.LikeErrors
 import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.toAppException
+import com.example.component.uicomponent.R as uiComponentsR
 
 @Composable
 fun FeedScreen(

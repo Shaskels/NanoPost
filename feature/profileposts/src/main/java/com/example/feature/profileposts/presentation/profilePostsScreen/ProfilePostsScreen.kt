@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.profilePostsScreen
+package com.example.feature.profileposts.presentation.profilePostsScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,10 +29,9 @@ import com.example.component.uicomponents.CustomTopBar
 import com.example.component.uicomponents.ErrorState
 import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.loadState
-import com.example.nanopost.R
-import com.example.nanopost.presentation.component.PostListItem
-import com.example.shared.network.domain.exceptions.toAppException
+import com.example.feature.profileposts.R
 import com.example.shared.network.domain.exceptions.AuthenticationException
+import com.example.shared.network.domain.exceptions.toAppException
 
 @Composable
 fun ProfilePostsScreen(

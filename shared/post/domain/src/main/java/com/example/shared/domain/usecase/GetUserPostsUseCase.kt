@@ -1,4 +1,4 @@
-package com.example.nanopost.domain.usecase
+package com.example.shared.domain.usecase
 
 import androidx.paging.PagingData
 import com.example.shared.domain.entity.Post

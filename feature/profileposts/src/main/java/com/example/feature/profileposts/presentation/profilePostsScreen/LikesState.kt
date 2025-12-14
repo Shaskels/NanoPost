@@ -1,4 +1,4 @@
-package com.example.nanopost.presentation.profilePostsScreen
+package com.example.feature.profileposts.presentation.profilePostsScreen
 
 data class LikesState(
     val likedPosts: List<String>,
