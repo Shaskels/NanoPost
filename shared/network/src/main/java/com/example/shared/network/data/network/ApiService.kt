@@ -25,7 +25,6 @@ class ApiService @Inject constructor(
     suspend fun getFeed(count: Int, offset: String?): PagedResponse<PostModel> = get("/v1/feed") {
         parameter("count", count)
         offset?.let { parameter("offset", offset) }
-        parameter("mode", "full")
     }
 
     suspend fun putPost(

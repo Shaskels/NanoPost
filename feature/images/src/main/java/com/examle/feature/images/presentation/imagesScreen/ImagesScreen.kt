@@ -7,14 +7,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,6 +35,7 @@ import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
 import com.example.component.uicomponent.R as uiComponentsR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImagesScreen(
     imagesViewModel: ImagesViewModel,
@@ -40,6 +44,7 @@ fun ImagesScreen(
     onLogout: () -> Unit,
 ) {
     val images = imagesViewModel.images.collectAsLazyPagingItems()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val pullToRefreshState = rememberPullToRefreshState()
 
     LaunchedEffect(Unit) {
@@ -58,8 +63,10 @@ fun ImagesScreen(
                         )
                     }
                 },
+                scrollBehavior = scrollBehavior,
             )
-        }
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { paddingValues ->
         PullToRefreshBox(
             isRefreshing = images.loadState.refresh is LoadState.Loading,

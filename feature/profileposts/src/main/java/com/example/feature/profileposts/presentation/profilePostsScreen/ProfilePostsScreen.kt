@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -18,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
@@ -33,6 +36,7 @@ import com.example.feature.profileposts.R
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfilePostsScreen(
     profilePostsViewModel: ProfilePostsViewModel,
@@ -43,6 +47,7 @@ fun ProfilePostsScreen(
 ) {
     val likesState by profilePostsViewModel.screenState.collectAsState()
     val posts = profilePostsViewModel.posts.collectAsLazyPagingItems()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState = rememberLazyListState()
     val pullToRefreshState = rememberPullToRefreshState()
 
@@ -64,8 +69,10 @@ fun ProfilePostsScreen(
                         )
                     }
                 },
+                scrollBehavior = scrollBehavior
             )
-        }
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { paddingValues ->
         PullToRefreshBox(
             isRefreshing = posts.loadState.refresh is LoadState.Loading,

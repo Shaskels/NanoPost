@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -41,6 +42,7 @@ import com.example.feature.newpost.R
 import com.example.feature.newpost.presentation.newPostScreen.newPostScreenState.UploadState
 import timber.log.Timber
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewPostScreen(onClose: () -> Unit, newPostViewModel: NewPostViewModel = hiltViewModel()) {
     val screenState by newPostViewModel.screenState.collectAsState()

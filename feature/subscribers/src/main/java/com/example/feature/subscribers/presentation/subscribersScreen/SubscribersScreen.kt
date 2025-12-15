@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
@@ -29,6 +32,7 @@ import com.example.feature.subscribers.R
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubscribersScreen(
     subscribersViewModel: SubscribersViewModel,
@@ -37,6 +41,7 @@ fun SubscribersScreen(
     onLogout: () -> Unit,
 ) {
     val subscribers = subscribersViewModel.subscribers.collectAsLazyPagingItems()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val pullToRefreshState = rememberPullToRefreshState()
 
     Scaffold(
@@ -51,8 +56,10 @@ fun SubscribersScreen(
                         )
                     }
                 },
+                scrollBehavior = scrollBehavior,
             )
-        }
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { paddingValues ->
 
         PullToRefreshBox(
