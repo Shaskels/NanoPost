@@ -1,12 +1,15 @@
 package com.example.feature.searchprofiles.presentation.searchProfilesScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -14,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -24,6 +28,7 @@ import com.example.component.uicomponents.Loading
 import com.example.component.uicomponents.SearchField
 import com.example.component.uicomponents.SubscriberItem
 import com.example.component.uicomponents.loadState
+import com.example.component.uicomponents.theme.LocalExtendedColors
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
 
@@ -39,18 +44,25 @@ fun SearchProfilesScreen(
     val listState = rememberLazyListState()
 
     Scaffold { paddingValues ->
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ColumnWithFloatingFirstItem(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
         ) {
             SearchField(
                 query = query,
                 onQueryChange = searchProfilesViewModel::onQueryChange,
                 onSearchClick = {},
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                MaterialTheme.colorScheme.background,
+                                LocalExtendedColors.current.surface5
+                            )
+                        )
+                    )
+                    .padding(16.dp)
             )
 
             PullToRefreshBox(
@@ -79,7 +91,11 @@ fun SearchProfilesScreen(
                             state = listState,
                             modifier = Modifier
                                 .fillMaxSize()
+                                .padding(horizontal = 16.dp)
                         ) {
+                            item {
+                                Box(modifier = Modifier.height(40.dp))
+                            }
                             items(
                                 count = profiles.itemCount,
                                 key = profiles.itemKey { it.id }) { index ->

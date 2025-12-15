@@ -43,8 +43,8 @@ fun SearchField(
         singleLine = true,
         shape = RoundedCornerShape(28.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = LocalExtendedColors.current.surface5,
-            unfocusedContainerColor = LocalExtendedColors.current.surface5,
+            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             focusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
