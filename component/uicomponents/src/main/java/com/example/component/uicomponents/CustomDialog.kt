@@ -26,7 +26,7 @@ fun CustomDialog(onDismissRequest: () -> Unit, onConfirmButton: () -> Unit, titl
             )
         },
         confirmButton = {
-            DarkButton(
+            LightButton(
                 onClick = onConfirmButton,
                 text = stringResource(R.string.confirm),
             )
@@ -34,7 +34,7 @@ fun CustomDialog(onDismissRequest: () -> Unit, onConfirmButton: () -> Unit, titl
         dismissButton = {
             DarkButton(
                 onClick = onDismissRequest,
-                text = stringResource(R.string.cancel)
+                text = stringResource(R.string.cancel),
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceVariant,
