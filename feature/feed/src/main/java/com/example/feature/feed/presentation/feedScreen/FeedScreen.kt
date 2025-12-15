@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -52,6 +53,7 @@ import com.example.feature.feed.R
 import com.example.feature.feed.presentation.feedScreen.screenState.LikeErrors
 import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
+import kotlinx.coroutines.launch
 import com.example.component.uicomponent.R as uiComponentsR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,6 +73,7 @@ fun FeedScreen(
     val feed = feedViewModel.posts.collectAsLazyPagingItems()
     val pullToRefreshState = rememberPullToRefreshState()
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         feed.refresh()
@@ -115,7 +118,12 @@ fun FeedScreen(
     ) { paddingValues ->
         PullToRefreshBox(
             isRefreshing = feed.loadState.refresh is LoadState.Loading,
-            onRefresh = feed::refresh,
+            onRefresh = {
+                scope.launch {
+                    listState.animateScrollToItem(0)
+                }
+                feed.refresh()
+            },
             state = pullToRefreshState,
             modifier = Modifier.fillMaxSize()
         ) {

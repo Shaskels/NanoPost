@@ -1,5 +1,6 @@
 package com.example.feature.feed.presentation.feedScreen
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -16,6 +17,7 @@ import com.example.shared.network.domain.exceptions.WrongPasswordException
 import com.example.shared.network.domain.exceptions.toAppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
