@@ -1,5 +1,6 @@
 package com.example.feature.feed.presentation.feedScreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,12 +15,14 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -28,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
@@ -50,6 +54,7 @@ import com.example.shared.network.domain.exceptions.AuthenticationException
 import com.example.shared.network.domain.exceptions.toAppException
 import com.example.component.uicomponent.R as uiComponentsR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
     onSearchClick: () -> Unit,
@@ -62,6 +67,7 @@ fun FeedScreen(
 ) {
     val screenState by feedViewModel.screenState.collectAsState()
     val snackbarHost = LocalSnackbarHost.current
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val feed = feedViewModel.posts.collectAsLazyPagingItems()
     val pullToRefreshState = rememberPullToRefreshState()
     val listState = rememberLazyListState()
@@ -94,7 +100,9 @@ fun FeedScreen(
                     IconButton(onClick = onSearchClick) {
                         Icon(painterResource(uiComponentsR.drawable.search), contentDescription = null)
                     }
-                })
+                },
+                scrollBehavior = scrollBehavior
+                )
         },
         floatingActionButton = {
             FloatingButton(
@@ -102,6 +110,7 @@ fun FeedScreen(
                 icon = painterResource(R.drawable.add),
             )
         },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
     ) { paddingValues ->
         PullToRefreshBox(
